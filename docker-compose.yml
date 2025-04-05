@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  foodsys-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: foodsys-api
+    restart: on-failure
+    ports:
+      - "8082:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_DATASOURCE_URL=jdbc:h2:mem:foodsys;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+      - SPRING_DATASOURCE_USERNAME=sa
+      - SPRING_DATASOURCE_PASSWORD=senhasegura
+      - SPRING_H2_CONSOLE_ENABLED=true
+      - SPRING_H2_CONSOLE_PATH=/h2-console
+      - SPRING_SECURITY_USER_NAME=admin
+      - SPRING_SECURITY_USER_PASSWORD=12345
+    volumes:
+      - ./target:/app
+    networks:
+      - foodsys-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  foodsys-net:
+    driver: bridge
