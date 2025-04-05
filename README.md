@@ -28,7 +28,7 @@ Após iniciar o projeto, acesse o console do banco de dados:
 🔐 **Password:** `senhasegura`  
 🛢️ **JDBC URL:** `jdbc:h2:mem:foodsys`
 
-![img.png](img.png)
+![img_1.png](img_1.png)
 
 ## 📚 Documentação da API
 
