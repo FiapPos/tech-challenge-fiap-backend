@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsuarioController {
 
     private final CriarUsuarioCommand criarUsuarioCommand;
-    private final MessageSource messageSource;
+
     @PostMapping
     public ResponseEntity<Void> criarUsuario(@RequestBody @Valid CriarUsuarioCommandDto criarUsuarioCommandDto) {
         criarUsuarioCommand.execute(criarUsuarioCommandDto);
