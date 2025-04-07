@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.shared;
+package br.com.techchallenge.foodsys.compartilhado;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
-public class SharedService {
+public class CompartilhadoService {
 
     public LocalDateTime getCurrentDateTime() {
         return LocalDateTime.now();
