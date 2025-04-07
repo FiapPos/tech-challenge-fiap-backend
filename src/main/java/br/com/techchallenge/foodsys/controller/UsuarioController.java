@@ -1,12 +1,9 @@
 package br.com.techchallenge.foodsys.controller;
 
-import br.com.techchallenge.foodsys.command.usuario.CriarUsuarioCommand;
-import br.com.techchallenge.foodsys.command.usuario.dtos.CriarUsuarioCommandDto;
-import br.com.techchallenge.foodsys.excpetion.BadRequestException;
+import br.com.techchallenge.foodsys.comandos.usuario.CriarUsuarioCommand;
+import br.com.techchallenge.foodsys.comandos.usuario.dtos.CriarUsuarioCommandDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

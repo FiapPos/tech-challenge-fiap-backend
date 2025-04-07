@@ -1,6 +1,6 @@
-package br.com.techchallenge.foodsys.domain.endereco;
+package br.com.techchallenge.foodsys.dominio.endereco;
 
-import br.com.techchallenge.foodsys.domain.usuario.Usuario;
+import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;

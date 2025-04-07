@@ -1,13 +1,13 @@
 package br.com.techchallenge.foodsys.utils;
 
-import br.com.techchallenge.foodsys.domain.usuario.UsuarioRepository;
+import br.com.techchallenge.foodsys.dominio.usuario.UsuarioRepository;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ValidarEmailExistenteQuery {
+public class ValidarEmailExistente {
 
     private final UsuarioRepository usuarioRepository;
 

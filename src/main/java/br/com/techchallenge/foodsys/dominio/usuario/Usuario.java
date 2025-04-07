@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.domain.usuario;
+package br.com.techchallenge.foodsys.dominio.usuario;
 
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import jakarta.persistence.*;

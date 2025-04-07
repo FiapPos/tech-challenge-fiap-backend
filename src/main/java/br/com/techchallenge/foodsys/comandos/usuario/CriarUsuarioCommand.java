@@ -1,11 +1,12 @@
-package br.com.techchallenge.foodsys.command.usuario;
+package br.com.techchallenge.foodsys.comandos.usuario;
 
-import br.com.techchallenge.foodsys.command.usuario.dtos.CriarUsuarioCommandDto;
-import br.com.techchallenge.foodsys.domain.usuario.Usuario;
-import br.com.techchallenge.foodsys.domain.usuario.UsuarioRepository;
+import br.com.techchallenge.foodsys.comandos.usuario.dtos.CriarUsuarioCommandDto;
+import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
+import br.com.techchallenge.foodsys.dominio.usuario.UsuarioRepository;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import br.com.techchallenge.foodsys.shared.SharedService;
-import br.com.techchallenge.foodsys.utils.ValidarEmailExistenteQuery;
+import br.com.techchallenge.foodsys.utils.ValidarEmailExistente;
+import br.com.techchallenge.foodsys.utils.ValidarLoginExistente;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +16,12 @@ public class CriarUsuarioCommand {
 
     private final UsuarioRepository usuarioRepository;
     private final SharedService sharedService;
-    private final ValidarEmailExistenteQuery validarEmailExistenteQuery;
+    private final ValidarEmailExistente validarEmailExistente;
+    private final ValidarLoginExistente validarLoginExistente;
 
     public Usuario execute(CriarUsuarioCommandDto criarUsuarioCommandDto) {
-        validarEmailExistenteQuery.execute(criarUsuarioCommandDto.getEmail());
+        validarEmailExistente.execute(criarUsuarioCommandDto.getEmail());
+        validarLoginExistente.execute(criarUsuarioCommandDto.getLogin());
         Usuario usuario = mapToEntity(criarUsuarioCommandDto);
         return usuarioRepository.save(usuario);
     }
