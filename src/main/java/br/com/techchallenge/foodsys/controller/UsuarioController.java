@@ -2,14 +2,17 @@ package br.com.techchallenge.foodsys.controller;
 
 import br.com.techchallenge.foodsys.comandos.usuario.CriarUsuarioCommand;
 import br.com.techchallenge.foodsys.comandos.usuario.dtos.CriarUsuarioCommandDto;
+import br.com.techchallenge.foodsys.query.ListarUsuariosQuery;
+import br.com.techchallenge.foodsys.query.params.ListarUsuariosParams;
+import br.com.techchallenge.foodsys.query.resultadoItem.ListarUsuariosResultadoItem;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.ErrorResponse;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -17,10 +20,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsuarioController {
 
     private final CriarUsuarioCommand criarUsuarioCommand;
+    private final ListarUsuariosQuery listarUsuariosQuery;
 
     @PostMapping
     public ResponseEntity<Void> criarUsuario(@RequestBody @Valid CriarUsuarioCommandDto criarUsuarioCommandDto) {
         criarUsuarioCommand.execute(criarUsuarioCommandDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ListarUsuariosResultadoItem>> listarUsuarios(ListarUsuariosParams params) {
+        List<ListarUsuariosResultadoItem> resultado = listarUsuariosQuery.execute(params);
+        if (resultado.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(resultado);
     }
 }
