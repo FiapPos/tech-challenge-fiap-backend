@@ -1,6 +1,8 @@
 package br.com.techchallenge.foodsys.controller;
 
+import br.com.techchallenge.foodsys.comandos.usuario.AtualizarUsuarioComando;
 import br.com.techchallenge.foodsys.comandos.usuario.CriarUsuarioCommand;
+import br.com.techchallenge.foodsys.comandos.usuario.dtos.AtualizarUsuarioComandoDto;
 import br.com.techchallenge.foodsys.comandos.usuario.dtos.CriarUsuarioCommandDto;
 import br.com.techchallenge.foodsys.query.ListarUsuariosQuery;
 import br.com.techchallenge.foodsys.query.params.ListarUsuariosParams;
@@ -21,6 +23,7 @@ public class UsuarioController {
 
     private final CriarUsuarioCommand criarUsuarioCommand;
     private final ListarUsuariosQuery listarUsuariosQuery;
+    private final AtualizarUsuarioComando atualizarUsuarioComando;
 
     @PostMapping
     public ResponseEntity<Void> criarUsuario(@RequestBody @Valid CriarUsuarioCommandDto criarUsuarioCommandDto) {
@@ -35,5 +38,12 @@ public class UsuarioController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(resultado);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> atualizarUsuario(@PathVariable Long id,
+                                                 @RequestBody AtualizarUsuarioComandoDto dto) {
+        atualizarUsuarioComando.execute(id, dto);
+        return ResponseEntity.ok().build();
     }
 }
