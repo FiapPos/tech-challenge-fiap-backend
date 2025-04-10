@@ -1,6 +1,7 @@
 package br.com.techchallenge.foodsys.comandos.usuario;
 
 import br.com.techchallenge.foodsys.comandos.usuario.dtos.AtualizarUsuarioComandoDto;
+import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.dominio.usuario.UsuarioRepository;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
@@ -19,6 +20,7 @@ public class AtualizarUsuarioComando {
     private final ValidarEmailExistente validarEmailExistente;
     private final ValidarLoginExistente validarLoginExistente;
     private final ValidarUsuarioExistente validarUsuarioExistente;
+    private final CompartilhadoService sharedService;
 
     public Usuario execute(Long id, AtualizarUsuarioComandoDto dto) {
         validarDto(dto);
@@ -65,6 +67,7 @@ public class AtualizarUsuarioComando {
         atualizarSenha(usuario, dto.getSenha());
         atualizarTipo(usuario, dto.getTipo());
         atualizarAtivo(usuario, dto.getAtivo());
+        usuario.setDataAtualizacao(sharedService.getCurrentDateTime());
     }
 
     private void atualizarNome(Usuario usuario, String nome) {
