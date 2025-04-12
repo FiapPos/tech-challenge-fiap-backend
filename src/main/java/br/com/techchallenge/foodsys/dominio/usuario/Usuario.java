@@ -43,4 +43,7 @@ public class Usuario {
     @UpdateTimestamp
     @Column(name = "data_atualizacao")
     private LocalDateTime dataAtualizacao;
+
+    @Column(name = "data_desativacao")
+    private LocalDateTime dataDesativacao;
 }
