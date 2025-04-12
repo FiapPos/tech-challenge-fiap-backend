@@ -17,6 +17,8 @@ import java.io.IOException;
 @Component
 public class FiltroAutenticacaoJwt extends OncePerRequestFilter {
 
+    private static final String AUTHENTICATION_HEADER = "Bearer ";
+
     private final AutenticaJwtComando jwtService;
     private final AutenticaUsuarioComando userAuthenticationService;
 
@@ -29,16 +31,15 @@ public class FiltroAutenticacaoJwt extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            tryToAuthenticate(authorizationHeader);
+        if (authorizationHeader != null && authorizationHeader.startsWith(AUTHENTICATION_HEADER)) {
+            String token = authorizationHeader.substring(AUTHENTICATION_HEADER.length());
+            if (!token.isEmpty()) tryToAuthenticate(token);
         }
 
         filterChain.doFilter(request, response);
     }
 
-    private void tryToAuthenticate(String authorizationHeader) {
-        String token = authorizationHeader.substring(7);
-
+    private void tryToAuthenticate(String token) {
         try {
             String login = jwtService.getLogin(token);
             Usuario user = userAuthenticationService.getByLogin(login);
@@ -46,7 +47,7 @@ public class FiltroAutenticacaoJwt extends OncePerRequestFilter {
 
             SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            //do nothing
         }
     }
 }
