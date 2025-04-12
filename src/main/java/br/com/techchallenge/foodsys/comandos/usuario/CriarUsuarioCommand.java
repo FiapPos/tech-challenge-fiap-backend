@@ -8,6 +8,7 @@ import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import br.com.techchallenge.foodsys.utils.ValidarEmailExistente;
 import br.com.techchallenge.foodsys.utils.ValidarLoginExistente;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +19,7 @@ public class CriarUsuarioCommand {
     private final CompartilhadoService sharedService;
     private final ValidarEmailExistente validarEmailExistente;
     private final ValidarLoginExistente validarLoginExistente;
+    private final PasswordEncoder passwordEncoder;
 
     public Usuario execute(CriarUsuarioCommandDto criarUsuarioCommandDto) {
         validarEmailExistente.execute(criarUsuarioCommandDto.getEmail());
@@ -30,7 +32,7 @@ public class CriarUsuarioCommand {
         Usuario usuario = new Usuario();
         usuario.setNome(criarUsuarioCommandDto.getNome());
         usuario.setEmail(criarUsuarioCommandDto.getEmail());
-        usuario.setSenha(criarUsuarioCommandDto.getSenha().getBytes());
+        usuario.setSenha(passwordEncoder.encode(criarUsuarioCommandDto.getSenha()));
         usuario.setLogin(criarUsuarioCommandDto.getLogin());
         usuario.setTipo(TipoUsuario.fromCodigo(criarUsuarioCommandDto.getTipo().getCodigo()));
         usuario.setDataCriacao(sharedService.getCurrentDateTime());

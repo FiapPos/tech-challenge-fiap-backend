@@ -25,7 +25,7 @@ public class Usuario {
     private String email;
 
     @Column(name = "senha", nullable = false)
-    private byte[] senha;
+    private String senha;
 
     @Column(name = "login", nullable = false)
     private String login;

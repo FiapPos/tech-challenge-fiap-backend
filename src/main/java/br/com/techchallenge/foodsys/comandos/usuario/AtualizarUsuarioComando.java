@@ -10,6 +10,7 @@ import br.com.techchallenge.foodsys.utils.ValidarEmailExistente;
 import br.com.techchallenge.foodsys.utils.ValidarLoginExistente;
 import br.com.techchallenge.foodsys.utils.ValidarUsuarioExistente;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,6 +22,7 @@ public class AtualizarUsuarioComando {
     private final ValidarLoginExistente validarLoginExistente;
     private final ValidarUsuarioExistente validarUsuarioExistente;
     private final CompartilhadoService sharedService;
+    private final PasswordEncoder passwordEncoder;
 
     public Usuario execute(Long id, AtualizarUsuarioComandoDto dto) {
         validarDto(dto);
@@ -90,7 +92,7 @@ public class AtualizarUsuarioComando {
 
     private void atualizarSenha(Usuario usuario, String senha) {
         if (senha != null && !senha.isEmpty()) {
-            usuario.setSenha(senha.getBytes());
+            usuario.setSenha(passwordEncoder.encode(senha));
         }
     }
 
