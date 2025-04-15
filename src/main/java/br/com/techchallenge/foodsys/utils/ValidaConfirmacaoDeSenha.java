@@ -25,7 +25,7 @@ public class ValidaConfirmacaoDeSenha implements Validator {
     public void validate(Object target, Errors errors) {
         if (!(target instanceof AtualizaCredenciaisComandoDto dto)) return;
 
-        if(!dto.getSenha().equals(dto.getConfirmacaoSenha())) {
+        if(!dto.senha().equals(dto.confirmacaoSenha())) {
             String message = messageSource.getMessage("senha.e.confirmacao.nao.sao.iguais", null, LocaleContextHolder.getLocale());
 
             errors.rejectValue("senha",null, message);

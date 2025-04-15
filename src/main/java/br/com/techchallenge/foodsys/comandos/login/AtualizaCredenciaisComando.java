@@ -21,14 +21,14 @@ public class AtualizaCredenciaisComando {
     }
 
     public void execute(AtualizaCredenciaisComandoDto atualizaCredenciaisComandoDto) {
-        Assert.notNull(atualizaCredenciaisComandoDto.getSenha(), "A senha não pode ser nula");
-        Assert.notNull(atualizaCredenciaisComandoDto.getConfirmacaoSenha(), "A confirmação da senha não pode ser nula");
+        Assert.notNull(atualizaCredenciaisComandoDto.senha(), "A senha não pode ser nula");
+        Assert.notNull(atualizaCredenciaisComandoDto.confirmacaoSenha(), "A confirmação da senha não pode ser nula");
         Assert.notNull(usuarioLogado.getUsuarioId(), "A pessoa usuária precisa estar logada para trocar a senha");
 
         usuarioRepository
                 .findById(usuarioLogado.getUsuarioId())
                 .ifPresent(
-                        usuario -> usuario.trocaSenha(passwordEncoder.encode(atualizaCredenciaisComandoDto.getSenha()))
+                        usuario -> usuario.trocaSenha(passwordEncoder.encode(atualizaCredenciaisComandoDto.senha()))
                 );
     }
 }
