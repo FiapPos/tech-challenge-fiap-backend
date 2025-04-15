@@ -1,7 +1,9 @@
 package br.com.techchallenge.foodsys.controller;
 
+import br.com.techchallenge.foodsys.comandos.login.AtualizaCredenciaisComando;
 import br.com.techchallenge.foodsys.comandos.login.AutenticaJwtComando;
 import br.com.techchallenge.foodsys.comandos.login.AutenticaLoginComando;
+import br.com.techchallenge.foodsys.comandos.login.dto.AtualizaCredenciaisComandoDto;
 import br.com.techchallenge.foodsys.comandos.login.dto.CredenciaisUsuarioDto;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.utils.ValidaConfirmacaoDeSenha;
@@ -56,5 +58,23 @@ public class LoginController {
         String token = autenticaJwtComando.createToken(user);
 
         return ResponseEntity.ok(Map.of("token", token));
+    }
+
+    @Transactional
+    @PutMapping("/login/atualiza-senha")
+    public ResponseEntity<Map<String, String>> atualizaSenha(@RequestBody @Valid AtualizaCredenciaisComandoDto atualizaCredenciaisComandoDto,
+                                                             BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            Map<String, String> erros = new HashMap<>();
+            bindingResult.
+                    getFieldErrors()
+                    .forEach(error ->
+                        erros.put(error.getField(), error.getDefaultMessage())
+                    );
+            return ResponseEntity.badRequest().body(erros);
+        }
+
+        atualizaCredenciaisComando.execute(atualizaCredenciaisComandoDto);
+        return ResponseEntity.ok().build();
     }
 }

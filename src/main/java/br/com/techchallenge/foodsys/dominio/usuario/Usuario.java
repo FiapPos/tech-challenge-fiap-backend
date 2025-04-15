@@ -43,4 +43,9 @@ public class Usuario {
     @UpdateTimestamp
     @Column(name = "data_atualizacao")
     private LocalDateTime dataAtualizacao;
+
+    public void trocaSenha(String novaSenha) {
+        setSenha(novaSenha);
+        this.dataAtualizacao = LocalDateTime.now();
+    }
 }

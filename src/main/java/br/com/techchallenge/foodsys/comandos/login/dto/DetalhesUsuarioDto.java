@@ -24,4 +24,9 @@ public record DetalhesUsuarioDto(Usuario usuario) implements UserDetails {
     public String getUsername() {
         return usuario.getLogin();
     }
+
+    @Override
+    public Usuario usuario() {
+        return usuario;
+    }
 }
