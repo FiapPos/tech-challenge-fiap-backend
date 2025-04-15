@@ -3,6 +3,7 @@ package br.com.techchallenge.foodsys.comandos.login;
 import br.com.techchallenge.foodsys.comandos.login.dto.CredenciaisUsuarioDto;
 import br.com.techchallenge.foodsys.comandos.login.dto.DetalhesUsuarioDto;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
+import br.com.techchallenge.foodsys.excpetion.CredenciaisInvalidasException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,7 +24,7 @@ public class AutenticaLoginComando {
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
             return ((DetalhesUsuarioDto) authentication.getPrincipal()).usuario();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new CredenciaisInvalidasException();
         }
     }
 }
