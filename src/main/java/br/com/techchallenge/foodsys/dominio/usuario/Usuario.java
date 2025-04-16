@@ -25,7 +25,7 @@ public class Usuario {
     private String email;
 
     @Column(name = "senha", nullable = false)
-    private byte[] senha;
+    private String senha;
 
     @Column(name = "login", nullable = false)
     private String login;
@@ -43,7 +43,14 @@ public class Usuario {
     @UpdateTimestamp
     @Column(name = "data_atualizacao")
     private LocalDateTime dataAtualizacao;
-
+  
     @Column(name = "data_desativacao")
     private LocalDateTime dataDesativacao;
+
+
+    public void trocaSenha(String novaSenha) {
+        setSenha(novaSenha);
+        this.dataAtualizacao = LocalDateTime.now();
+    }
+
 }

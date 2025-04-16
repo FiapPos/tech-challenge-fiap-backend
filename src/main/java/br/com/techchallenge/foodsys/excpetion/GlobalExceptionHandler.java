@@ -46,4 +46,11 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(mensagem));
     }
+
+    @ExceptionHandler(CredenciaisInvalidasException.class)
+    public ResponseEntity<?> handleCredenciaisInvalidas(CredenciaisInvalidasException ex) {
+        Map<String, String> body = new HashMap<>();
+        body.put("erro", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body);
+    }
 }
