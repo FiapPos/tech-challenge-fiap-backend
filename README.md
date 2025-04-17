@@ -36,4 +36,44 @@ A documentação da API está disponível em:
 
 👉 [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 
+# 🐞 Debugando containers Docker
 
+Caso você precise debugar ou ver logs de um container, aqui estão alguns comandos úteis:
+
+## 📜 Ver logs do container
+
+```bash
+docker logs <nome-ou-id-do-container>
+```
+
+---
+
+### 🖥️ Acessar o terminal do container
+
+Para containers com shell sh:
+
+```bash
+docker exec -it <nome-ou-id-do-container> sh
+```
+
+Para containers com bash:
+
+```bash
+docker exec -it <nome-ou-id-do-container> bash
+```
+
+Exemplo:
+
+```bash
+docker exec -it <nome-ou-id-do-container> sh
+```
+
+---
+
+### 🔎 Listar containers em execução
+
+Para descobrir os nomes dos containers ativos:
+
+```bash
+docker ps
+```
