@@ -70,10 +70,29 @@ docker exec -it <nome-ou-id-do-container> sh
 
 ---
 
-### 🔎 Listar containers em execução
+### 🔎 Listar, finalizar e executar containers
 
 Para descobrir os nomes dos containers ativos:
 
 ```bash
-docker ps
+docker ps -a 
+```
+
+Para finalizar todos os containers ativos: 
+
+```bash
+docker container prune -f 
+```
+
+Para parar e finalizar somente um container:
+
+```bash
+docker stop <nome_ou_id_do_container>
+docker rm <nome_ou_id_do_container>
+```
+
+Para executar o container:
+
+```bash
+docker-compose up -d foodsys-api
 ```
