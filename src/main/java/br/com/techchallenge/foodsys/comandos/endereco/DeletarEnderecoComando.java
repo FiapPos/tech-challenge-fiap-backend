@@ -18,14 +18,11 @@ public class DeletarEnderecoComando {
     private final ValidarEnderecoExistente validarEnderecoExistente;
     private final ValidarUsuarioExistente validarUsuarioExistente;
 
-    public Endereco execute(DeletarEnderecoComandoDto dto) {
+    public void execute(DeletarEnderecoComandoDto dto) {
         validarUsuarioExistente.execute(dto.getUsuarioId());
         Endereco endereco = validarEnderecoExistente.execute(dto.getEnderecoId());
-
         validarProprietarioEndereco(endereco, dto.getUsuarioId());
         deletarEndereco(endereco);
-
-        return enderecoRepository.save(endereco);
     }
 
     private void validarProprietarioEndereco(Endereco endereco, Long usuarioId) {

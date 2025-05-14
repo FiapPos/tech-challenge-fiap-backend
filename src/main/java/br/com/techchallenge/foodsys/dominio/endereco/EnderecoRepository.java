@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface EnderecoRepository extends JpaRepository<Endereco, Long> {
     List<Endereco> findByUsuarioId(Long usuarioId, Sort sort);
+    boolean existsByUsuarioIdAndCep(Long usuarioId, String cep);
 }

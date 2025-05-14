@@ -5,6 +5,7 @@ import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
+import br.com.techchallenge.foodsys.utils.ValidarCepDoUsuario;
 import br.com.techchallenge.foodsys.utils.ValidarEnderecoExistente;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,10 +17,12 @@ public class AtualizarEnderecoComando {
     private final EnderecoRepository enderecoRepository;
     private final ValidarEnderecoExistente validarEnderecoExistente;
     private final CompartilhadoService sharedService;
+    private final ValidarCepDoUsuario validarCepDoUsuario;
 
     public Endereco execute(Long id, AtualizarEnderecoComandoDto dto) {
         validarDto(dto);
         Endereco endereco = validarEnderecoExistente.execute(id);
+        validarCepDoUsuario.validarCepDuplicado(dto.getUsuarioId(), dto.getCep());
         atualizarCampos(endereco, dto);
         return enderecoRepository.save(endereco);
     }
@@ -32,14 +35,13 @@ public class AtualizarEnderecoComando {
 
     private boolean isPeloMenosUmCampoPreenchido(AtualizarEnderecoComandoDto dto) {
         return dto.getRua() != null || dto.getCep() != null ||
-                dto.getNumero() != null || dto.getAtivo() != null;
+                dto.getNumero() != null;
     }
 
     private void atualizarCampos(Endereco endereco, AtualizarEnderecoComandoDto dto) {
         atualizarRua(endereco, dto.getRua());
         atualizarCep(endereco, dto.getCep());
         atualizarNumero(endereco, dto.getNumero());
-        atualizarAtivo(endereco, dto.getAtivo());
         endereco.setDataAtualizacao(sharedService.getCurrentDateTime());
     }
 
@@ -61,9 +63,4 @@ public class AtualizarEnderecoComando {
         }
     }
 
-    private void atualizarAtivo(Endereco endereco, Boolean ativo) {
-        if (ativo != null) {
-            endereco.setAtivo(ativo);
-        }
-    }
 }

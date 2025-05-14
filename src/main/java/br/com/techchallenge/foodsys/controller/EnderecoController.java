@@ -6,9 +6,9 @@ import br.com.techchallenge.foodsys.comandos.endereco.DeletarEnderecoComando;
 import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoComandoDto;
 import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoCommandDto;
 import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoComandoDto;
-import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.query.endereco.ListarEnderecoPorIdUsuario;
 import br.com.techchallenge.foodsys.query.resultadoItem.endereco.ListarEnderecoPorIdUsuarioResultadoItem;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,22 +27,25 @@ public class EnderecoController {
     private final ListarEnderecoPorIdUsuario listarEnderecoPorIdUsuario;
 
     @PostMapping
-    public ResponseEntity<Endereco> criar(@RequestBody CriarEnderecoCommandDto dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(criarEnderecoCommand.execute(dto));
+    public ResponseEntity<Void> criar(@RequestBody @Valid CriarEnderecoCommandDto dto) {
+        criarEnderecoCommand.execute(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Endereco> atualizar(@PathVariable Long id, @RequestBody AtualizarEnderecoComandoDto dto) {
-        return ResponseEntity.ok(atualizarEnderecoComando.execute(id, dto));
+    public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizarEnderecoComandoDto dto) {
+        atualizarEnderecoComando.execute(id, dto);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping
-    public ResponseEntity<Endereco> deletar(@RequestBody DeletarEnderecoComandoDto dto) {
-        return ResponseEntity.ok(deletarEnderecoComando.execute(dto));
+    public ResponseEntity<Void> deletar(@RequestBody DeletarEnderecoComandoDto dto) {
+        deletarEnderecoComando.execute(dto);
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/usuario/{usuarioId}")
-    public ResponseEntity<List<ListarEnderecoPorIdUsuarioResultadoItem>> listarPorUsuario(@PathVariable Long usuarioId) {
-        return ResponseEntity.ok(listarEnderecoPorIdUsuario.execute(usuarioId));
+    @GetMapping("/usuario/{id}")
+    public ResponseEntity<List<ListarEnderecoPorIdUsuarioResultadoItem>> listarPorUsuario(@PathVariable Long id) {
+        return ResponseEntity.ok(listarEnderecoPorIdUsuario.execute(id));
     }
 }
