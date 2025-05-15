@@ -12,7 +12,6 @@ public class ListarEnderecoPorIdUsuarioResultadoItem {
     private String rua;
     private String cep;
     private String numero;
-    private Boolean ativo;
     private LocalDateTime dataCriacao;
     private LocalDateTime dataAtualizacao;
 }

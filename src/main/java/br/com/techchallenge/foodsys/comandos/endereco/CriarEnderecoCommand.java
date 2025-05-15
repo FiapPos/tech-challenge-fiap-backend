@@ -31,7 +31,6 @@ public class CriarEnderecoCommand {
         endereco.setRua(dto.getRua());
         endereco.setCep(dto.getCep());
         endereco.setNumero(dto.getNumero());
-        endereco.setAtivo(true);
         endereco.setUsuario(usuario);
         endereco.setDataCriacao(sharedService.getCurrentDateTime());
         return endereco;

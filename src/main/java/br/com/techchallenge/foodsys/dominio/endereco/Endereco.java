@@ -15,7 +15,7 @@ public class Endereco {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idEndereco")
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "rua")
@@ -26,9 +26,6 @@ public class Endereco {
 
     @Column(name = "numero")
     private String numero;
-
-    @Column(name = "ativo")
-    private boolean ativo = true;
 
     @Column(name = "usuario_id", insertable = false, updatable = false)
     private Long usuarioId;
