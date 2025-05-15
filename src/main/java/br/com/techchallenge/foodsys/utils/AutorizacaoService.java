@@ -15,28 +15,41 @@ public class AutorizacaoService {
 
     private final UsuarioRepository usuarioRepository;
 
-    public Usuario getUsuarioLogado() {
+    public Authentication getAutenticacaoAtual() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new ForbiddenException("usuario.nao.autenticado");
         }
+        return authentication;
+    }
 
-        String username;
+    public String extrairUsernameAutenticacao(Authentication authentication) {
         Object principal = authentication.getPrincipal();
         if (principal instanceof UserDetails) {
-            username = ((UserDetails) principal).getUsername();
+            return ((UserDetails) principal).getUsername();
         } else {
-            username = principal.toString();
+            return principal.toString();
         }
+    }
 
+    public Usuario buscarUsuarioPorUsername(String username) {
         return usuarioRepository.findByLogin(username)
                 .orElseThrow(() -> new ForbiddenException("usuario.nao.encontrado"));
     }
 
+    public Usuario getUsuarioLogado() {
+        Authentication authentication = getAutenticacaoAtual();
+        String username = extrairUsernameAutenticacao(authentication);
+        return buscarUsuarioPorUsername(username);
+    }
+
+    public boolean isUsuarioAutorizado(Long usuarioLogadoId, Long usuarioId) {
+        return usuarioLogadoId.equals(usuarioId);
+    }
+
     public void validarAcessoUsuario(Long usuarioId) {
         Usuario usuarioAutenticado = getUsuarioLogado();
-
-        if (!usuarioAutenticado.getId().equals(usuarioId)) {
+        if (!isUsuarioAutorizado(usuarioAutenticado.getId(), usuarioId)) {
             throw new ForbiddenException("acesso.nao.autorizado");
         }
     }
