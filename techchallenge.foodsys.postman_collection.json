@@ -26,7 +26,15 @@
 					"response": []
 				},
 				{
-					"name": "consultaUsuario",
+					"name": "ListarUsuarios",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "desativarUsuario",
 					"request": {
 						"method": "GET",
 						"header": []
@@ -49,6 +57,43 @@
 				},
 				{
 					"name": "atualiza-senha",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "endereço",
+			"item": [
+				{
+					"name": "criacaoEndereco",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "atualizacaoEndereco",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "ListarEnderecos",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "excluirEndereço",
 					"request": {
 						"method": "GET",
 						"header": []
