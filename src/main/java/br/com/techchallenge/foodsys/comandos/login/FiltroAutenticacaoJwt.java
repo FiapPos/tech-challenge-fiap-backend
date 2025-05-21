@@ -27,8 +27,33 @@ public class FiltroAutenticacaoJwt extends OncePerRequestFilter {
         this.userAuthenticationService = userAuthenticationService;
     }
 
+    private static final String[] ROTAS_PUBLICAS = {
+            "/login",
+            "/swagger-ui",
+            "/swagger-ui/",
+            "/swagger-ui/",
+            "/swagger-ui/index.html",
+            "/swagger-ui/**",
+            "/v3/api-docs",
+            "/v3/api-docs/**",
+            "/h2-console",
+            "/h2-console/**"
+    };
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+
+        String path = request.getRequestURI();
+
+        // Ignora autenticação para rotas públicas
+        for (String rotaPublica : ROTAS_PUBLICAS) {
+            if (path.startsWith(rotaPublica)) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+        }
+
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if (authorizationHeader != null && authorizationHeader.startsWith(AUTHENTICATION_HEADER)) {

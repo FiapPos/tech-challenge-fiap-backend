@@ -39,8 +39,9 @@ public class SecurityConfig {
                                 "/h2-console/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
-                                "/api-docs/**",
-                                "/usuarios/**"
+                                "/v3/api-docs/**",        // <- esse é o mais comum com springdoc
+                                "/v3/api-docs.yaml",      // <- se estiver usando o formato YAML
+                                "/webjars/**"             // <- se necessário
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
