@@ -59,7 +59,7 @@ public class AtualizarUsuarioComando {
 
     private boolean isPeloMenosUmCampoPreenchido(AtualizarUsuarioComandoDto dto) {
         return dto.getNome() != null || dto.getEmail() != null || dto.getSenha() != null ||
-                dto.getLogin() != null || dto.getTipo() != null || dto.getAtivo() != null;
+                dto.getLogin() != null;
     }
 
     private void atualizarCampos(Usuario usuario, AtualizarUsuarioComandoDto dto) {
@@ -67,8 +67,6 @@ public class AtualizarUsuarioComando {
         atualizarEmail(usuario, dto.getEmail());
         atualizarLogin(usuario, dto.getLogin());
         atualizarSenha(usuario, dto.getSenha());
-        atualizarTipo(usuario, dto.getTipo());
-        atualizarAtivo(usuario, dto.getAtivo());
         usuario.setDataAtualizacao(sharedService.getCurrentDateTime());
     }
 
@@ -93,18 +91,6 @@ public class AtualizarUsuarioComando {
     private void atualizarSenha(Usuario usuario, String senha) {
         if (senha != null && !senha.isEmpty()) {
             usuario.setSenha(passwordEncoder.encode(senha));
-        }
-    }
-
-    private void atualizarTipo(Usuario usuario, TipoUsuario tipo) {
-        if (tipo != null) {
-            usuario.setTipo(tipo);
-        }
-    }
-
-    private void atualizarAtivo(Usuario usuario, Boolean ativo) {
-        if (ativo != null) {
-            usuario.setAtivo(ativo);
         }
     }
 }

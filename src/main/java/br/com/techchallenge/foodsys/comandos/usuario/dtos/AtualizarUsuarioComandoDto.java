@@ -15,8 +15,5 @@ public class AtualizarUsuarioComandoDto {
 
     private String login;
 
-    private TipoUsuario tipo;
-
-    private Boolean ativo;
 
 }
