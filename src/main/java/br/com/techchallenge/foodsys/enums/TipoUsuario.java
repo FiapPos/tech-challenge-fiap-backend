@@ -3,7 +3,7 @@ package br.com.techchallenge.foodsys.enums;
 import java.util.Arrays;
 
 public enum TipoUsuario {
-    ADMIN(1), CLIENTE(2), FUNCIONARIO(3);
+    ADMIN(0), CLIENTE(1), FUNCIONARIO(2);
 
     private final int codigo;
 
