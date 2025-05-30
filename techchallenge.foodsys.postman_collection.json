@@ -21,7 +21,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"nome\": \"João Silva\",\n  \"email\": \"joao@example.com\",\n  \"cpf\": \"12345678901\",\n  \"login\": \"joao.silva\",\n  \"senha\": \"senha123\",\n  \"tipo\": \"ADMIN\"\n}"
+							"raw": "{\n  \"nome\": \"João Silva\",\n  \"email\": \"joao@example.com\",\n \"login\": \"joao.silva\",\n  \"senha\": \"senha123\",\n  \"tipo\": \"ADMIN\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/usuarios",
@@ -42,9 +42,15 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/usuarios",
+							"raw": "{{base_url}}/usuarios?ativo=true",
 							"host": ["{{base_url}}"],
-							"path": ["usuarios"]
+							"path": ["usuarios"],
+							"query": [
+								{
+									"key": "ativo",
+									"value": "true"
+								}
+							]
 						}
 					},
 					"response": []
@@ -137,7 +143,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"login\": \"joao.silva\",\n  \"senhaAtual\": \"senha123\",\n  \"novaSenha\": \"novaSenha123\",\n  \"confirmacaoNovaSenha\": \"novaSenha123\"\n}"
+							"raw": "{\n  \"novaSenha\": \"senha123\",\n  \"confirmacaoNovaSenha\": \"novaSenha123\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/login/atualiza-senha",
@@ -238,7 +244,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"enderecoId\": 1, \n \"usuarioId\": 1\n}"
+							"raw": "{\n  \"enderecoId\": 1,\n \"usuarioId\": 1\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/enderecos",
