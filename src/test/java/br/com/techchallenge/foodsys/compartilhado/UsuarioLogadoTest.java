@@ -27,7 +27,7 @@ class UsuarioLogadoTest {
     @Nested
     class GetUsuario {
         @Test
-        void deve_retornar_usuario_quando_autenticado_corretamente() {
+        void deveRetornarUsuarioQuandoAutenticadoCorretamente() {
             Usuario usuario = mock(Usuario.class);
             when(usuario.getId()).thenReturn(42L);
             when(usuario.getTipo()).thenReturn(TipoUsuario.CLIENTE);
@@ -43,7 +43,7 @@ class UsuarioLogadoTest {
         }
 
         @Test
-        void deve_retornar_empty_quando_nao_autenticado() {
+        void deveRetornarEmptyQuandoNaoAutenticado() {
             SecurityContextHolder.clearContext();
 
             Optional<Usuario> resultado = usuarioLogado.getUsuario();
@@ -51,7 +51,7 @@ class UsuarioLogadoTest {
         }
 
         @Test
-        void deve_retornar_empty_quando_principal_nao_for_detalhes_usuario_dto() {
+        void deveRetornarEmptyQuandoPrincipalNaoForDetalhesUsuarioDto() {
             var authentication = new UsernamePasswordAuthenticationToken("string_estranha", null, null);
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -64,7 +64,7 @@ class UsuarioLogadoTest {
     @Nested
     class GetUsuarioId {
         @Test
-        void deve_retornar_id_quando_identificado_corretamente() {
+        void deveRetornarIdQuandoIdentificadoCorretamente() {
             Usuario usuario = mock(Usuario.class);
             when(usuario.getId()).thenReturn(99L);
             when(usuario.getTipo()).thenReturn(TipoUsuario.CLIENTE);
@@ -79,7 +79,7 @@ class UsuarioLogadoTest {
         }
 
         @Test
-        void deve_retornar_null_quando_usuario_nao_estiver_logado() {
+        void deveRetornarNullQuandoUsuarioNaoEstiverLogado() {
             SecurityContextHolder.clearContext();
 
             Long usuarioId = usuarioLogado.getUsuarioId();
