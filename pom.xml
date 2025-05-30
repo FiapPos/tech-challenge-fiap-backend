@@ -12,6 +12,7 @@
 	<artifactId>foodsys</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>foodsys</name>
+	<packaging>jar</packaging>
 	<description>Sistema de gestão para rede de restaurantes desenvolvido como Tech Challenge da pós-graduação FIAP</description>
 	<url/>
 	<licenses>
