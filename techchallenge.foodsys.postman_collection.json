@@ -168,7 +168,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"usuarioId\": 1,\n  \"rua\": \"Rua Exemplo\",\n  \"numero\": \"123\",\n  \"bairro\": \"Centro\",\n  \"cidade\": \"São Paulo\",\n  \"estado\": \"SP\",\n  \"cep\": \"01001000\",\n  \"complemento\": \"Apto 101\"\n}"
+							"raw": "{\n  \"usuarioId\": 1,\n  \"rua\": \"Rua Exemplo\",\n  \"numero\": \"123\",\n ,\"cep\": \"01001000\",\n  \n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/enderecos",
