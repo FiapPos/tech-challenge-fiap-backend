@@ -82,7 +82,7 @@ Acesse a documentação interativa da API:
 
 ### Documentação Geral
 
-🔗 https://onedrive.live.com/personal/7b17063f7fd73beb/_layouts/15/Doc.aspx?sourcedoc=%7Be62aa878-96c5-4a84-b2e1-5eae65ce200d%7D&action=default&redeem=aHR0cHM6Ly8xZHJ2Lm1zL3cvYy83YjE3MDYzZjdmZDczYmViL0VYaW9LdWJGbG9SS3N1RmVybVhPSUEwQm9lQVh5enU4cGlCRGhJNVdHMzFjNmc_ZT1NOE4zMGY&slrid=ab4ca3a1-5056-0000-bad2-5acfb3f5102f&originalPath=aHR0cHM6Ly8xZHJ2Lm1zL3cvYy83YjE3MDYzZjdmZDczYmViL0VYaW9LdWJGbG9SS3N1RmVybVhPSUEwQm9lQVh5enU4cGlCRGhJNVdHMzFjNmc_cnRpbWU9V04zdkxxNmYzVWc&CID=582f6299-a723-4ce3-812f-ad523369a803&_SRM=0:G:44
+🔗  [Especificação do projeto (OneDrive)](https://1drv.ms/w/c/7b17063f7fd73beb/EXioKubFloRKsuFermXOIA0BoeAXyzu8piBDhI5WG31c6g?e=M8N30f)
 
 ---
 
