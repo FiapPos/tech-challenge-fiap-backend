@@ -35,7 +35,7 @@ class AtualizaCredenciaisComandoTest {
     @Nested
     class Execute {
         @Test
-        void deve_atualizar_senha_quando_dados_forem_validos() {
+        void deveAtualizarSenhaQuandoDadosForemValidos() {
             Long usuarioId = 1L;
             var dto = new AtualizaCredenciaisComandoDto("novaSenha123", "novaSenha123");
 
@@ -49,7 +49,7 @@ class AtualizaCredenciaisComandoTest {
         }
 
         @Test
-        void deve_lancar_excecao_quando_senha_for_nula() {
+        void deveLancarExcecaoQuandoSenhaForNula() {
             var dto = new AtualizaCredenciaisComandoDto(null, "abc12345");
 
             var ex = assertThrows(IllegalArgumentException.class, () -> comando.execute(dto));
@@ -57,7 +57,7 @@ class AtualizaCredenciaisComandoTest {
         }
 
         @Test
-        void deve_lancar_excecao_quando_confirmacao_for_nula() {
+        void deveLancarExcecaoQuandoConfirmacaoForNula() {
             var dto = new AtualizaCredenciaisComandoDto("abc12345", null);
 
             var ex = assertThrows(IllegalArgumentException.class, () -> comando.execute(dto));
@@ -65,7 +65,7 @@ class AtualizaCredenciaisComandoTest {
         }
 
         @Test
-        void deve_lancar_excecao_quando_usuario_nao_estiver_logado() {
+        void deveLancarExcecaoQuandoUsuarioNaoEstiverLogado() {
             when(usuarioLogado.getUsuarioId()).thenReturn(null);
             var dto = new AtualizaCredenciaisComandoDto("abc12345", "abc12345");
 
@@ -74,7 +74,7 @@ class AtualizaCredenciaisComandoTest {
         }
 
         @Test
-        void nao_deve_fazer_nada_quando_usuario_nao_for_encontrado() {
+        void naoDeveFazerNadaQuandoUsuarioNaoForEncontrado() {
             Long usuarioId = 999L;
             var dto = new AtualizaCredenciaisComandoDto("abc12345", "abc12345");
 

@@ -30,7 +30,7 @@ class ValidaConfirmacaoDeSenhaTest {
     @Nested
     class Validate {
         @Test
-        void deve_rejeitar_quando_senhas_nao_sao_iguais() {
+        void deveRejeitarQuandoSenhasNaoSaoIguais() {
             var dto = new AtualizaCredenciaisComandoDto("12345678", "87654321");
             Errors errors = new BeanPropertyBindingResult(dto, "dto");
 
@@ -45,7 +45,7 @@ class ValidaConfirmacaoDeSenhaTest {
         }
 
         @Test
-        void nao_deve_rejeitar_quando_senhas_sao_iguais() {
+        void naoDeveRejeitarQuandoSenhasSaoIguais() {
             var dto = new AtualizaCredenciaisComandoDto("senha123", "senha123");
             Errors errors = new BeanPropertyBindingResult(dto, "dto");
 
@@ -57,12 +57,12 @@ class ValidaConfirmacaoDeSenhaTest {
     @Nested
     class Supports {
         @Test
-        void deve_retornar_true_para_AtualizaCredenciaisComandoDto() {
+        void deveRetornarTrueParaAtualizaCredenciaisComandoDto() {
             assertTrue(validator.supports(AtualizaCredenciaisComandoDto.class));
         }
 
         @Test
-        void deve_retornar_false_para_outra_classe() {
+        void deveRetornarFalseParaOutraClasse() {
             assertFalse(validator.supports(String.class));
         }
     }
