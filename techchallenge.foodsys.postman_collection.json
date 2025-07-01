@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "258b389f-4c9f-42e1-b78e-93a3c86a9a23",
+		"_postman_id": "4b83a298-7175-43ce-bc25-acf70fc96b00",
 		"name": "techchallenge.foodsys",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "23819278"
@@ -21,12 +21,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"nome\": \"João Silva\",\n  \"email\": \"joao@example.com\",\n \"login\": \"joao.silva\",\n  \"senha\": \"senha123\",\n  \"tipo\": \"ADMIN\"\n}"
+							"raw": "{\n  \"nome\": \"João Silva\",\n  \"email\": \"joao@example.com\",\n  \"login\": \"joao.silva\",\n  \"senha\": \"senha123\",\n  \"tipo\": \"ADMIN\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/usuarios",
-							"host": ["{{base_url}}"],
-							"path": ["usuarios"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"usuarios"
+							]
 						}
 					},
 					"response": []
@@ -43,8 +47,12 @@
 						],
 						"url": {
 							"raw": "{{base_url}}/usuarios?ativo=true",
-							"host": ["{{base_url}}"],
-							"path": ["usuarios"],
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"usuarios"
+							],
 							"query": [
 								{
 									"key": "ativo",
@@ -75,8 +83,13 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/usuarios/1",
-							"host": ["{{base_url}}"],
-							"path": ["usuarios", "1"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"usuarios",
+								"1"
+							]
 						}
 					},
 					"response": []
@@ -93,8 +106,13 @@
 						],
 						"url": {
 							"raw": "{{base_url}}/usuarios/1",
-							"host": ["{{base_url}}"],
-							"path": ["usuarios", "1"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"usuarios",
+								"1"
+							]
 						}
 					},
 					"response": []
@@ -121,8 +139,12 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/login",
-							"host": ["{{base_url}}"],
-							"path": ["login"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login"
+							]
 						}
 					},
 					"response": []
@@ -130,6 +152,16 @@
 				{
 					"name": "Atualizar senha",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzQ4ODg3NjI1fQ.CGihhopWss2Y15HY8Uc_qYpot2nleVvHVDDZjuwmlYo",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -143,12 +175,17 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"novaSenha\": \"senha123\",\n  \"confirmacaoNovaSenha\": \"novaSenha123\"\n}"
+							"raw": "{\n  \"novaSenha\": \"novaSenha123\",\n  \"confirmacaoNovaSenha\": \"novaSenha123\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/login/atualiza-senha",
-							"host": ["{{base_url}}"],
-							"path": ["login", "atualiza-senha"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login",
+								"atualiza-senha"
+							]
 						}
 					},
 					"response": []
@@ -161,6 +198,16 @@
 				{
 					"name": "Criar endereço",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzUxNDI2ODQxfQ.bNHWVyi6Cqor3YzWVpRjcPAq6obIW5bVSjLMNPfZ3SI",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [
 							{
@@ -174,12 +221,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"usuarioId\": 1,\n  \"rua\": \"Rua Exemplo\",\n  \"numero\": \"123\",\n ,\"cep\": \"01001000\",\n  \n}"
+							"raw": "{\n  \"usuarioId\": 1,\n  \"restauranteId\": 1,\n  \"rua\": \"Rua Exemplo b\",\n  \"numero\": \"1234\",\n  \"cep\": \"01001004\"  \n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/enderecos",
-							"host": ["{{base_url}}"],
-							"path": ["enderecos"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"enderecos"
+							]
 						}
 					},
 					"response": []
@@ -187,6 +238,16 @@
 				{
 					"name": "Atualizar endereço",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzUxNDIzNzMyfQ.pmUN-XKAdhTmnehfB3CXJc8t_0TioGEYkG6DQ8PAsNM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [
 							{
@@ -200,19 +261,34 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"usuarioId\": 1,\n  \"logradouro\": \"Rua Exemplo Atualizada\",\n  \"numero\": \"456\",\n  \"bairro\": \"Centro\",\n  \"cidade\": \"São Paulo\",\n  \"estado\": \"SP\",\n  \"cep\": \"01001000\",\n  \"complemento\": \"Apto 102\"\n}"
+							"raw": "{\n  \"usuarioId\": 2, \n  \"rua\": \"Rua Atualizada 1 vez\",\n  \"numero\": \"455\"\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/enderecos/1",
-							"host": ["{{base_url}}"],
-							"path": ["enderecos", "1"]
+							"raw": "{{base_url}}/enderecos/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"enderecos",
+								"2"
+							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Listar endereços por usuário",
+					"name": "Listar endereços",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzUxNDI2ODQxfQ.bNHWVyi6Cqor3YzWVpRjcPAq6obIW5bVSjLMNPfZ3SI",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -221,9 +297,23 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/enderecos/usuario/1",
-							"host": ["{{base_url}}"],
-							"path": ["enderecos", "usuario", "1"]
+							"raw": "{{base_url}}/enderecos?usuarioId=&restauranteId=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"enderecos"
+							],
+							"query": [
+								{
+									"key": "usuarioId",
+									"value": ""
+								},
+								{
+									"key": "restauranteId",
+									"value": "1"
+								}
+							]
 						}
 					},
 					"response": []
@@ -231,6 +321,16 @@
 				{
 					"name": "Excluir endereço",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzQ4ODg3NjI1fQ.CGihhopWss2Y15HY8Uc_qYpot2nleVvHVDDZjuwmlYo",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [
 							{
@@ -244,12 +344,159 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"enderecoId\": 1,\n \"usuarioId\": 1\n}"
+							"raw": "{\n \"enderecoId\": 1,\n \"usuarioId\": 1\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/enderecos",
-							"host": ["{{base_url}}"],
-							"path": ["enderecos"]
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"enderecos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "restaurante",
+			"item": [
+				{
+					"name": "Criar restaurante",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzUxNDI2ODQxfQ.bNHWVyi6Cqor3YzWVpRjcPAq6obIW5bVSjLMNPfZ3SI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"usuarioDonoId\": 1,\r\n      \"nome\": \"Pizzaria do João\",\r\n      \"endereco\": \"Rua Dois, 170\",\r\n      \"tipoCozinha\": \"Pizzaria\",\r\n      \"horarioFuncionamento\": \"11:00\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/restaurante",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"restaurante"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar restaurantes",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbmEuc2lsdmEiLCJleHAiOjE3NTEzMjAxODR9.LfEhNHdG4bGMLbVCdXw2DXKaGRhHJDjAog9LXOt7NwQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/restaurante?ativo=&tipoCozinha=",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"restaurante"
+							],
+							"query": [
+								{
+									"key": "ativo",
+									"value": ""
+								},
+								{
+									"key": "tipoCozinha",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Desativar restaurante",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbmEuc2lsdmEiLCJleHAiOjE3NTA4OTE3MzN9.jF07yRGeiwWFpomI5hTE0UgcBuVm56uR9lCM4WhuJNA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/restaurante/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"restaurante",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Restaurante",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbmEuc2lsdmEiLCJleHAiOjE3NTEzMTk1MjN9.TcQm9mAyB9lt_R8XvQHBuOdoyb-LymYsc-WDPxHwjuM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"usuarioDonoId\": 1,\r\n      \"nome\": \"Pizzaria da Ana\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/restaurante/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"restaurante",
+								"1"
+							]
 						}
 					},
 					"response": []
