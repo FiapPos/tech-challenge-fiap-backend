@@ -1,9 +1,14 @@
-FROM eclipse-temurin:21-jdk-jammy
+FROM maven:3.9.4-eclipse-temurin-21 AS builder
 
 WORKDIR /app
+COPY pom.xml .
+COPY src ./src/
 
-COPY target/foodsys-*.jar app.jar
+RUN mvn clean package -DskipTests
+
+FROM eclipse-temurin:21-jre-alpine
+
+COPY --from=builder /app/target/*.jar foodsys.jar
 
 EXPOSE 8080
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "foodsys.jar"]

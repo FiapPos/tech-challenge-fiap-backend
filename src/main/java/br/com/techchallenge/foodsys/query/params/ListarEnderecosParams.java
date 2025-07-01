@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ListarUsuariosParams {
-    private Boolean ativo;
+
+public class ListarEnderecosParams {
+    private Long usuarioId;
+    private Long restauranteId;
+
 }

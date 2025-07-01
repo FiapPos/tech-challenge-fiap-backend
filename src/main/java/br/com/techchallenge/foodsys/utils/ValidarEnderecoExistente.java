@@ -13,6 +13,7 @@ public class ValidarEnderecoExistente {
     private final EnderecoRepository enderecoRepository;
 
     public Endereco execute(Long id) {
+
         return enderecoRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException("endereco.nao.encontrado"));
     }

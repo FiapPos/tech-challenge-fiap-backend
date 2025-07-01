@@ -39,9 +39,11 @@ public class SecurityConfig {
                                 "/h2-console/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
-                                "/api-docs/**",
-                                "/usuarios/**"
-                        ).permitAll()
+                                "/v3/api-docs/**",
+                                "/v3/api-docs.yaml",
+                                "/webjars/**",
+                                "/usuarios/**")
+                        .permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exceptionHandling ->

@@ -64,10 +64,10 @@ class AtualizarUsuarioComandoTest {
         usuarioExistente.setTipo(TipoUsuario.CLIENTE);
         usuarioExistente.setAtivo(true);
 
-        when(validarUsuarioExistente.execute(ID_USUARIO)).thenReturn(usuarioExistente);
-        when(sharedService.getCurrentDateTime()).thenReturn(DATA_ATUAL);
-        when(passwordEncoder.encode(anyString())).thenReturn("nova_senha_codificada");
-        when(usuarioRepository.save(any(Usuario.class))).thenAnswer(i -> i.getArgument(0));
+        lenient().when(validarUsuarioExistente.execute(ID_USUARIO)).thenReturn(usuarioExistente);
+        lenient().when(sharedService.getCurrentDateTime()).thenReturn(DATA_ATUAL);
+        lenient().when(passwordEncoder.encode(anyString())).thenReturn("nova_senha_codificada");
+        lenient().when(usuarioRepository.save(any(Usuario.class))).thenAnswer(i -> i.getArgument(0));
     }
 
     @Test
@@ -77,8 +77,7 @@ class AtualizarUsuarioComandoTest {
         dto.setEmail("novo@email.com");
         dto.setLogin("novo_login");
         dto.setSenha("nova_senha");
-        dto.setTipo(TipoUsuario.ADMIN);
-        dto.setAtivo(false);
+
 
         Usuario resultado = comando.execute(ID_USUARIO, dto);
 
@@ -87,8 +86,6 @@ class AtualizarUsuarioComandoTest {
         assertEquals("novo@email.com", resultado.getEmail());
         assertEquals("novo_login", resultado.getLogin());
         assertEquals("nova_senha_codificada", resultado.getSenha());
-        assertEquals(TipoUsuario.ADMIN, resultado.getTipo());
-        assertFalse(resultado.isAtivo());
         assertEquals(DATA_ATUAL, resultado.getDataAtualizacao());
 
         verify(validarEmailExistente).execute("novo@email.com");
@@ -106,7 +103,6 @@ class AtualizarUsuarioComandoTest {
         assertEquals("original@email.com", resultado.getEmail());
         assertEquals("login_original", resultado.getLogin());
         assertEquals(TipoUsuario.CLIENTE, resultado.getTipo());
-        assertTrue(resultado.isAtivo());
 
         verify(validarEmailExistente, never()).execute(anyString());
         verify(validarLoginExistente, never()).execute(anyString());

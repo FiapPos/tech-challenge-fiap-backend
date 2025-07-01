@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ListarUsuariosParams {
+
+public class ListarRestaurantesParams {
     private Boolean ativo;
+    private String tipoCozinha;
 }
