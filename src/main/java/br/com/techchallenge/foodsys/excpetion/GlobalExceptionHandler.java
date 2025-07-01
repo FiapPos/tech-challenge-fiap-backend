@@ -60,4 +60,12 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.FORBIDDEN)
                 .body(new ErrorResponse(mensagem));
     }
+
+    @ExceptionHandler(PratoNaoEncontradoException.class)
+    public ResponseEntity<ErrorResponse> handlePratoNaoEncontradoException(PratoNaoEncontradoException ex) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(ex.getMessage()));
+    }
+
 }

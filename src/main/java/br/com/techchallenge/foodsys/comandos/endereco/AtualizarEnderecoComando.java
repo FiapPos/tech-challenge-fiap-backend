@@ -5,7 +5,7 @@ import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
-import br.com.techchallenge.foodsys.utils.ValidarCepDuplicado;
+import br.com.techchallenge.foodsys.utils.ValidarCepDoUsuario;
 import br.com.techchallenge.foodsys.utils.ValidarEnderecoExistente;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,16 +17,12 @@ public class AtualizarEnderecoComando {
     private final EnderecoRepository enderecoRepository;
     private final ValidarEnderecoExistente validarEnderecoExistente;
     private final CompartilhadoService sharedService;
-    private final ValidarCepDuplicado validarCepDuplicado;
+    private final ValidarCepDoUsuario validarCepDoUsuario;
 
     public Endereco execute(Long id, AtualizarEnderecoComandoDto dto) {
         validarDto(dto);
-
         Endereco endereco = validarEnderecoExistente.execute(id);
-
-        validarProprietarioEndereco(endereco, dto.getUsuarioId(), dto.getRestauranteId());
-
-        validarCepDuplicado.validarCep(dto.getUsuarioId(), dto.getRestauranteId(), dto.getCep());
+        validarCepDoUsuario.validarCepDuplicado(dto.getUsuarioId(), dto.getCep());
         atualizarCampos(endereco, dto);
         return enderecoRepository.save(endereco);
     }
@@ -64,21 +60,6 @@ public class AtualizarEnderecoComando {
     private void atualizarNumero(Endereco endereco, String numero) {
         if (numero != null) {
             endereco.setNumero(numero);
-        }
-    }
-
-    private void validarProprietarioEndereco(Endereco endereco, Long usuarioId, Long restauranteId) {
-
-        if (restauranteId != null) {
-
-            if (!endereco.getRestaurante().getId().equals(restauranteId)) {
-                throw new BadRequestException("endereco.nao.pertence.ao.restaurante");
-            }
-        } else {
-
-            if (!endereco.getUsuario().getId().equals(usuarioId)) {
-                throw new BadRequestException("endereco.nao.pertence.ao.usuario");
-            }
         }
     }
 

@@ -15,6 +15,6 @@ public class CriarEnderecoCommandDto {
     @NotBlank(message = "{numero.obrigatorio}")
     private String numero;
 
+    @NotNull(message = "{usuario.id.obrigatorio}")
     private Long usuarioId;
-    private Long restauranteId;
 }

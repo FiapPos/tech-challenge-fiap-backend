@@ -6,5 +6,4 @@ import lombok.Data;
 public class DeletarEnderecoComandoDto {
     private Long enderecoId;
     private Long usuarioId;
-    private Long restauranteId;
 }

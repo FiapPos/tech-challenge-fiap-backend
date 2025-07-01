@@ -42,7 +42,10 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/v3/api-docs.yaml",
                                 "/webjars/**",
-                                "/usuarios/**")
+                                "/usuarios/**", // permite POST /usuarios sem token - para que eu possa TESTAR
+                                "/restaurante", // permite POST /restaurante sem token - para que eu possa TESTAR
+                                "/pratos", // permite POST /pratos sem token - para que eu possa TESTAR
+                                "/pratos/**") // permite POST /pratos sem token - para que eu possa TESTAR
                         .permitAll()
                         .anyRequest().authenticated()
                 )
