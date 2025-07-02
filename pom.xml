@@ -5,12 +5,12 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.12</version>
+		<version>3.2.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.techchallenge</groupId>
 	<artifactId>foodsys</artifactId>
-	<version>25.1.0-SNAPSHOT</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>foodsys</name>
 	<packaging>jar</packaging>
 	<description>Sistema de gestão para rede de restaurantes desenvolvido como Tech Challenge da pós-graduação FIAP</description>

@@ -203,7 +203,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzUxNDI2ODQxfQ.bNHWVyi6Cqor3YzWVpRjcPAq6obIW5bVSjLMNPfZ3SI",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzQ4ODg0NTQ5fQ.wA1iyBEogWZceShuuEVh65t0UlfFrmuptBmszdegec0",
 									"type": "string"
 								}
 							]
@@ -221,7 +221,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"usuarioId\": 1,\n  \"restauranteId\": 1,\n  \"rua\": \"Rua Exemplo b\",\n  \"numero\": \"1234\",\n  \"cep\": \"01001004\"  \n}"
+							"raw": "{\n  \"usuarioId\": 1,\n  \"rua\": \"Rua Exemplo\",\n  \"numero\": \"123\",\n  \"cep\": \"01001000\"  \n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/enderecos",
@@ -243,7 +243,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzUxNDIzNzMyfQ.pmUN-XKAdhTmnehfB3CXJc8t_0TioGEYkG6DQ8PAsNM",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzQ4ODg3NjI1fQ.CGihhopWss2Y15HY8Uc_qYpot2nleVvHVDDZjuwmlYo",
 									"type": "string"
 								}
 							]
@@ -261,30 +261,30 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"usuarioId\": 2, \n  \"rua\": \"Rua Atualizada 1 vez\",\n  \"numero\": \"455\"\n}"
+							"raw": "{\n  \"usuarioId\": 1,\n  \"rua\": \"Rua Exemplo Atualizada\",\n  \"numero\": \"456\",\n  \"cep\": \"01001001\"\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/enderecos/2",
+							"raw": "{{base_url}}/enderecos/1",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"enderecos",
-								"2"
+								"1"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Listar endereços",
+					"name": "Listar endereços por usuário",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzUxNDI2ODQxfQ.bNHWVyi6Cqor3YzWVpRjcPAq6obIW5bVSjLMNPfZ3SI",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzQ4ODg3NjI1fQ.CGihhopWss2Y15HY8Uc_qYpot2nleVvHVDDZjuwmlYo",
 									"type": "string"
 								}
 							]
@@ -297,22 +297,14 @@
 							}
 						],
 						"url": {
-							"raw": "{{base_url}}/enderecos?usuarioId=&restauranteId=1",
+							"raw": "{{base_url}}/enderecos/usuario/1",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
-								"enderecos"
-							],
-							"query": [
-								{
-									"key": "usuarioId",
-									"value": ""
-								},
-								{
-									"key": "restauranteId",
-									"value": "1"
-								}
+								"enderecos",
+								"usuario",
+								"1"
 							]
 						}
 					},
@@ -353,149 +345,6 @@
 							],
 							"path": [
 								"enderecos"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "restaurante",
-			"item": [
-				{
-					"name": "Criar restaurante",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzUxNDI2ODQxfQ.bNHWVyi6Cqor3YzWVpRjcPAq6obIW5bVSjLMNPfZ3SI",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n      \"usuarioDonoId\": 1,\r\n      \"nome\": \"Pizzaria do João\",\r\n      \"endereco\": \"Rua Dois, 170\",\r\n      \"tipoCozinha\": \"Pizzaria\",\r\n      \"horarioFuncionamento\": \"11:00\"\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/restaurante",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"restaurante"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Listar restaurantes",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbmEuc2lsdmEiLCJleHAiOjE3NTEzMjAxODR9.LfEhNHdG4bGMLbVCdXw2DXKaGRhHJDjAog9LXOt7NwQ",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/restaurante?ativo=&tipoCozinha=",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"restaurante"
-							],
-							"query": [
-								{
-									"key": "ativo",
-									"value": ""
-								},
-								{
-									"key": "tipoCozinha",
-									"value": ""
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Desativar restaurante",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbmEuc2lsdmEiLCJleHAiOjE3NTA4OTE3MzN9.jF07yRGeiwWFpomI5hTE0UgcBuVm56uR9lCM4WhuJNA",
-									"type": "string"
-								}
-							]
-						},
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/restaurante/1",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"restaurante",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Atualizar Restaurante",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhbmEuc2lsdmEiLCJleHAiOjE3NTEzMTk1MjN9.TcQm9mAyB9lt_R8XvQHBuOdoyb-LymYsc-WDPxHwjuM",
-									"type": "string"
-								}
-							]
-						},
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n      \"usuarioDonoId\": 1,\r\n      \"nome\": \"Pizzaria da Ana\"\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/restaurante/1",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"restaurante",
-								"1"
 							]
 						}
 					},
