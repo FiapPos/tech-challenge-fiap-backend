@@ -40,11 +40,13 @@ class AtualizarEnderecoComandoTest {
         Long id = 1L;
         Endereco endereco = new Endereco();
         endereco.setId(id);
+
         AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
         dto.setRua("Nova Rua");
         dto.setCep("12345-678");
         dto.setNumero("100");
         dto.setUsuarioId(2L);
+
         when(validarEnderecoExistente.execute(id)).thenReturn(endereco);
         doNothing().when(validarCepDoUsuario).validarCepDuplicado(dto.getUsuarioId(), dto.getCep());
         when(sharedService.getCurrentDateTime()).thenReturn(LocalDateTime.now());
@@ -68,10 +70,12 @@ class AtualizarEnderecoComandoTest {
         Long id = 1L;
         Endereco endereco = new Endereco();
         endereco.setId(id);
+
         AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
         dto.setCep("12345-678");
         dto.setUsuarioId(2L);
         dto.setRua("Rua Teste");
+
         when(validarEnderecoExistente.execute(id)).thenReturn(endereco);
         doNothing().when(validarCepDoUsuario).validarCepDuplicado(dto.getUsuarioId(), dto.getCep());
         when(sharedService.getCurrentDateTime()).thenReturn(LocalDateTime.now());
@@ -102,8 +106,8 @@ class AtualizarEnderecoComandoTest {
         Endereco atualizado = atualizarEnderecoComando.execute(id, dto);
         
         assertEquals("Nova Rua", atualizado.getRua());
-        assertEquals("00000-000", atualizado.getCep()); // Não deve mudar
-        assertEquals("50", atualizado.getNumero()); // Não deve mudar
+        assertEquals("00000-000", atualizado.getCep());
+        assertEquals("50", atualizado.getNumero());
     }
 
     @Test
@@ -126,9 +130,9 @@ class AtualizarEnderecoComandoTest {
 
         Endereco atualizado = atualizarEnderecoComando.execute(id, dto);
         
-        assertEquals("Rua Antiga", atualizado.getRua()); // Não deve mudar
+        assertEquals("Rua Antiga", atualizado.getRua());
         assertEquals("54321-987", atualizado.getCep());
-        assertEquals("50", atualizado.getNumero()); // Não deve mudar
+        assertEquals("50", atualizado.getNumero());
     }
 
     @Test
@@ -151,8 +155,8 @@ class AtualizarEnderecoComandoTest {
 
         Endereco atualizado = atualizarEnderecoComando.execute(id, dto);
         
-        assertEquals("Rua Antiga", atualizado.getRua()); // Não deve mudar
-        assertEquals("00000-000", atualizado.getCep()); // Não deve mudar
+        assertEquals("Rua Antiga", atualizado.getRua());
+        assertEquals("00000-000", atualizado.getCep());
         assertEquals("200", atualizado.getNumero());
     }
 
@@ -179,14 +183,13 @@ class AtualizarEnderecoComandoTest {
         
         assertEquals("Nova Rua", atualizado.getRua());
         assertEquals("54321-987", atualizado.getCep());
-        assertEquals("50", atualizado.getNumero()); // Não deve mudar
+        assertEquals("50", atualizado.getNumero());
     }
 
     @Test
     void deveLancarExcecaoQuandoTodosCamposNulos() {
         AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
         dto.setUsuarioId(2L);
-        // Todos os campos são null por padrão
         
         assertThrows(BadRequestException.class, () -> atualizarEnderecoComando.execute(1L, dto));
     }

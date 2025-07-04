@@ -57,13 +57,13 @@ class ListarUsuariosQueryTest {
         List<ListarUsuariosResultadoItem> resultado = listarUsuariosQuery.execute(params);
 
         assertEquals(1, resultado.size());
-        assertEquals(usuario.getId(), resultado.get(0).getId());
-        assertEquals(usuario.getNome(), resultado.get(0).getNome());
-        assertEquals(usuario.getEmail(), resultado.get(0).getEmail());
-        assertEquals(usuario.getLogin(), resultado.get(0).getLogin());
-        assertEquals(usuario.getTipo(), resultado.get(0).getTipo());
-        assertEquals(usuario.getDataCriacao(), resultado.get(0).getDataCriacao());
-        assertEquals(usuario.getDataAtualizacao(), resultado.get(0).getDataAtualizacao());
+        assertEquals(usuario.getId(), resultado.getFirst().getId());
+        assertEquals(usuario.getNome(), resultado.getFirst().getNome());
+        assertEquals(usuario.getEmail(), resultado.getFirst().getEmail());
+        assertEquals(usuario.getLogin(), resultado.getFirst().getLogin());
+        assertEquals(usuario.getTipo(), resultado.getFirst().getTipo());
+        assertEquals(usuario.getDataCriacao(), resultado.getFirst().getDataCriacao());
+        assertEquals(usuario.getDataAtualizacao(), resultado.getFirst().getDataAtualizacao());
     }
 
     private Usuario criarUsuario(Long id, boolean ativo) {

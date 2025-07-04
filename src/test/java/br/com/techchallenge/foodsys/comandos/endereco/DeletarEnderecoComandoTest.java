@@ -36,6 +36,7 @@ class DeletarEnderecoComandoTest {
         DeletarEnderecoComandoDto dto = new DeletarEnderecoComandoDto();
         dto.setEnderecoId(1L);
         dto.setUsuarioId(2L);
+
         Usuario usuario = mock(Usuario.class);
         Endereco endereco = mock(Endereco.class);
         
@@ -55,10 +56,13 @@ class DeletarEnderecoComandoTest {
         DeletarEnderecoComandoDto dto = new DeletarEnderecoComandoDto();
         dto.setEnderecoId(1L);
         dto.setUsuarioId(2L);
+
         Usuario usuario = mock(Usuario.class);
         when(usuario.getId()).thenReturn(3L);
+
         Endereco endereco = mock(Endereco.class);
         when(endereco.getId()).thenReturn(1L);
+
         when(endereco.getUsuario()).thenReturn(usuario);
         when(validarUsuarioExistente.execute(dto.getUsuarioId())).thenReturn(usuario);
         when(validarEnderecoExistente.execute(dto.getEnderecoId())).thenReturn(endereco);

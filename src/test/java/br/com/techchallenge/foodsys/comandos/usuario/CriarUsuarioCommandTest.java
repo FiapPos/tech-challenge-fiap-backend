@@ -13,11 +13,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import java.time.LocalDateTime;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 class CriarUsuarioCommandTest {
     @Mock
@@ -40,44 +42,46 @@ class CriarUsuarioCommandTest {
 
     @Test
     void deveCriarUsuarioComCamposCorretos() {
-        CriarUsuarioCommandDto dto = new CriarUsuarioCommandDto();
-        dto.setNome("Usuário Teste");
-        dto.setEmail("teste@exemplo.com");
-        dto.setSenha("senha123");
-        dto.setLogin("loginTeste");
-        dto.setTipo(TipoUsuario.CLIENTE);
-        doNothing().when(validarEmailExistente).execute(dto.getEmail());
-        doNothing().when(validarLoginExistente).execute(dto.getLogin());
+        CriarUsuarioCommandDto usuarioDto = new CriarUsuarioCommandDto();
+        usuarioDto.setNome("Usuário Teste");
+        usuarioDto.setEmail("teste@exemplo.com");
+        usuarioDto.setSenha("senha123");
+        usuarioDto.setLogin("loginTeste");
+        usuarioDto.setTipo(TipoUsuario.CLIENTE);
+
+        doNothing().when(validarEmailExistente).execute(usuarioDto.getEmail());
+        doNothing().when(validarLoginExistente).execute(usuarioDto.getLogin());
         when(passwordEncoder.encode("senha123")).thenReturn("senhaCriptografada");
         LocalDateTime dataCriacao = LocalDateTime.now();
         when(sharedService.getCurrentDateTime()).thenReturn(dataCriacao);
         when(usuarioRepository.save(any(Usuario.class))).thenAnswer(i -> i.getArgument(0));
 
-        Usuario usuario = criarUsuarioCommand.execute(dto);
-        assertEquals(dto.getNome(), usuario.getNome());
-        assertEquals(dto.getEmail(), usuario.getEmail());
+        Usuario usuario = criarUsuarioCommand.execute(usuarioDto);
+        assertEquals(usuarioDto.getNome(), usuario.getNome());
+        assertEquals(usuarioDto.getEmail(), usuario.getEmail());
         assertEquals("senhaCriptografada", usuario.getSenha());
-        assertEquals(dto.getLogin(), usuario.getLogin());
-        assertEquals(dto.getTipo(), usuario.getTipo());
+        assertEquals(usuarioDto.getLogin(), usuario.getLogin());
+        assertEquals(usuarioDto.getTipo(), usuario.getTipo());
         assertEquals(dataCriacao, usuario.getDataCriacao());
     }
 
     @Test
     void deveValidarEmailEDuplicidadeDeLogin() {
-        CriarUsuarioCommandDto dto = new CriarUsuarioCommandDto();
-        dto.setNome("Usuário Teste");
-        dto.setEmail("teste@exemplo.com");
-        dto.setSenha("senha123");
-        dto.setLogin("loginTeste");
-        dto.setTipo(TipoUsuario.CLIENTE);
-        doNothing().when(validarEmailExistente).execute(dto.getEmail());
-        doNothing().when(validarLoginExistente).execute(dto.getLogin());
+        CriarUsuarioCommandDto usuarioDto = new CriarUsuarioCommandDto();
+        usuarioDto.setNome("Usuário Teste");
+        usuarioDto.setEmail("teste@exemplo.com");
+        usuarioDto.setSenha("senha123");
+        usuarioDto.setLogin("loginTeste");
+        usuarioDto.setTipo(TipoUsuario.CLIENTE);
+
+        doNothing().when(validarEmailExistente).execute(usuarioDto.getEmail());
+        doNothing().when(validarLoginExistente).execute(usuarioDto.getLogin());
         when(passwordEncoder.encode(anyString())).thenReturn("senhaCriptografada");
         when(sharedService.getCurrentDateTime()).thenReturn(LocalDateTime.now());
         when(usuarioRepository.save(any(Usuario.class))).thenAnswer(i -> i.getArgument(0));
 
-        criarUsuarioCommand.execute(dto);
-        verify(validarEmailExistente).execute(dto.getEmail());
-        verify(validarLoginExistente).execute(dto.getLogin());
+        criarUsuarioCommand.execute(usuarioDto);
+        verify(validarEmailExistente).execute(usuarioDto.getEmail());
+        verify(validarLoginExistente).execute(usuarioDto.getLogin());
     }
 } 

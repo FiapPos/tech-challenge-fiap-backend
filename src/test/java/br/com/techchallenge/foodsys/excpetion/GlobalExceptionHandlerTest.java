@@ -13,12 +13,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
-import java.util.Arrays;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
@@ -44,7 +41,7 @@ class GlobalExceptionHandlerTest {
 
         ResponseEntity<ErrorResponse> response = handler.handleBadRequestException(ex);
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-        assertEquals(mensagemTraduzida, response.getBody().getMensagem());
+        assertEquals(mensagemTraduzida, Objects.requireNonNull(response.getBody()).getMensagem());
     }
 
     @Test
@@ -67,7 +64,7 @@ class GlobalExceptionHandlerTest {
 
         ResponseEntity<ErrorResponse> response = handler.handleForbiddenException(ex);
         assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
-        assertEquals(mensagemTraduzida, response.getBody().getMensagem());
+        assertEquals(mensagemTraduzida, Objects.requireNonNull(response.getBody()).getMensagem());
     }
 
     @Test
@@ -78,7 +75,7 @@ class GlobalExceptionHandlerTest {
         
         FieldError fieldError = new FieldError("object", fieldName, messageKey);
         BindingResult bindingResult = mock(BindingResult.class);
-        when(bindingResult.getAllErrors()).thenReturn(Arrays.asList(fieldError));
+        when(bindingResult.getAllErrors()).thenReturn(List.of(fieldError));
         
         MethodArgumentNotValidException ex = mock(MethodArgumentNotValidException.class);
         when(ex.getBindingResult()).thenReturn(bindingResult);
@@ -122,7 +119,7 @@ class GlobalExceptionHandlerTest {
         
         FieldError fieldError = new FieldError("object", fieldName, defaultMessage);
         BindingResult bindingResult = mock(BindingResult.class);
-        when(bindingResult.getAllErrors()).thenReturn(Arrays.asList(fieldError));
+        when(bindingResult.getAllErrors()).thenReturn(List.of(fieldError));
         
         MethodArgumentNotValidException ex = mock(MethodArgumentNotValidException.class);
         when(ex.getBindingResult()).thenReturn(bindingResult);
@@ -167,7 +164,7 @@ class GlobalExceptionHandlerTest {
         
         FieldError fieldError = new FieldError("object", fieldName, defaultMessage);
         BindingResult bindingResult = mock(BindingResult.class);
-        when(bindingResult.getAllErrors()).thenReturn(Arrays.asList(fieldError));
+        when(bindingResult.getAllErrors()).thenReturn(List.of(fieldError));
         
         MethodArgumentNotValidException ex = mock(MethodArgumentNotValidException.class);
         when(ex.getBindingResult()).thenReturn(bindingResult);

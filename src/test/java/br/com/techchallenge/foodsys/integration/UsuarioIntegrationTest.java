@@ -41,7 +41,6 @@ class UsuarioIntegrationTest {
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        // Deletar endereços primeiro para evitar violação de chave estrangeira
         enderecoRepository.deleteAll();
         usuarioRepository.deleteAll();
     }
@@ -63,7 +62,6 @@ class UsuarioIntegrationTest {
 
     @Test
     void deveRetornarErroAoCriarUsuarioComEmailDuplicado() throws Exception {
-        // Criar primeiro usuário
         Usuario usuario = new Usuario();
         usuario.setNome("João Silva");
         usuario.setEmail("joao@email.com");
@@ -72,7 +70,6 @@ class UsuarioIntegrationTest {
         usuario.setTipo(TipoUsuario.CLIENTE);
         usuarioRepository.save(usuario);
 
-        // Tentar criar segundo usuário com mesmo email
         CriarUsuarioCommandDto dto = new CriarUsuarioCommandDto();
         dto.setNome("Maria Silva");
         dto.setEmail("joao@email.com");
@@ -88,7 +85,6 @@ class UsuarioIntegrationTest {
 
     @Test
     void deveRetornarErroAoCriarUsuarioComLoginDuplicado() throws Exception {
-        // Criar primeiro usuário
         Usuario usuario = new Usuario();
         usuario.setNome("João Silva");
         usuario.setEmail("joao@email.com");
@@ -97,7 +93,6 @@ class UsuarioIntegrationTest {
         usuario.setTipo(TipoUsuario.CLIENTE);
         usuarioRepository.save(usuario);
 
-        // Tentar criar segundo usuário com mesmo login
         CriarUsuarioCommandDto dto = new CriarUsuarioCommandDto();
         dto.setNome("Maria Silva");
         dto.setEmail("maria@email.com");
@@ -113,7 +108,6 @@ class UsuarioIntegrationTest {
 
     @Test
     void deveListarUsuariosComSucesso() throws Exception {
-        // Criar usuários de teste
         Usuario usuario1 = new Usuario();
         usuario1.setNome("João Silva");
         usuario1.setEmail("joao@email.com");
@@ -145,7 +139,6 @@ class UsuarioIntegrationTest {
 
     @Test
     void deveAtualizarUsuarioComSucesso() throws Exception {
-        // Criar usuário
         Usuario usuario = new Usuario();
         usuario.setNome("João Silva");
         usuario.setEmail("joao@email.com");
@@ -154,7 +147,6 @@ class UsuarioIntegrationTest {
         usuario.setTipo(TipoUsuario.CLIENTE);
         usuario = usuarioRepository.save(usuario);
 
-        // Atualizar usuário
         AtualizarUsuarioComandoDto dto = new AtualizarUsuarioComandoDto();
         dto.setNome("João Silva Atualizado");
         dto.setEmail("joao.atualizado@email.com");
@@ -179,7 +171,6 @@ class UsuarioIntegrationTest {
 
     @Test
     void deveDesativarUsuarioComSucesso() throws Exception {
-        // Criar usuário
         Usuario usuario = new Usuario();
         usuario.setNome("João Silva");
         usuario.setEmail("joao@email.com");
@@ -201,9 +192,7 @@ class UsuarioIntegrationTest {
     @Test
     void deveRetornarErroAoCriarUsuarioComDadosInvalidos() throws Exception {
         CriarUsuarioCommandDto dto = new CriarUsuarioCommandDto();
-        // Dados incompletos
         dto.setNome("João");
-        // email e outros campos obrigatórios não preenchidos
 
         mockMvc.perform(post("/usuarios")
                         .contentType(MediaType.APPLICATION_JSON)

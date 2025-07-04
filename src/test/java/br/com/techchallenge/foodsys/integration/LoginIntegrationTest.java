@@ -55,7 +55,6 @@ class LoginIntegrationTest {
 
     @Test
     void deveFazerLoginComSucesso() throws Exception {
-        // Criar usuário
         Usuario usuario = new Usuario();
         usuario.setNome("João Silva");
         usuario.setEmail("joao@email.com");
@@ -64,7 +63,6 @@ class LoginIntegrationTest {
         usuario.setTipo(TipoUsuario.CLIENTE);
         usuarioRepository.save(usuario);
 
-        // Fazer login
         CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("joao123", "senha123");
 
         mockMvc.perform(post("/login")
@@ -86,7 +84,6 @@ class LoginIntegrationTest {
 
     @Test
     void deveRetornarErroComSenhaIncorreta() throws Exception {
-        // Criar usuário
         Usuario usuario = new Usuario();
         usuario.setNome("João Silva");
         usuario.setEmail("joao@email.com");
@@ -106,7 +103,6 @@ class LoginIntegrationTest {
 
     @Test
     void deveRetornarErroComDadosInvalidos() throws Exception {
-        // Teste com dados incompletos - apenas login
         CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("joao123", "");
 
         mockMvc.perform(post("/login")

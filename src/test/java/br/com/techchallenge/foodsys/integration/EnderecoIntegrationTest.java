@@ -94,9 +94,7 @@ class EnderecoIntegrationTest {
     void deveRetornarErroAoCriarEnderecoComDadosInvalidos() throws Exception {
         CriarEnderecoCommandDto dto = new CriarEnderecoCommandDto();
         dto.setUsuarioId(usuario.getId());
-        // Dados incompletos - apenas rua
         dto.setRua("Rua das Flores");
-        // outros campos obrigatórios não preenchidos
 
         mockMvc.perform(post("/enderecos")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -107,7 +105,6 @@ class EnderecoIntegrationTest {
     @Test
     @WithMockUser(username = "joao123", roles = "CLIENTE")
     void deveAtualizarEnderecoComSucesso() throws Exception {
-        // Criar endereço
         Endereco endereco = new Endereco();
         endereco.setUsuario(usuario);
         endereco.setRua("Rua das Flores");
@@ -115,18 +112,14 @@ class EnderecoIntegrationTest {
         endereco.setCep("01234-567");
         endereco = enderecoRepository.save(endereco);
         
-        // Verificar se o endereço foi salvo corretamente
         assert endereco.getId() != null : "Endereço deve ter um ID após ser salvo";
-        
-        // Verificar se o endereço existe no banco
         assert enderecoRepository.findById(endereco.getId()).isPresent() : "Endereço deve existir no banco";
 
-        // Atualizar endereço
         AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
         dto.setUsuarioId(usuario.getId());
         dto.setRua("Rua das Flores Atualizada");
         dto.setNumero("456");
-        dto.setCep("04567-890"); // CEP diferente para evitar duplicação
+        dto.setCep("04567-890");
 
         mockMvc.perform(put("/enderecos/" + endereco.getId())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -152,7 +145,6 @@ class EnderecoIntegrationTest {
     @Test
     @WithMockUser(username = "joao123", roles = "CLIENTE")
     void deveRetornarErroAoAtualizarEnderecoDeOutroUsuario() throws Exception {
-        // Criar outro usuário
         Usuario outroUsuario = new Usuario();
         outroUsuario.setNome("Maria Silva");
         outroUsuario.setEmail("maria@email.com");
@@ -161,7 +153,6 @@ class EnderecoIntegrationTest {
         outroUsuario.setTipo(TipoUsuario.CLIENTE);
         outroUsuario = usuarioRepository.save(outroUsuario);
 
-        // Criar endereço para o primeiro usuário
         Endereco endereco = new Endereco();
         endereco.setUsuario(usuario);
         endereco.setRua("Rua das Flores");
@@ -169,12 +160,11 @@ class EnderecoIntegrationTest {
         endereco.setCep("01234-567");
         endereco = enderecoRepository.save(endereco);
 
-        // Tentar atualizar com outro usuário
         AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
         dto.setUsuarioId(outroUsuario.getId());
         dto.setRua("Rua das Flores Atualizada");
         dto.setNumero("456");
-        dto.setCep("04567-890"); // CEP diferente para evitar duplicação
+        dto.setCep("04567-890");
 
         mockMvc.perform(put("/enderecos/" + endereco.getId())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -220,7 +210,6 @@ class EnderecoIntegrationTest {
     @Test
     @WithMockUser(username = "joao123", roles = "CLIENTE")
     void deveListarEnderecosPorUsuarioComSucesso() throws Exception {
-        // Criar endereços para o usuário
         Endereco endereco1 = new Endereco();
         endereco1.setUsuario(usuario);
         endereco1.setRua("Rua das Flores");

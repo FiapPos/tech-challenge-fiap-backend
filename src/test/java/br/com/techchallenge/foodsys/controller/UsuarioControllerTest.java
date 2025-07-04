@@ -42,30 +42,30 @@ class UsuarioControllerTest {
 
     @Test
     void deveCriarUsuarioComSucesso() {
-        CriarUsuarioCommandDto dto = new CriarUsuarioCommandDto();
-        dto.setNome("Usuário Teste");
-        dto.setEmail("teste@exemplo.com");
-        dto.setSenha("senha123");
-        dto.setLogin("loginTeste");
-        dto.setTipo(TipoUsuario.CLIENTE);
+        CriarUsuarioCommandDto usuarioDto = new CriarUsuarioCommandDto();
+        usuarioDto.setNome("Usuário Teste");
+        usuarioDto.setEmail("teste@exemplo.com");
+        usuarioDto.setSenha("senha123");
+        usuarioDto.setLogin("loginTeste");
+        usuarioDto.setTipo(TipoUsuario.CLIENTE);
         
         Usuario usuario = new Usuario();
         usuario.setId(1L);
-        when(criarUsuarioCommand.execute(dto)).thenReturn(usuario);
+        when(criarUsuarioCommand.execute(usuarioDto)).thenReturn(usuario);
 
-        ResponseEntity<Void> response = usuarioController.criarUsuario(dto);
+        ResponseEntity<Void> response = usuarioController.criarUsuario(usuarioDto);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        verify(criarUsuarioCommand).execute(dto);
+        verify(criarUsuarioCommand).execute(usuarioDto);
     }
 
     @Test
     void deveListarUsuariosComSucesso() {
         ListarUsuariosParams params = new ListarUsuariosParams(true);
-        ListarUsuariosResultadoItem item = new ListarUsuariosResultadoItem();
-        item.setId(1L);
-        item.setNome("Usuário Teste");
-        List<ListarUsuariosResultadoItem> resultado = List.of(item);
+        ListarUsuariosResultadoItem usuarioItem = new ListarUsuariosResultadoItem();
+        usuarioItem.setId(1L);
+        usuarioItem.setNome("Usuário Teste");
+        List<ListarUsuariosResultadoItem> resultado = List.of(usuarioItem);
         
         when(listarUsuariosQuery.execute(params)).thenReturn(resultado);
 
@@ -90,15 +90,15 @@ class UsuarioControllerTest {
     void deveAtualizarUsuarioComSucesso() {
         Long id = 1L;
         Usuario usuario = new Usuario();
-        AtualizarUsuarioComandoDto dto = new AtualizarUsuarioComandoDto();
-        dto.setNome("Novo Nome");
+        AtualizarUsuarioComandoDto usuarioDto = new AtualizarUsuarioComandoDto();
+        usuarioDto.setNome("Novo Nome");
         
-        when(atualizarUsuarioComando.execute(id, dto)).thenReturn(usuario);
+        when(atualizarUsuarioComando.execute(id, usuarioDto)).thenReturn(usuario);
 
-        ResponseEntity<Void> response = usuarioController.atualizarUsuario(id, dto);
+        ResponseEntity<Void> response = usuarioController.atualizarUsuario(id, usuarioDto);
 
         assertEquals(200, response.getStatusCodeValue());
-        verify(atualizarUsuarioComando).execute(id, dto);
+        verify(atualizarUsuarioComando).execute(id, usuarioDto);
     }
 
     @Test

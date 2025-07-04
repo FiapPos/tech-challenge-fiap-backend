@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 class EncontraUsuarioPorLoginComandoTest {
     @Mock
@@ -36,7 +36,7 @@ class EncontraUsuarioPorLoginComandoTest {
         when(userAuthenticationService.getByLogin(username)).thenReturn(usuario);
 
         UserDetails userDetails = encontraUsuarioPorLoginComando.loadUserByUsername(username);
-        assertTrue(userDetails instanceof DetalhesUsuarioDto);
+        assertInstanceOf(DetalhesUsuarioDto.class, userDetails);
         assertEquals(username, userDetails.getUsername());
         assertEquals("senha123", userDetails.getPassword());
         assertTrue(userDetails.isEnabled());

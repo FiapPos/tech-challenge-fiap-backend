@@ -42,8 +42,10 @@ class CriarEnderecoCommandTest {
         dto.setCep("12345-678");
         dto.setNumero("100");
         dto.setUsuarioId(1L);
+
         Usuario usuario = new Usuario();
         usuario.setId(1L);
+
         LocalDateTime dataCriacao = LocalDateTime.now();
         when(validarUsuarioExistente.execute(dto.getUsuarioId())).thenReturn(usuario);
         doNothing().when(validarCepDoUsuario).validarCepDuplicado(usuario.getId(), dto.getCep());
@@ -65,8 +67,10 @@ class CriarEnderecoCommandTest {
         dto.setCep("12345-678");
         dto.setNumero("100");
         dto.setUsuarioId(1L);
+
         Usuario usuario = new Usuario();
         usuario.setId(1L);
+
         when(validarUsuarioExistente.execute(dto.getUsuarioId())).thenReturn(usuario);
         doNothing().when(validarCepDoUsuario).validarCepDuplicado(usuario.getId(), dto.getCep());
         when(sharedService.getCurrentDateTime()).thenReturn(LocalDateTime.now());

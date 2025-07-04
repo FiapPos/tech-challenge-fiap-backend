@@ -44,16 +44,16 @@ class LoginControllerTest {
 
     @Test
     void deveFazerLoginComSucesso() {
-        CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("usuario1", "senha123");
+        CredenciaisUsuarioDto credenciais = new CredenciaisUsuarioDto("usuario1", "senha123");
         Usuario usuario = new Usuario();
         usuario.setLogin("usuario1");
         String token = "jwtToken";
         
         when(bindingResult.hasErrors()).thenReturn(false);
-        when(autenticaLoginComando.login(credentials)).thenReturn(usuario);
+        when(autenticaLoginComando.login(credenciais)).thenReturn(usuario);
         when(autenticaJwtComando.createToken(usuario)).thenReturn(token);
 
-        ResponseEntity<Map<String, String>> response = loginController.login(credentials, bindingResult);
+        ResponseEntity<Map<String, String>> response = loginController.login(credenciais, bindingResult);
 
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(token, response.getBody().get("token"));
@@ -61,16 +61,14 @@ class LoginControllerTest {
 
     @Test
     void deveRetornarErroQuandoCredenciaisInvalidas() {
-        CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("usuario1", "senha123");
-        Map<String, String> erros = new HashMap<>();
-        erros.put("login", "Login é obrigatório");
+        CredenciaisUsuarioDto credenciais = new CredenciaisUsuarioDto("usuario1", "senha123");
         
         when(bindingResult.hasErrors()).thenReturn(true);
         when(bindingResult.getFieldErrors()).thenReturn(java.util.List.of(
             new FieldError("credentials", "login", "Login é obrigatório")
         ));
 
-        ResponseEntity<Map<String, String>> response = loginController.login(credentials, bindingResult);
+        ResponseEntity<Map<String, String>> response = loginController.login(credenciais, bindingResult);
 
         assertEquals(400, response.getStatusCodeValue());
         assertEquals("Login é obrigatório", response.getBody().get("login"));
@@ -92,8 +90,6 @@ class LoginControllerTest {
     @Test
     void deveRetornarErroQuandoAtualizacaoSenhaInvalida() {
         AtualizaCredenciaisComandoDto dto = new AtualizaCredenciaisComandoDto("senha", "senhaDiferente");
-        Map<String, String> erros = new HashMap<>();
-        erros.put("confirmacaoSenha", "Senhas não conferem");
         
         when(bindingResult.hasErrors()).thenReturn(true);
         when(bindingResult.getFieldErrors()).thenReturn(java.util.List.of(
@@ -117,20 +113,20 @@ class LoginControllerTest {
 
     @Test
     void deveRetornarTokenQuandoLoginBemSucedido() {
-        CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("usuario1", "senha123");
+        CredenciaisUsuarioDto credenciais = new CredenciaisUsuarioDto("usuario1", "senha123");
         Usuario usuario = new Usuario();
         usuario.setLogin("usuario1");
         String token = "jwtToken";
         
         when(bindingResult.hasErrors()).thenReturn(false);
-        when(autenticaLoginComando.login(credentials)).thenReturn(usuario);
+        when(autenticaLoginComando.login(credenciais)).thenReturn(usuario);
         when(autenticaJwtComando.createToken(usuario)).thenReturn(token);
 
-        ResponseEntity<Map<String, String>> response = loginController.login(credentials, bindingResult);
+        ResponseEntity<Map<String, String>> response = loginController.login(credenciais, bindingResult);
 
         assertEquals(200, response.getStatusCodeValue());
         assertEquals(token, response.getBody().get("token"));
-        verify(autenticaLoginComando).login(credentials);
+        verify(autenticaLoginComando).login(credenciais);
         verify(autenticaJwtComando).createToken(usuario);
     }
 
@@ -144,7 +140,7 @@ class LoginControllerTest {
         ResponseEntity<Map<String, String>> response = loginController.atualizaSenha(dto, bindingResult);
 
         assertEquals(200, response.getStatusCodeValue());
-        assertNull(response.getBody()); // ResponseEntity.ok().build() retorna body null
+        assertNull(response.getBody());
         verify(atualizaCredenciaisComando).execute(dto);
     }
 } 

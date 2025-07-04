@@ -99,14 +99,12 @@ class DetalhesUsuarioDtoTest {
 
     @Test
     void deveRetornarAuthoritiesParaDiferentesTiposDeUsuario() {
-        // Teste para ADMIN
         usuario.setTipo(TipoUsuario.ADMIN);
         DetalhesUsuarioDto dtoAdmin = new DetalhesUsuarioDto(usuario);
         Collection<? extends GrantedAuthority> authoritiesAdmin = dtoAdmin.getAuthorities();
         
         assertTrue(authoritiesAdmin.stream().anyMatch(auth -> auth.getAuthority().equals("ADMIN")));
         
-        // Teste para CLIENTE
         usuario.setTipo(TipoUsuario.CLIENTE);
         DetalhesUsuarioDto dtoCliente = new DetalhesUsuarioDto(usuario);
         Collection<? extends GrantedAuthority> authoritiesCliente = dtoCliente.getAuthorities();
@@ -116,12 +114,10 @@ class DetalhesUsuarioDtoTest {
 
     @Test
     void deveRetornarDadosCorretosQuandoUsuarioAtualizado() {
-        // Atualizar dados do usuário
         usuario.setLogin("novoLogin");
         usuario.setSenha("novaSenha");
         usuario.setTipo(TipoUsuario.ADMIN);
         
-        // Criar novo DTO com usuário atualizado
         DetalhesUsuarioDto novoDto = new DetalhesUsuarioDto(usuario);
         
         assertEquals("novoLogin", novoDto.getUsername());

@@ -211,10 +211,10 @@ class AtualizarUsuarioComandoTest {
 
         Usuario resultado = atualizarUsuarioComando.execute(ID_USUARIO, dto);
 
-        assertEquals("Nome Original", resultado.getNome()); // Não deve mudar
+        assertEquals("Nome Original", resultado.getNome());
         assertEquals("novo@email.com", resultado.getEmail());
-        assertEquals("login_original", resultado.getLogin()); // Não deve mudar
-        assertEquals("senha_codificada", resultado.getSenha()); // Não deve mudar
+        assertEquals("login_original", resultado.getLogin());
+        assertEquals("senha_codificada", resultado.getSenha());
     }
 
     @Test
@@ -226,10 +226,10 @@ class AtualizarUsuarioComandoTest {
 
         Usuario resultado = atualizarUsuarioComando.execute(ID_USUARIO, dto);
 
-        assertEquals("Nome Original", resultado.getNome()); // Não deve mudar
-        assertEquals("original@email.com", resultado.getEmail()); // Não deve mudar
+        assertEquals("Nome Original", resultado.getNome());
+        assertEquals("original@email.com", resultado.getEmail());
         assertEquals("novo_login", resultado.getLogin());
-        assertEquals("senha_codificada", resultado.getSenha()); // Não deve mudar
+        assertEquals("senha_codificada", resultado.getSenha());
     }
 
     @Test
@@ -243,8 +243,8 @@ class AtualizarUsuarioComandoTest {
         Usuario resultado = atualizarUsuarioComando.execute(ID_USUARIO, dto);
 
         assertEquals("Novo Nome", resultado.getNome());
-        assertEquals("original@email.com", resultado.getEmail()); // Não deve mudar
+        assertEquals("original@email.com", resultado.getEmail());
         assertEquals("novo_login", resultado.getLogin());
-        assertEquals("senha_codificada", resultado.getSenha()); // Não deve mudar
+        assertEquals("senha_codificada", resultado.getSenha());
     }
 }
