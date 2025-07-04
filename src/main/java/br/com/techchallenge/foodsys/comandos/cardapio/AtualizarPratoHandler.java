@@ -1,5 +1,4 @@
 package br.com.techchallenge.foodsys.comandos.cardapio;
-
 import br.com.techchallenge.foodsys.comandos.cardapio.dtos.PratoResponseDTO;
 import br.com.techchallenge.foodsys.dominio.cardapio.Prato;
 import br.com.techchallenge.foodsys.dominio.cardapio.PratoRepository;
@@ -16,15 +15,14 @@ public class AtualizarPratoHandler {
         this.pratoRepository = pratoRepository;
     }
 
-    public PratoResponseDTO executar(Long id, AtualizarPratoComando comando) {
-        Prato prato = pratoRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Prato não encontrado"));
+    public PratoResponseDTO executar(Long restauranteId, Long pratoId, AtualizarPratoComando comando) {
+        Prato prato = (Prato) pratoRepository.findByIdAndRestauranteId(pratoId, restauranteId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Prato não encontrado para o restaurante informado"));
 
         prato.setNome(comando.getNome());
         prato.setDescricao(comando.getDescricao());
         prato.setPreco(comando.getPreco());
         prato.setDisponivelSomenteNoLocal(comando.getDisponivelSomenteNoLocal());
-        prato.setCaminhoFoto(comando.getCaminhoFoto());
 
         Prato atualizado = pratoRepository.save(prato);
 

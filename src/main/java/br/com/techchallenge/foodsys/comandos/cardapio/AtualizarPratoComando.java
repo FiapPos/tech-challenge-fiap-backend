@@ -7,15 +7,15 @@ public class AtualizarPratoComando {
     private final String descricao;
     private final BigDecimal preco;
     private final Boolean disponivelSomenteNoLocal;
-    private final String caminhoFoto;
+
 
     public AtualizarPratoComando(String nome, String descricao, BigDecimal preco,
-                                 Boolean disponivelSomenteNoLocal, String caminhoFoto) {
+                                 Boolean disponivelSomenteNoLocal) {
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
         this.disponivelSomenteNoLocal = disponivelSomenteNoLocal;
-        this.caminhoFoto = caminhoFoto;
+
     }
 
     public String getNome() {
@@ -34,7 +34,4 @@ public class AtualizarPratoComando {
         return disponivelSomenteNoLocal;
     }
 
-    public String getCaminhoFoto() {
-        return caminhoFoto;
-    }
 }

@@ -1,7 +1,6 @@
 package br.com.techchallenge.foodsys.controller;
+
 import br.com.techchallenge.foodsys.comandos.cardapio.*;
-import br.com.techchallenge.foodsys.comandos.cardapio.BuscarPratoPorIdHandler;
-import br.com.techchallenge.foodsys.comandos.cardapio.ExcluirPratoHandler;
 import br.com.techchallenge.foodsys.comandos.cardapio.dtos.PratoRequestDTO;
 import br.com.techchallenge.foodsys.comandos.cardapio.dtos.PratoResponseDTO;
 import jakarta.validation.Valid;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/pratos")
+@RequestMapping("/restaurante/{restauranteId}/pratos")
 public class PratoController {
 
     private final CriarPratoHandler criarPratoHandler;
@@ -36,14 +35,17 @@ public class PratoController {
     }
 
     @PostMapping
-    public ResponseEntity<PratoResponseDTO> criar(@RequestBody @Valid PratoRequestDTO request) {
+    public ResponseEntity<PratoResponseDTO> criar(
+            @PathVariable Long restauranteId,
+            @RequestBody @Valid PratoRequestDTO request) {
+
+
         CriarPratoComando comando = new CriarPratoComando(
                 request.getNome(),
                 request.getDescricao(),
                 request.getPreco(),
                 request.getDisponivelSomenteNoLocal(),
-                request.getCaminhoFoto(),
-                request.getRestauranteId()
+                restauranteId
         );
 
         PratoResponseDTO resposta = criarPratoHandler.executar(comando);
@@ -51,33 +53,43 @@ public class PratoController {
     }
 
     @GetMapping
-    public List<PratoResponseDTO> listarTodos() {
-        return listarPratosHandler.executar();
+    public ResponseEntity<List<PratoResponseDTO>> listarTodos(@PathVariable Long restauranteId) {
+        List<PratoResponseDTO> pratos = listarPratosHandler.executarPorRestaurante(restauranteId);
+        return ResponseEntity.ok(pratos);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PratoResponseDTO> buscarPorId(@PathVariable Long id) {
-        PratoResponseDTO prato = buscarPratoPorIdHandler.executar(id);
+    @GetMapping("/{pratoId}")
+    public ResponseEntity<PratoResponseDTO> buscarPorId(
+            @PathVariable Long restauranteId,
+            @PathVariable Long pratoId) {
+
+        PratoResponseDTO prato = buscarPratoPorIdHandler.executar(restauranteId, pratoId);
         return ResponseEntity.ok(prato);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<PratoResponseDTO> atualizar(@PathVariable Long id, @RequestBody @Valid PratoRequestDTO request) {
+    @PutMapping("/{pratoId}")
+    public ResponseEntity<PratoResponseDTO> atualizar(
+            @PathVariable Long restauranteId,
+            @PathVariable Long pratoId,
+            @RequestBody @Valid PratoRequestDTO request) {
+
         AtualizarPratoComando comando = new AtualizarPratoComando(
                 request.getNome(),
                 request.getDescricao(),
                 request.getPreco(),
-                request.getDisponivelSomenteNoLocal(),
-                request.getCaminhoFoto()
+                request.getDisponivelSomenteNoLocal()
         );
 
-        PratoResponseDTO atualizado = atualizarPratoHandler.executar(id, comando);
+        PratoResponseDTO atualizado = atualizarPratoHandler.executar(restauranteId, pratoId, comando);
         return ResponseEntity.ok(atualizado);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Long id) {
-        excluirPratoHandler.executar(id);
+    @DeleteMapping("/{pratoId}")
+    public ResponseEntity<Void> excluir(
+            @PathVariable Long restauranteId,
+            @PathVariable Long pratoId) {
+
+        excluirPratoHandler.executar(restauranteId, pratoId);
         return ResponseEntity.noContent().build();
     }
 }

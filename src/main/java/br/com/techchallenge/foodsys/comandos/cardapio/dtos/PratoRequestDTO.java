@@ -1,4 +1,5 @@
 package br.com.techchallenge.foodsys.comandos.cardapio.dtos;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -15,19 +16,16 @@ public class PratoRequestDTO {
 
     private Boolean disponivelSomenteNoLocal;
 
-    private String caminhoFoto;
-
-    @NotNull(message = "{restauranteId.obrigatorio}")
-    private Long restauranteId;
+    public PratoRequestDTO() {
+    }
 
     public PratoRequestDTO(String nome, String descricao, BigDecimal preco,
-                           Boolean disponivelSomenteNoLocal, String caminhoFoto, Long restauranteId) {
+                           Boolean disponivelSomenteNoLocal) {
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
         this.disponivelSomenteNoLocal = disponivelSomenteNoLocal;
-        this.caminhoFoto = caminhoFoto;
-        this.restauranteId = restauranteId;
+
     }
 
     public String getNome() {
@@ -62,19 +60,4 @@ public class PratoRequestDTO {
         this.disponivelSomenteNoLocal = disponivelSomenteNoLocal;
     }
 
-    public String getCaminhoFoto() {
-        return caminhoFoto;
-    }
-
-    public void setCaminhoFoto(String caminhoFoto) {
-        this.caminhoFoto = caminhoFoto;
-    }
-
-    public Long getRestauranteId() {
-        return restauranteId;
-    }
-
-    public void setRestauranteId(Long restauranteId) {
-        this.restauranteId = restauranteId;
-    }
 }

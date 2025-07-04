@@ -1,4 +1,5 @@
 package br.com.techchallenge.foodsys.config;
+
 import br.com.techchallenge.foodsys.comandos.login.FiltroAutenticacaoJwt;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +33,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .headers((headers) -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(
                                 "/login",
@@ -42,11 +43,13 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/v3/api-docs.yaml",
                                 "/webjars/**",
-                                "/usuarios/**", // permite POST /usuarios sem token - para que eu possa TESTAR
-                                "/restaurante", // permite POST /restaurante sem token - para que eu possa TESTAR
-                                "/pratos", // permite POST /pratos sem token - para que eu possa TESTAR
-                                "/pratos/**") // permite POST /pratos sem token - para que eu possa TESTAR
-                        .permitAll()
+                                "/usuarios/**",              // liberar testes sem token
+                                "/restaurante",             // criar restaurante sem token
+                                "/restaurante/*/pratos",    // listar e criar pratos sem token
+                                "/restaurante/*/pratos/**", // atualizar, buscar e excluir pratos sem token
+                                "/foto/prato/**",            // endpoint de foto sem token
+                                "/restaurantes/{restauranteId}/pratos/{pratoId}/foto"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exceptionHandling ->

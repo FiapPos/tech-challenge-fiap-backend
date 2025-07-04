@@ -26,7 +26,6 @@ public class CriarPratoHandler {
         prato.setDescricao(comando.getDescricao());
         prato.setPreco(comando.getPreco());
         prato.setDisponivelSomenteNoLocal(comando.getDisponivelSomenteNoLocal());
-        prato.setCaminhoFoto(comando.getCaminhoFoto());
         prato.setRestaurante(restaurante);
 
         Prato salvo = pratoRepository.save(prato);

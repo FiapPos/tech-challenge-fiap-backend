@@ -1,4 +1,5 @@
 package br.com.techchallenge.foodsys.comandos.cardapio;
+
 import br.com.techchallenge.foodsys.dominio.cardapio.PratoRepository;
 import br.com.techchallenge.foodsys.excpetion.PratoNaoEncontradoException;
 import org.springframework.stereotype.Service;
@@ -12,12 +13,12 @@ public class ExcluirPratoHandler {
         this.pratoRepository = pratoRepository;
     }
 
-    public void executar(Long id) {
-        if (pratoRepository.existsById(id)) {
-            pratoRepository.deleteById(id);
+    public void executar(Long restauranteId, Long pratoId) {
+        boolean exists = pratoRepository.existsByIdAndRestauranteId(pratoId, restauranteId);
+        if (exists) {
+            pratoRepository.deleteById(pratoId);
         } else {
-            throw new PratoNaoEncontradoException(id);
+            throw new PratoNaoEncontradoException(pratoId);
         }
     }
 }
-

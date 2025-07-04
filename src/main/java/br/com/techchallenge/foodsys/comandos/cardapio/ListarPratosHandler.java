@@ -20,4 +20,11 @@ public class ListarPratosHandler {
                 .map(PratoResponseDTO::fromEntity)
                 .collect(Collectors.toList());
     }
+
+    public List<PratoResponseDTO> executarPorRestaurante(Long restauranteId) {
+        return pratoRepository.findByRestauranteId(restauranteId)
+                .stream()
+                .map(PratoResponseDTO::fromEntity)
+                .collect(Collectors.toList());
+    }
 }
