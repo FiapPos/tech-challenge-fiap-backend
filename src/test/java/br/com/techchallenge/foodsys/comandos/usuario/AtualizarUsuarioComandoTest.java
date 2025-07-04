@@ -11,10 +11,9 @@ import br.com.techchallenge.foodsys.utils.ValidarLoginExistente;
 import br.com.techchallenge.foodsys.utils.ValidarUsuarioExistente;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
@@ -24,7 +23,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
 class AtualizarUsuarioComandoTest {
 
     @Mock
@@ -40,13 +38,13 @@ class AtualizarUsuarioComandoTest {
     private ValidarUsuarioExistente validarUsuarioExistente;
 
     @Mock
-    private CompartilhadoService sharedService;
+    private CompartilhadoService compartilhadoService;
 
     @Mock
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private AtualizarUsuarioComando comando;
+    private AtualizarUsuarioComando atualizarUsuarioComando;
 
     private Usuario usuarioExistente;
     private AtualizarUsuarioComandoDto dto;
@@ -54,7 +52,8 @@ class AtualizarUsuarioComandoTest {
     private final LocalDateTime DATA_ATUAL = LocalDateTime.now();
 
     @BeforeEach
-    void configurar() {
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
         usuarioExistente = new Usuario();
         usuarioExistente.setId(ID_USUARIO);
         usuarioExistente.setNome("Nome Original");
@@ -64,22 +63,24 @@ class AtualizarUsuarioComandoTest {
         usuarioExistente.setTipo(TipoUsuario.CLIENTE);
         usuarioExistente.setAtivo(true);
 
-        lenient().when(validarUsuarioExistente.execute(ID_USUARIO)).thenReturn(usuarioExistente);
-        lenient().when(sharedService.getCurrentDateTime()).thenReturn(DATA_ATUAL);
-        lenient().when(passwordEncoder.encode(anyString())).thenReturn("nova_senha_codificada");
-        lenient().when(usuarioRepository.save(any(Usuario.class))).thenAnswer(i -> i.getArgument(0));
+        when(validarUsuarioExistente.execute(ID_USUARIO)).thenReturn(usuarioExistente);
+        when(compartilhadoService.getCurrentDateTime()).thenReturn(DATA_ATUAL);
+        when(passwordEncoder.encode(anyString())).thenReturn("nova_senha_codificada");
+        when(usuarioRepository.save(any(Usuario.class))).thenAnswer(i -> i.getArgument(0));
     }
 
     @Test
-    void deveAtualizarTodosOsCamposComSucesso() {
+    void deveAtualizarNomeEmailLoginESenha() {
         dto = new AtualizarUsuarioComandoDto();
         dto.setNome("Novo Nome");
         dto.setEmail("novo@email.com");
         dto.setLogin("novo_login");
         dto.setSenha("nova_senha");
+        
+        doNothing().when(validarEmailExistente).execute("novo@email.com");
+        doNothing().when(validarLoginExistente).execute("novo_login");
 
-
-        Usuario resultado = comando.execute(ID_USUARIO, dto);
+        Usuario resultado = atualizarUsuarioComando.execute(ID_USUARIO, dto);
 
         assertNotNull(resultado);
         assertEquals("Novo Nome", resultado.getNome());
@@ -93,11 +94,11 @@ class AtualizarUsuarioComandoTest {
     }
 
     @Test
-    void deveAtualizarApenasCamposPreenchidos() {
+    void deveAtualizarSomenteNome() {
         dto = new AtualizarUsuarioComandoDto();
         dto.setNome("Novo Nome");
 
-        Usuario resultado = comando.execute(ID_USUARIO, dto);
+        Usuario resultado = atualizarUsuarioComando.execute(ID_USUARIO, dto);
 
         assertEquals("Novo Nome", resultado.getNome());
         assertEquals("original@email.com", resultado.getEmail());
@@ -114,39 +115,33 @@ class AtualizarUsuarioComandoTest {
 
         BadRequestException exception = assertThrows(
                 BadRequestException.class,
-                () -> comando.execute(ID_USUARIO, dto)
+                () -> atualizarUsuarioComando.execute(ID_USUARIO, dto)
         );
 
         assertEquals("atualizar.usuario.nenhum.campo", exception.getMessage());
-        verify(validarUsuarioExistente, never()).execute(anyLong());
+        verify(validarUsuarioExistente, never()).execute(any());
     }
 
     @Test
-    void deveValidarEmailQuandoForAlterado() {
+    void deveValidarEmailUnicoQuandoEmailForDiferente() {
         dto = new AtualizarUsuarioComandoDto();
         dto.setEmail("novo@email.com");
+        
+        doNothing().when(validarEmailExistente).execute("novo@email.com");
 
-        comando.execute(ID_USUARIO, dto);
+        atualizarUsuarioComando.execute(ID_USUARIO, dto);
 
         verify(validarEmailExistente).execute("novo@email.com");
     }
 
     @Test
-    void naoDeveValidarEmailQuandoIgual() {
-        dto = new AtualizarUsuarioComandoDto();
-        dto.setEmail("original@email.com");
-
-        comando.execute(ID_USUARIO, dto);
-
-        verify(validarEmailExistente, never()).execute(anyString());
-    }
-
-    @Test
-    void deveValidarLoginQuandoForAlterado() {
+    void deveValidarLoginUnicoQuandoLoginForDiferente() {
         dto = new AtualizarUsuarioComandoDto();
         dto.setLogin("novo_login");
+        
+        doNothing().when(validarLoginExistente).execute("novo_login");
 
-        comando.execute(ID_USUARIO, dto);
+        atualizarUsuarioComando.execute(ID_USUARIO, dto);
 
         verify(validarLoginExistente).execute("novo_login");
     }
@@ -156,7 +151,7 @@ class AtualizarUsuarioComandoTest {
         dto = new AtualizarUsuarioComandoDto();
         dto.setSenha("nova_senha");
 
-        Usuario resultado = comando.execute(ID_USUARIO, dto);
+        Usuario resultado = atualizarUsuarioComando.execute(ID_USUARIO, dto);
 
         assertEquals("nova_senha_codificada", resultado.getSenha());
         verify(passwordEncoder).encode("nova_senha");
@@ -167,9 +162,89 @@ class AtualizarUsuarioComandoTest {
         dto = new AtualizarUsuarioComandoDto();
         dto.setSenha("");
 
-        Usuario resultado = comando.execute(ID_USUARIO, dto);
+        Usuario resultado = atualizarUsuarioComando.execute(ID_USUARIO, dto);
 
         assertEquals("senha_codificada", resultado.getSenha());
         verify(passwordEncoder, never()).encode(anyString());
+    }
+
+    @Test
+    void naoDeveValidarEmailQuandoIgualAoAtual() {
+        dto = new AtualizarUsuarioComandoDto();
+        dto.setNome("Novo Nome"); // Adicionar um campo para passar na validação
+        dto.setEmail("original@email.com"); // Mesmo email do usuário
+
+        atualizarUsuarioComando.execute(ID_USUARIO, dto);
+
+        verify(validarEmailExistente, never()).execute(anyString());
+    }
+
+    @Test
+    void naoDeveValidarLoginQuandoIgualAoAtual() {
+        dto = new AtualizarUsuarioComandoDto();
+        dto.setNome("Novo Nome"); // Adicionar um campo para passar na validação
+        dto.setLogin("login_original"); // Mesmo login do usuário
+
+        atualizarUsuarioComando.execute(ID_USUARIO, dto);
+
+        verify(validarLoginExistente, never()).execute(anyString());
+    }
+
+    @Test
+    void naoDeveAtualizarSenhaQuandoNull() {
+        dto = new AtualizarUsuarioComandoDto();
+        dto.setNome("Novo Nome");
+        dto.setSenha(null);
+
+        Usuario resultado = atualizarUsuarioComando.execute(ID_USUARIO, dto);
+
+        assertEquals("senha_codificada", resultado.getSenha());
+        verify(passwordEncoder, never()).encode(anyString());
+    }
+
+    @Test
+    void deveAtualizarApenasEmail() {
+        dto = new AtualizarUsuarioComandoDto();
+        dto.setEmail("novo@email.com");
+        
+        doNothing().when(validarEmailExistente).execute("novo@email.com");
+
+        Usuario resultado = atualizarUsuarioComando.execute(ID_USUARIO, dto);
+
+        assertEquals("Nome Original", resultado.getNome()); // Não deve mudar
+        assertEquals("novo@email.com", resultado.getEmail());
+        assertEquals("login_original", resultado.getLogin()); // Não deve mudar
+        assertEquals("senha_codificada", resultado.getSenha()); // Não deve mudar
+    }
+
+    @Test
+    void deveAtualizarApenasLogin() {
+        dto = new AtualizarUsuarioComandoDto();
+        dto.setLogin("novo_login");
+        
+        doNothing().when(validarLoginExistente).execute("novo_login");
+
+        Usuario resultado = atualizarUsuarioComando.execute(ID_USUARIO, dto);
+
+        assertEquals("Nome Original", resultado.getNome()); // Não deve mudar
+        assertEquals("original@email.com", resultado.getEmail()); // Não deve mudar
+        assertEquals("novo_login", resultado.getLogin());
+        assertEquals("senha_codificada", resultado.getSenha()); // Não deve mudar
+    }
+
+    @Test
+    void deveAtualizarNomeELogin() {
+        dto = new AtualizarUsuarioComandoDto();
+        dto.setNome("Novo Nome");
+        dto.setLogin("novo_login");
+        
+        doNothing().when(validarLoginExistente).execute("novo_login");
+
+        Usuario resultado = atualizarUsuarioComando.execute(ID_USUARIO, dto);
+
+        assertEquals("Novo Nome", resultado.getNome());
+        assertEquals("original@email.com", resultado.getEmail()); // Não deve mudar
+        assertEquals("novo_login", resultado.getLogin());
+        assertEquals("senha_codificada", resultado.getSenha()); // Não deve mudar
     }
 }
