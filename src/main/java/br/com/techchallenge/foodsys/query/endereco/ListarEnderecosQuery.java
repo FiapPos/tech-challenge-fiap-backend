@@ -1,32 +1,44 @@
 package br.com.techchallenge.foodsys.query.endereco;
 
-import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
-import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
-import br.com.techchallenge.foodsys.query.resultadoItem.endereco.ListarEnderecoPorResultadoItem;
-import br.com.techchallenge.foodsys.utils.ValidarUsuarioExistente;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
+import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
+import br.com.techchallenge.foodsys.query.params.ListarEnderecosParams;
+import br.com.techchallenge.foodsys.query.resultadoItem.endereco.ListarEnderecoPorResultadoItem;
+import br.com.techchallenge.foodsys.utils.ValidarRestauranteExistente;
+import br.com.techchallenge.foodsys.utils.ValidarUsuarioExistente;
+import lombok.RequiredArgsConstructor;
+import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 
 @Service
 @RequiredArgsConstructor
-public class ListarEnderecoPorIdUsuario {
+public class ListarEnderecosQuery {
 
     private final EnderecoRepository enderecoRepository;
     private final ValidarUsuarioExistente validarUsuarioExistente;
+    private final ValidarRestauranteExistente validarRestauranteExistente;
 
-    public List<ListarEnderecoPorResultadoItem> execute(Long usuarioId) {
+    public List<ListarEnderecoPorResultadoItem> execute(ListarEnderecosParams params) {
+        List<Endereco> enderecos;
 
-        validarUsuarioExistente.execute(usuarioId);
-        List<Endereco> enderecos = buscarEnderecos(usuarioId);
+        Long usuarioId = params.getUsuarioId();
+        Long restauranteId = params.getRestauranteId();
+
+        if (usuarioId != null) {
+            validarUsuarioExistente.execute(usuarioId);
+            Sort sort = Sort.by(Sort.Direction.ASC, "id");
+            enderecos = enderecoRepository.findByUsuarioId(usuarioId, sort);
+        } else if (restauranteId != null) {
+            validarRestauranteExistente.execute(restauranteId);
+            enderecos = enderecoRepository.findByRestauranteId(restauranteId);
+        } else {
+            throw new BadRequestException("usuario.id.ou.restaurante.id.obrigatorio");
+        }
         return mapToResultadoItemList(enderecos);
-    }
-
-    private List<Endereco> buscarEnderecos(Long usuarioId) {
-        Sort sort = Sort.by(Sort.Direction.ASC, "id");
-        return enderecoRepository.findByUsuarioId(usuarioId, sort);
     }
 
     private List<ListarEnderecoPorResultadoItem> mapToResultadoItemList(List<Endereco> enderecos) {

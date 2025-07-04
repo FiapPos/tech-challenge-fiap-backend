@@ -1,6 +1,10 @@
 {
 	"info": {
+<<<<<<< HEAD
 		"_postman_id": "4b83a298-7175-43ce-bc25-acf70fc96b00",
+=======
+		"_postman_id": "258b389f-4c9f-42e1-b78e-93a3c86a9a23",
+>>>>>>> restaurante
 		"name": "techchallenge.foodsys",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "23819278"
@@ -21,6 +25,7 @@
 						],
 						"body": {
 							"mode": "raw",
+<<<<<<< HEAD
 							"raw": "{\n  \"nome\": \"João Silva\",\n  \"email\": \"joao@example.com\",\n  \"login\": \"joao.silva\",\n  \"senha\": \"senha123\",\n  \"tipo\": \"ADMIN\"\n}"
 						},
 						"url": {
@@ -31,6 +36,14 @@
 							"path": [
 								"usuarios"
 							]
+=======
+							"raw": "{\n  \"nome\": \"João Silva\",\n  \"email\": \"joao@example.com\",\n \"login\": \"joao.silva\",\n  \"senha\": \"senha123\",\n  \"tipo\": \"ADMIN\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/usuarios",
+							"host": ["{{base_url}}"],
+							"path": ["usuarios"]
+>>>>>>> restaurante
 						}
 					},
 					"response": []
@@ -47,12 +60,17 @@
 						],
 						"url": {
 							"raw": "{{base_url}}/usuarios?ativo=true",
+<<<<<<< HEAD
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"usuarios"
 							],
+=======
+							"host": ["{{base_url}}"],
+							"path": ["usuarios"],
+>>>>>>> restaurante
 							"query": [
 								{
 									"key": "ativo",
@@ -83,6 +101,7 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/usuarios/1",
+<<<<<<< HEAD
 							"host": [
 								"{{base_url}}"
 							],
@@ -90,6 +109,10 @@
 								"usuarios",
 								"1"
 							]
+=======
+							"host": ["{{base_url}}"],
+							"path": ["usuarios", "1"]
+>>>>>>> restaurante
 						}
 					},
 					"response": []
@@ -106,6 +129,7 @@
 						],
 						"url": {
 							"raw": "{{base_url}}/usuarios/1",
+<<<<<<< HEAD
 							"host": [
 								"{{base_url}}"
 							],
@@ -113,6 +137,10 @@
 								"usuarios",
 								"1"
 							]
+=======
+							"host": ["{{base_url}}"],
+							"path": ["usuarios", "1"]
+>>>>>>> restaurante
 						}
 					},
 					"response": []
@@ -139,12 +167,17 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/login",
+<<<<<<< HEAD
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"login"
 							]
+=======
+							"host": ["{{base_url}}"],
+							"path": ["login"]
+>>>>>>> restaurante
 						}
 					},
 					"response": []
@@ -152,6 +185,7 @@
 				{
 					"name": "Atualizar senha",
 					"request": {
+<<<<<<< HEAD
 						"auth": {
 							"type": "bearer",
 							"bearer": [
@@ -162,6 +196,8 @@
 								}
 							]
 						},
+=======
+>>>>>>> restaurante
 						"method": "PUT",
 						"header": [
 							{
@@ -175,6 +211,7 @@
 						],
 						"body": {
 							"mode": "raw",
+<<<<<<< HEAD
 							"raw": "{\n  \"novaSenha\": \"novaSenha123\",\n  \"confirmacaoNovaSenha\": \"novaSenha123\"\n}"
 						},
 						"url": {
@@ -186,6 +223,14 @@
 								"login",
 								"atualiza-senha"
 							]
+=======
+							"raw": "{\n  \"novaSenha\": \"senha123\",\n  \"confirmacaoNovaSenha\": \"novaSenha123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/login/atualiza-senha",
+							"host": ["{{base_url}}"],
+							"path": ["login", "atualiza-senha"]
+>>>>>>> restaurante
 						}
 					},
 					"response": []
@@ -198,6 +243,7 @@
 				{
 					"name": "Criar endereço",
 					"request": {
+<<<<<<< HEAD
 						"auth": {
 							"type": "bearer",
 							"bearer": [
@@ -208,6 +254,8 @@
 								}
 							]
 						},
+=======
+>>>>>>> restaurante
 						"method": "POST",
 						"header": [
 							{
@@ -221,6 +269,7 @@
 						],
 						"body": {
 							"mode": "raw",
+<<<<<<< HEAD
 							"raw": "{\n  \"usuarioId\": 1,\n  \"rua\": \"Rua Exemplo\",\n  \"numero\": \"123\",\n  \"cep\": \"01001000\"  \n}"
 						},
 						"url": {
@@ -231,6 +280,14 @@
 							"path": [
 								"enderecos"
 							]
+=======
+							"raw": "{\n  \"usuarioId\": 1,\n  \"rua\": \"Rua Exemplo\",\n  \"numero\": \"123\",\n ,\"cep\": \"01001000\",\n  \n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/enderecos",
+							"host": ["{{base_url}}"],
+							"path": ["enderecos"]
+>>>>>>> restaurante
 						}
 					},
 					"response": []
@@ -238,6 +295,7 @@
 				{
 					"name": "Atualizar endereço",
 					"request": {
+<<<<<<< HEAD
 						"auth": {
 							"type": "bearer",
 							"bearer": [
@@ -248,6 +306,8 @@
 								}
 							]
 						},
+=======
+>>>>>>> restaurante
 						"method": "PUT",
 						"header": [
 							{
@@ -261,6 +321,7 @@
 						],
 						"body": {
 							"mode": "raw",
+<<<<<<< HEAD
 							"raw": "{\n  \"usuarioId\": 1,\n  \"rua\": \"Rua Exemplo Atualizada\",\n  \"numero\": \"456\",\n  \"cep\": \"01001001\"\n}"
 						},
 						"url": {
@@ -272,6 +333,14 @@
 								"enderecos",
 								"1"
 							]
+=======
+							"raw": "{\n  \"usuarioId\": 1,\n  \"logradouro\": \"Rua Exemplo Atualizada\",\n  \"numero\": \"456\",\n  \"bairro\": \"Centro\",\n  \"cidade\": \"São Paulo\",\n  \"estado\": \"SP\",\n  \"cep\": \"01001000\",\n  \"complemento\": \"Apto 102\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/enderecos/1",
+							"host": ["{{base_url}}"],
+							"path": ["enderecos", "1"]
+>>>>>>> restaurante
 						}
 					},
 					"response": []
@@ -279,6 +348,7 @@
 				{
 					"name": "Listar endereços por usuário",
 					"request": {
+<<<<<<< HEAD
 						"auth": {
 							"type": "bearer",
 							"bearer": [
@@ -289,6 +359,8 @@
 								}
 							]
 						},
+=======
+>>>>>>> restaurante
 						"method": "GET",
 						"header": [
 							{
@@ -298,6 +370,7 @@
 						],
 						"url": {
 							"raw": "{{base_url}}/enderecos/usuario/1",
+<<<<<<< HEAD
 							"host": [
 								"{{base_url}}"
 							],
@@ -306,6 +379,10 @@
 								"usuario",
 								"1"
 							]
+=======
+							"host": ["{{base_url}}"],
+							"path": ["enderecos", "usuario", "1"]
+>>>>>>> restaurante
 						}
 					},
 					"response": []
@@ -313,6 +390,7 @@
 				{
 					"name": "Excluir endereço",
 					"request": {
+<<<<<<< HEAD
 						"auth": {
 							"type": "bearer",
 							"bearer": [
@@ -323,6 +401,8 @@
 								}
 							]
 						},
+=======
+>>>>>>> restaurante
 						"method": "DELETE",
 						"header": [
 							{
@@ -336,6 +416,7 @@
 						],
 						"body": {
 							"mode": "raw",
+<<<<<<< HEAD
 							"raw": "{\n \"enderecoId\": 1,\n \"usuarioId\": 1\n}"
 						},
 						"url": {
@@ -346,6 +427,14 @@
 							"path": [
 								"enderecos"
 							]
+=======
+							"raw": "{\n  \"enderecoId\": 1,\n \"usuarioId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/enderecos",
+							"host": ["{{base_url}}"],
+							"path": ["enderecos"]
+>>>>>>> restaurante
 						}
 					},
 					"response": []
