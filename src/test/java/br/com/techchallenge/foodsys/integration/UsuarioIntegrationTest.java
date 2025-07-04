@@ -7,25 +7,24 @@ import br.com.techchallenge.foodsys.dominio.usuario.UsuarioRepository;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.*;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 class UsuarioIntegrationTest {
 
-    @Autowired
-    private WebApplicationContext webApplicationContext;
+    @LocalServerPort
+    private int port;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -36,11 +35,10 @@ class UsuarioIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private MockMvc mockMvc;
-
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        RestAssured.port = port;
+        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
         enderecoRepository.deleteAll();
         usuarioRepository.deleteAll();
     }
@@ -54,10 +52,13 @@ class UsuarioIntegrationTest {
         dto.setSenha("senha123");
         dto.setTipo(TipoUsuario.CLIENTE);
 
-        mockMvc.perform(post("/usuarios")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isCreated());
+        given()
+            .contentType(ContentType.JSON)
+            .body(objectMapper.writeValueAsString(dto))
+        .when()
+            .post("/usuarios")
+        .then()
+            .statusCode(201);
     }
 
     @Test
@@ -77,10 +78,13 @@ class UsuarioIntegrationTest {
         dto.setSenha("senha456");
         dto.setTipo(TipoUsuario.CLIENTE);
 
-        mockMvc.perform(post("/usuarios")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isBadRequest());
+        given()
+            .contentType(ContentType.JSON)
+            .body(objectMapper.writeValueAsString(dto))
+        .when()
+            .post("/usuarios")
+        .then()
+            .statusCode(400);
     }
 
     @Test
@@ -100,10 +104,13 @@ class UsuarioIntegrationTest {
         dto.setSenha("senha456");
         dto.setTipo(TipoUsuario.CLIENTE);
 
-        mockMvc.perform(post("/usuarios")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isBadRequest());
+        given()
+            .contentType(ContentType.JSON)
+            .body(objectMapper.writeValueAsString(dto))
+        .when()
+            .post("/usuarios")
+        .then()
+            .statusCode(400);
     }
 
     @Test
@@ -124,17 +131,23 @@ class UsuarioIntegrationTest {
         usuario2.setTipo(TipoUsuario.ADMIN);
         usuarioRepository.save(usuario2);
 
-        mockMvc.perform(get("/usuarios"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$[0].nome").value("João Silva"))
-                .andExpect(jsonPath("$[1].nome").value("Maria Silva"));
+        given()
+        .when()
+            .get("/usuarios")
+        .then()
+            .statusCode(200)
+            .body("$", hasSize(2))
+            .body("[0].nome", equalTo("João Silva"))
+            .body("[1].nome", equalTo("Maria Silva"));
     }
 
     @Test
     void deveRetornarNoContentQuandoNaoHouverUsuarios() throws Exception {
-        mockMvc.perform(get("/usuarios"))
-                .andExpect(status().isNoContent());
+        given()
+        .when()
+            .get("/usuarios")
+        .then()
+            .statusCode(204);
     }
 
     @Test
@@ -151,10 +164,13 @@ class UsuarioIntegrationTest {
         dto.setNome("João Silva Atualizado");
         dto.setEmail("joao.atualizado@email.com");
 
-        mockMvc.perform(put("/usuarios/" + usuario.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isOk());
+        given()
+            .contentType(ContentType.JSON)
+            .body(objectMapper.writeValueAsString(dto))
+        .when()
+            .put("/usuarios/" + usuario.getId())
+        .then()
+            .statusCode(200);
     }
 
     @Test
@@ -163,10 +179,13 @@ class UsuarioIntegrationTest {
         dto.setNome("João Silva Atualizado");
         dto.setEmail("joao.atualizado@email.com");
 
-        mockMvc.perform(put("/usuarios/999")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isBadRequest());
+        given()
+            .contentType(ContentType.JSON)
+            .body(objectMapper.writeValueAsString(dto))
+        .when()
+            .put("/usuarios/999")
+        .then()
+            .statusCode(400);
     }
 
     @Test
@@ -179,14 +198,20 @@ class UsuarioIntegrationTest {
         usuario.setTipo(TipoUsuario.CLIENTE);
         usuario = usuarioRepository.save(usuario);
 
-        mockMvc.perform(delete("/usuarios/" + usuario.getId()))
-                .andExpect(status().isOk());
+        given()
+        .when()
+            .delete("/usuarios/" + usuario.getId())
+        .then()
+            .statusCode(200);
     }
 
     @Test
     void deveRetornarErroAoDesativarUsuarioInexistente() throws Exception {
-        mockMvc.perform(delete("/usuarios/999"))
-                .andExpect(status().isBadRequest());
+        given()
+        .when()
+            .delete("/usuarios/999")
+        .then()
+            .statusCode(400);
     }
 
     @Test
@@ -194,9 +219,12 @@ class UsuarioIntegrationTest {
         CriarUsuarioCommandDto dto = new CriarUsuarioCommandDto();
         dto.setNome("João");
 
-        mockMvc.perform(post("/usuarios")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isBadRequest());
+        given()
+            .contentType(ContentType.JSON)
+            .body(objectMapper.writeValueAsString(dto))
+        .when()
+            .post("/usuarios")
+        .then()
+            .statusCode(400);
     }
 } 
