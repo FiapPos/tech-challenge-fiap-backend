@@ -4,6 +4,7 @@ import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
 import br.com.techchallenge.foodsys.dominio.restaurante.RestauranteRepository;
 import br.com.techchallenge.foodsys.query.params.ListarRestaurantesParams;
 import br.com.techchallenge.foodsys.query.resultadoItem.restaurante.ListarRestaurantesResultadoItem;
+import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -25,14 +26,22 @@ public class ListarRestaurantesQuery {
         boolean temParmTipoCozinha = params.getTipoCozinha() != null && !params.getTipoCozinha().isEmpty();
 
         if (temParmAtivo && temParmTipoCozinha) {
+
             restaurantes = restauranteRepository.findByAtivoAndTipoCozinha(
                     params.getAtivo(), params.getTipoCozinha());
         } else if (temParmTipoCozinha) {
+
             restaurantes = restauranteRepository.findByTipoCozinha(params.getTipoCozinha());
         } else if (temParmAtivo) {
+
             restaurantes = restauranteRepository.findByAtivo(params.getAtivo(), Sort.by(Sort.Direction.ASC, "id"));
         } else {
+
             restaurantes = buscarRestaurantes(params);
+        }
+
+        if (restaurantes.isEmpty()) {
+            throw new BadRequestException("nenhum.restaurante.encontrado");
         }
 
         return mapToResultadoItemList(restaurantes);
@@ -50,8 +59,8 @@ public class ListarRestaurantesQuery {
                 .nome(restaurante.getNome())
                 .usuarioDonoId(restaurante.getUsuario().getId())
                 .tipoCozinha(restaurante.getTipoCozinha())
-                .horarioFuncionamento(restaurante.getHorarioFuncionamento())
-                .endereco(restaurante.getEndereco())
+                .horarioAbertura(restaurante.getHorarioAbertura())
+                .horarioFechamento(restaurante.getHorarioFechamento())
                 .ativo(restaurante.isAtivo())
                 .dataCriacao(restaurante.getDataCriacao())
                 .dataAtualizacao(restaurante.getDataAtualizacao())

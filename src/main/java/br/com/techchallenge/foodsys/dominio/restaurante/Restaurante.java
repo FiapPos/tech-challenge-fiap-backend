@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
@@ -30,14 +31,14 @@ public class Restaurante {
     @Column(name = "nome")
     private String nome;
 
-    @Column(name = "endereco")
-    private String endereco;
-
     @Column(name = "tipo_cozinha")
     private String tipoCozinha;
 
-    @Column(name = "horario_funcionamento")
-    private String horarioFuncionamento;
+    @Column(name = "horario_abertura")
+    private String horarioAbertura;
+
+    @Column(name = "horario_fechamento")
+    private String horarioFechamento;
 
     @Column(name = "ativo")
     private boolean ativo = true;

@@ -22,9 +22,9 @@ public class CriarRestauranteCommand {
     private final ValidarUsuarioDono validarUsuarioDono;
     private final CompartilhadoService sharedService;
 
-    public Restaurante execute(CriarRestauranteCommandDto criarRestauranteCommandDto) {
-        Usuario usuario = validarUsuarioExistente.execute(criarRestauranteCommandDto.getUsuarioDonoId());
+    public Restaurante execute(CriarRestauranteCommandDto criarRestauranteCommandDto, Usuario usuario) {
 
+        validarUsuarioExistente.execute(usuario.getId());
         validarUsuarioDono.validarUsuarioDono(usuario);
         validarRestauranteExistente.validarNomeRestauranteDuplicado(criarRestauranteCommandDto.getNome());
 
@@ -35,9 +35,9 @@ public class CriarRestauranteCommand {
     private Restaurante mapToEntity(CriarRestauranteCommandDto dto, Usuario usuario) {
         Restaurante restaurante = new Restaurante();
         restaurante.setNome(dto.getNome());
-        restaurante.setEndereco(dto.getEndereco());
         restaurante.setTipoCozinha(dto.getTipoCozinha());
-        restaurante.setHorarioFuncionamento(dto.getHorarioFuncionamento());
+        restaurante.setHorarioAbertura(dto.getHorarioAbertura());
+        restaurante.setHorarioFechamento(dto.getHorarioFechamento());
         restaurante.setUsuario(usuario);
         restaurante.setAtivo(true);
         restaurante.setUsuarioDonoId(usuario.getId());

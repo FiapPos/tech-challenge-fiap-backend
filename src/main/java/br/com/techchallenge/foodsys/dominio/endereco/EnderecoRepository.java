@@ -20,4 +20,6 @@ public interface EnderecoRepository extends JpaRepository<Endereco, Long> {
     boolean existsByUsuarioIdAndCep(Long usuarioId, String cep);
 
     boolean existsByRestauranteIdAndCep(Long restauranteId, String cep);
+
+    boolean existsByUsuarioIdAndRestauranteId(Long usuarioId, Long restauranteId);
 }

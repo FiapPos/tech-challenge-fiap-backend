@@ -7,6 +7,5 @@ public class AtualizarEnderecoComandoDto {
     private String rua;
     private String cep;
     private String numero;
-    private Long usuarioId;
     private Long restauranteId;
 }

@@ -4,6 +4,7 @@ import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoComa
 import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
+import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import br.com.techchallenge.foodsys.utils.ValidarCepDuplicado;
 import br.com.techchallenge.foodsys.utils.ValidarEnderecoExistente;
@@ -19,14 +20,14 @@ public class AtualizarEnderecoComando {
     private final CompartilhadoService sharedService;
     private final ValidarCepDuplicado validarCepDuplicado;
 
-    public Endereco execute(Long id, AtualizarEnderecoComandoDto dto) {
+    public Endereco execute(Long id, AtualizarEnderecoComandoDto dto, Usuario usuario) {
         validarDto(dto);
 
         Endereco endereco = validarEnderecoExistente.execute(id);
 
-        validarProprietarioEndereco(endereco, dto.getUsuarioId(), dto.getRestauranteId());
+        validarProprietarioEndereco(endereco, usuario.getId(), dto.getRestauranteId());
 
-        validarCepDuplicado.validarCep(dto.getUsuarioId(), dto.getRestauranteId(), dto.getCep());
+        validarCepDuplicado.validarCep(usuario.getId(), dto.getRestauranteId(), dto.getCep());
         atualizarCampos(endereco, dto);
         return enderecoRepository.save(endereco);
     }

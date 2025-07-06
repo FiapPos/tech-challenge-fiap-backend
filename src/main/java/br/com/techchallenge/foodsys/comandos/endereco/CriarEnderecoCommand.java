@@ -12,6 +12,7 @@ import br.com.techchallenge.foodsys.utils.ValidarCepDuplicado;
 import br.com.techchallenge.foodsys.utils.ValidarProprietarioRestaurante;
 import br.com.techchallenge.foodsys.utils.ValidarRestauranteExistente;
 import br.com.techchallenge.foodsys.utils.ValidarUsuarioExistente;
+import br.com.techchallenge.foodsys.utils.ValidarEnderecoExistente;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -22,20 +23,22 @@ public class CriarEnderecoCommand {
     private final CompartilhadoService sharedService;
     private final ValidarCepDuplicado validarCepDuplicado;
     private final ValidarUsuarioExistente validarUsuarioExistente;
+    private final ValidarEnderecoExistente validarEnderecoExistente;
     private final ValidarRestauranteExistente validarRestauranteExistente;
     private final ValidarProprietarioRestaurante validarProprietarioRestaurante;
 
-    public Endereco execute(CriarEnderecoCommandDto criarEnderecoCommandDto) {
-        Usuario usuario = validarUsuarioExistente.execute(criarEnderecoCommandDto.getUsuarioId());
+    public Endereco execute(CriarEnderecoCommandDto criarEnderecoCommandDto, Usuario usuario) {
+        validarUsuarioExistente.execute(usuario.getId());
         Restaurante restaurante = null;
 
         if (criarEnderecoCommandDto.getRestauranteId() != null) {
-
+            validarEnderecoExistente.validarEnderecoRestauranteExistente(criarEnderecoCommandDto.getRestauranteId(),
+                    usuario.getId());
             restaurante = validarRestauranteExistente.execute(criarEnderecoCommandDto.getRestauranteId());
-            validarProprietarioRestaurante.validarProprietario(restaurante, criarEnderecoCommandDto.getUsuarioId());
+            validarProprietarioRestaurante.validarProprietario(restaurante, usuario.getId());
         }
 
-        validarCepDuplicado.validarCep(criarEnderecoCommandDto.getUsuarioId(),
+        validarCepDuplicado.validarCep(usuario.getId(),
                 criarEnderecoCommandDto.getRestauranteId(), criarEnderecoCommandDto.getCep());
 
         Endereco endereco = mapToEntity(criarEnderecoCommandDto, usuario, restaurante);

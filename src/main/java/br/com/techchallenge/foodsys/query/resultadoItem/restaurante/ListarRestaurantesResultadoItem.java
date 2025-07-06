@@ -17,8 +17,8 @@ public class ListarRestaurantesResultadoItem {
     private String nome;
     private Long usuarioDonoId;
     private String tipoCozinha;
-    private String horarioFuncionamento;
-    private String endereco;
+    private String horarioAbertura;
+    private String horarioFechamento;
     private Boolean ativo;
     private LocalDateTime dataCriacao;
     private LocalDateTime dataAtualizacao;

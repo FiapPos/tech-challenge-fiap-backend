@@ -3,8 +3,10 @@ package br.com.techchallenge.foodsys.comandos.endereco;
 import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoComandoDto;
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
+import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import br.com.techchallenge.foodsys.utils.ValidarEnderecoExistente;
+import br.com.techchallenge.foodsys.utils.ValidarUsuarioExistente;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +15,13 @@ import org.springframework.stereotype.Service;
 public class DeletarEnderecoComando {
 
     private final EnderecoRepository enderecoRepository;
+    private final ValidarUsuarioExistente validarUsuarioExistente;
     private final ValidarEnderecoExistente validarEnderecoExistente;
 
-    public void execute(DeletarEnderecoComandoDto dto) {
-
+    public void execute(DeletarEnderecoComandoDto dto, Usuario usuario) {
+        validarUsuarioExistente.execute(usuario.getId());
         Endereco endereco = validarEnderecoExistente.execute(dto.getEnderecoId());
-        validarProprietarioEndereco(endereco, dto.getUsuarioId(), dto.getRestauranteId());
+        validarProprietarioEndereco(endereco, usuario.getId(), dto.getRestauranteId());
         deletarEndereco(endereco);
     }
 

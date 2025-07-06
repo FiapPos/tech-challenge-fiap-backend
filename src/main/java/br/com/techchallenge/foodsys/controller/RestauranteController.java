@@ -24,6 +24,7 @@ import br.com.techchallenge.foodsys.query.params.ListarRestaurantesParams;
 import br.com.techchallenge.foodsys.query.restaurante.ListarRestaurantesQuery;
 import br.com.techchallenge.foodsys.query.resultadoItem.restaurante.ListarRestaurantesResultadoItem;
 import br.com.techchallenge.foodsys.utils.AutorizacaoService;
+import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -56,8 +57,9 @@ public class RestauranteController {
         })
 
         public ResponseEntity<Void> criar(@RequestBody @Valid CriarRestauranteCommandDto dto) {
-                autorizacaoService.validarAcessoUsuario(dto.getUsuarioDonoId());
-                criarRestauranteCommand.execute(dto);
+                Usuario usuario = autorizacaoService.getUsuarioLogado();
+                autorizacaoService.validarAcessoUsuario(usuario.getId());
+                criarRestauranteCommand.execute(dto, usuario);
                 return ResponseEntity.status(HttpStatus.CREATED).build();
         }
 
@@ -67,7 +69,7 @@ public class RestauranteController {
                         @Parameter(name = "tipoCozinha", description = "Filtrar por tipo de cozinha.", in = ParameterIn.QUERY, schema = @Schema(type = "string"))
         }, responses = {
                         @ApiResponse(responseCode = "200", description = "Restaurantes listados com sucesso.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ListarRestaurantesResultadoItem.class))),
-                        @ApiResponse(responseCode = "204", description = "Não encontrou.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestException.class)))
+                        @ApiResponse(responseCode = "400", description = "Nenhum restaurante encontrado.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestException.class)))
         })
 
         public ResponseEntity<List<ListarRestaurantesResultadoItem>> listarRestaurantes(
@@ -81,11 +83,13 @@ public class RestauranteController {
 
         @DeleteMapping("/{id}")
         @Operation(summary = "Desativar o restaurante.", description = "Desdativa um restaurante existente.", responses = {
-                        @ApiResponse(responseCode = "200", description = "Recurso deleteado com sucesso.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = DesativarRestauranteComando.class))),
-                        @ApiResponse(responseCode = "422", description = "Recurso não pode ser deletado por dadados de entradas inválidos.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestException.class)))
+                        @ApiResponse(responseCode = "200", description = "Restaurante desativado com sucesso.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = DesativarRestauranteComando.class))),
+                        @ApiResponse(responseCode = "400", description = "Restaurante nao encontrado.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestException.class)))
         })
 
         public ResponseEntity<Void> desativarRestaurante(@PathVariable Long id) {
+                Usuario usuario = autorizacaoService.getUsuarioLogado();
+                autorizacaoService.validarAcessoUsuario(usuario.getId());
                 desativarRestauranteComando.execute(id);
                 return ResponseEntity.ok().build();
         }
@@ -94,13 +98,14 @@ public class RestauranteController {
         @Operation(summary = "Atualizar dados do Restaurante.", description = "Endpoint de atualização dos dados do restaurante.", responses = {
                         @ApiResponse(responseCode = "200", description = "Dados atualizados com sucesso.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AtualizarRestauranteComandoDto.class))),
 
-                        @ApiResponse(responseCode = "422", description = "Dados de entrada inválidos.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestException.class)))
+                        @ApiResponse(responseCode = "400", description = "Restaurante não encontrado.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestException.class)))
         })
 
         public ResponseEntity<Void> atualizar(@PathVariable Long id,
                         @RequestBody @Valid AtualizarRestauranteComandoDto dto) {
-                autorizacaoService.validarAcessoUsuario(dto.getUsuarioDonoId());
-                atualizarRestauranteComando.execute(id, dto);
+                Usuario usuario = autorizacaoService.getUsuarioLogado();
+                autorizacaoService.validarAcessoUsuario(usuario.getId());
+                atualizarRestauranteComando.execute(id, dto, usuario);
                 return ResponseEntity.ok().build();
         }
 }

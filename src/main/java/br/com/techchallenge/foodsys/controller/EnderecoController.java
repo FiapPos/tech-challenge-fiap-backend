@@ -6,8 +6,8 @@ import br.com.techchallenge.foodsys.comandos.endereco.DeletarEnderecoComando;
 import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoComandoDto;
 import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoCommandDto;
 import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoComandoDto;
-import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
+import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import br.com.techchallenge.foodsys.query.endereco.ListarEnderecoPorIdUsuario;
 import br.com.techchallenge.foodsys.query.params.ListarEnderecosParams;
@@ -45,31 +45,31 @@ public class EnderecoController {
                         responses = {
                                         @ApiResponse(responseCode = "201", description = "Recurso criado com sucesso.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CriarEnderecoCommandDto.class))),
 
-                                        @ApiResponse(responseCode = "409", description = "Endereço já existente.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestException.class))),
-
-                                        @ApiResponse(responseCode = "422", description = "Recurso não processado por dados de entrada inválidos.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestException.class)))
+                                        @ApiResponse(responseCode = "400", description = "Endereço já existente.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestException.class)))
                         })
 
         @PostMapping
         public ResponseEntity<Void> criar(@RequestBody @Valid CriarEnderecoCommandDto dto) {
-                autorizacaoService.validarAcessoUsuario(dto.getUsuarioId());
+                Usuario usuario = autorizacaoService.getUsuarioLogado();
+                autorizacaoService.validarAcessoUsuario(usuario.getId());
 
-                criarEnderecoCommand.execute(dto);
+                criarEnderecoCommand.execute(dto, usuario);
                 return ResponseEntity.status(HttpStatus.CREATED).build();
         }
 
         @PutMapping("/{id}")
-        @Operation(summary = "Atualizar endereço do Usuário.", description = "Recurso para atualizar o endereço de um usuário.", responses = {
-                        @ApiResponse(responseCode = "200", description = "Recurso atualizado com sucesso.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AtualizarEnderecoComandoDto.class))),
+        @Operation(summary = "Atualizar endereço.", description = "Recurso para atualizar o endereço.", responses = {
+                        @ApiResponse(responseCode = "200", description = "Endereco atualizado com sucesso.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AtualizarEnderecoComandoDto.class))),
 
-                        @ApiResponse(responseCode = "422", description = "Recurso não atualizado por dados de entrada inválidos.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestException.class)))
+                        @ApiResponse(responseCode = "400", description = "Endereco nao encontrado.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestException.class)))
         })
 
         public ResponseEntity<Void> atualizar(@PathVariable Long id,
                         @RequestBody @Valid AtualizarEnderecoComandoDto dto) {
-                autorizacaoService.validarAcessoUsuario(dto.getUsuarioId());
+                Usuario usuario = autorizacaoService.getUsuarioLogado();
+                autorizacaoService.validarAcessoUsuario(usuario.getId());
 
-                atualizarEnderecoComando.execute(id, dto);
+                atualizarEnderecoComando.execute(id, dto, usuario);
                 return ResponseEntity.ok().build();
         }
 
@@ -77,33 +77,36 @@ public class EnderecoController {
         @Operation(summary = "Deletar um endereço.", description = "Recurso para deletar um endereço.",
 
                         responses = {
-                                        @ApiResponse(responseCode = "200", description = "Recurso deleteado com sucesso.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = DeletarEnderecoComandoDto.class))),
+                                        @ApiResponse(responseCode = "200", description = "Endereco deleteado com sucesso.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = DeletarEnderecoComandoDto.class))),
 
-                                        @ApiResponse(responseCode = "422", description = "Recurso não pode ser deletado por dadados de entradas inválidos.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestException.class)))
+                                        @ApiResponse(responseCode = "400", description = "Endereco nao encontrado.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestException.class)))
                         })
         public ResponseEntity<Void> deletar(@RequestBody DeletarEnderecoComandoDto dto) {
-                Endereco endereco = enderecoRepository.findById(dto.getEnderecoId())
+                enderecoRepository.findById(dto.getEnderecoId())
                                 .orElseThrow(() -> new BadRequestException("endereco.nao.encontrado"));
-                autorizacaoService.validarAcessoUsuario(endereco.getUsuario().getId());
+                Usuario usuario = autorizacaoService.getUsuarioLogado();
+                autorizacaoService.validarAcessoUsuario(usuario.getId());
 
-                deletarEnderecoComando.execute(dto);
+                deletarEnderecoComando.execute(dto, usuario);
                 return ResponseEntity.ok().build();
         }
 
         @GetMapping
-        @Operation(summary = "Listar endereço por ID.", description = "Recurso para listar endereço do usuário por ID.",
+        @Operation(summary = "Listar endereço por ID.", description = "Recurso para listar endereço.",
 
                         responses = {
-                                        @ApiResponse(responseCode = "200", description = "Recurso listado com sucesso.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ListarEnderecoPorIdUsuario.class))),
+                                        @ApiResponse(responseCode = "200", description = "Endereco listado com sucesso.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ListarEnderecoPorIdUsuario.class))),
 
-                                        @ApiResponse(responseCode = "422", description = "Recurso não processado por dados de entrada inválidos.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestException.class)))
+                                        @ApiResponse(responseCode = "400", description = "Endereco não encontrado.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestException.class)))
                         })
 
         public ResponseEntity<List<ListarEnderecoPorResultadoItem>> listarEnderecos(
-                        @RequestParam(required = false) Long usuarioId,
                         @RequestParam(required = false) Long restauranteId) {
 
-                ListarEnderecosParams params = new ListarEnderecosParams(usuarioId, restauranteId);
+                Usuario usuario = autorizacaoService.getUsuarioLogado();
+                autorizacaoService.validarAcessoUsuario(usuario.getId());
+
+                ListarEnderecosParams params = new ListarEnderecosParams(usuario.getId(), restauranteId);
                 List<ListarEnderecoPorResultadoItem> resultado = listarEnderecosQuery.execute(params);
                 return ResponseEntity.ok(resultado);
         }

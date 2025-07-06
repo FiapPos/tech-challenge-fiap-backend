@@ -28,13 +28,13 @@ public class ListarEnderecosQuery {
         Long usuarioId = params.getUsuarioId();
         Long restauranteId = params.getRestauranteId();
 
-        if (usuarioId != null) {
+        if (restauranteId != null) {
+            validarRestauranteExistente.execute(restauranteId);
+            enderecos = enderecoRepository.findByRestauranteId(restauranteId);
+        } else if (usuarioId != null) {
             validarUsuarioExistente.execute(usuarioId);
             Sort sort = Sort.by(Sort.Direction.ASC, "id");
             enderecos = enderecoRepository.findByUsuarioId(usuarioId, sort);
-        } else if (restauranteId != null) {
-            validarRestauranteExistente.execute(restauranteId);
-            enderecos = enderecoRepository.findByRestauranteId(restauranteId);
         } else {
             throw new BadRequestException("usuario.id.ou.restaurante.id.obrigatorio");
         }
