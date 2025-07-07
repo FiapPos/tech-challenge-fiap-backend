@@ -1,5 +1,4 @@
 package br.com.techchallenge.foodsys.controller;
-
 import br.com.techchallenge.foodsys.comandos.cardapio.*;
 import br.com.techchallenge.foodsys.comandos.cardapio.dtos.PratoRequestDTO;
 import br.com.techchallenge.foodsys.comandos.cardapio.dtos.PratoResponseDTO;
@@ -7,7 +6,6 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController

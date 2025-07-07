@@ -19,6 +19,10 @@ public class FotoPratoHandler {
     }
 
     public void salvarFoto(Long restauranteId, Long pratoId, MultipartFile arquivo) throws IOException {
+
+        Prato prato = pratoRepository.findById(pratoId)
+                .orElseThrow(() -> new RuntimeException("Prato não encontrado"));
+
         FotoPratoDocumento foto = new FotoPratoDocumento();
         foto.setRestauranteId(restauranteId);
         foto.setPratoId(pratoId);
@@ -28,12 +32,7 @@ public class FotoPratoHandler {
 
         fotoPratoRepository.save(foto);
 
-
-        Prato prato = pratoRepository.findById(pratoId)
-                .orElseThrow(() -> new RuntimeException("Prato não encontrado"));
-
         String caminhoFoto = "/foto/prato/" + pratoId;
-
         prato.setCaminhoFoto(caminhoFoto);
         pratoRepository.save(prato);
     }
