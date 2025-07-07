@@ -71,12 +71,12 @@ Desenvolver um sistema **backend robusto** com **Spring Boot** que possibilite:
 | /enderecos/{enderecoId}            | PUT    | Atualização de endereço       |
 | /enderecos/usuario/{usuarioId}     | GET    | Listagem de endereços         |
 | /enderecos                        | DELETE | Exclusão de endereço          |
-| /restaurante/{restauranteId}/pratos | POST   | Criação de prato              |
+| /restaurante/{restauranteId}/pratos | POST   | Criação de itemDoCardapio              |
 | /restaurante/{restauranteId}/pratos | GET    | Listagem de pratos por restaurante |
-| /restaurante/{restauranteId}/pratos/{pratoId} | GET    | Buscar prato por ID           |
-| /restaurante/{restauranteId}/pratos/{pratoId} | PUT    | Atualização de prato          |
-| /restaurante/{restauranteId}/pratos/{pratoId} | DELETE | Exclusão de prato             |
-| /restaurantes/{restauranteId}/pratos/{pratoId}/foto | POST   | Upload de foto do prato       |
+| /restaurante/{restauranteId}/pratos/{pratoId} | GET    | Buscar itemDoCardapio por ID           |
+| /restaurante/{restauranteId}/pratos/{pratoId} | PUT    | Atualização de itemDoCardapio          |
+| /restaurante/{restauranteId}/pratos/{pratoId} | DELETE | Exclusão de itemDoCardapio             |
+| /restaurantes/{restauranteId}/pratos/{pratoId}/foto | POST   | Upload de foto do itemDoCardapio       |
 
 ### 📄 Documentação Swagger
 
@@ -155,7 +155,7 @@ docker-compose up -d foodsys-api
 2. No campo **"Connection string"**, insira a URI do seu banco. Exemplo para local:
 
    ```
-   mongodb://localhost:27017
+   mongodb://localhost:27017/
    ```
 
 3. Clique em **"Connect"**

@@ -1,7 +1,7 @@
 package br.com.techchallenge.foodsys.comandos.cardapio;
 
-import br.com.techchallenge.foodsys.dominio.cardapio.Prato;
-import br.com.techchallenge.foodsys.dominio.cardapio.PratoRepository;
+import br.com.techchallenge.foodsys.dominio.cardapio.ItemDoCardapio;
+import br.com.techchallenge.foodsys.dominio.cardapio.ItemDoCardapioRepository;
 import br.com.techchallenge.foodsys.dominio.foto.FotoPratoDocumento;
 import br.com.techchallenge.foodsys.dominio.foto.FotoPratoRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,17 +15,17 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-public class FotoPratoHandlerTest {
+public class FotoItemDoCardapioHandlerTest {
 
     private FotoPratoRepository fotoPratoRepository;
-    private PratoRepository pratoRepository;
-    private FotoPratoHandler handler;
+    private ItemDoCardapioRepository itemDoCardapioRepository;
+    private FotoItemDoCardapioHandler handler;
 
     @BeforeEach
     void setup() {
         fotoPratoRepository = mock(FotoPratoRepository.class);
-        pratoRepository = mock(PratoRepository.class);
-        handler = new FotoPratoHandler(fotoPratoRepository, pratoRepository);
+        itemDoCardapioRepository = mock(ItemDoCardapioRepository.class);
+        handler = new FotoItemDoCardapioHandler(fotoPratoRepository, itemDoCardapioRepository);
     }
 
     @Test
@@ -35,7 +35,7 @@ public class FotoPratoHandlerTest {
 
         MultipartFile arquivo = mock(MultipartFile.class);
 
-        when(pratoRepository.findById(pratoId)).thenReturn(Optional.empty());
+        when(itemDoCardapioRepository.findById(pratoId)).thenReturn(Optional.empty());
 
         assertThrows(RuntimeException.class,
                 () -> handler.salvarFoto(restauranteId, pratoId, arquivo));
@@ -53,14 +53,14 @@ public class FotoPratoHandlerTest {
         when(arquivo.getContentType()).thenReturn("image/jpeg");
         when(arquivo.getBytes()).thenReturn(new byte[]{1, 2, 3});
 
-        Prato prato = new Prato();
-        prato.setId(pratoId);
+        ItemDoCardapio itemDoCardapio = new ItemDoCardapio();
+        itemDoCardapio.setId(pratoId);
 
-        when(pratoRepository.findById(pratoId)).thenReturn(Optional.of(prato));
+        when(itemDoCardapioRepository.findById(pratoId)).thenReturn(Optional.of(itemDoCardapio));
 
         handler.salvarFoto(restauranteId, pratoId, arquivo);
 
         verify(fotoPratoRepository, times(1)).save(any(FotoPratoDocumento.class));
-        verify(pratoRepository, times(1)).save(prato);
+        verify(itemDoCardapioRepository, times(1)).save(itemDoCardapio);
     }
 }

@@ -1,12 +1,11 @@
 package br.com.techchallenge.foodsys.controller;
 
 import br.com.techchallenge.foodsys.comandos.cardapio.*;
-import br.com.techchallenge.foodsys.comandos.cardapio.dtos.PratoRequestDTO;
-import br.com.techchallenge.foodsys.comandos.cardapio.dtos.PratoResponseDTO;
+import br.com.techchallenge.foodsys.comandos.cardapio.dtos.ItemDoCardapioRequestDTO;
+import br.com.techchallenge.foodsys.comandos.cardapio.dtos.ItemDoCardapioResponseDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -19,31 +18,31 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-class PratoControllerTest {
+class ItemDoCardapioControllerTest {
 
     private MockMvc mockMvc;
-    private CriarPratoHandler criarPratoHandler;
-    private ListarPratosHandler listarPratosHandler;
-    private BuscarPratoPorIdHandler buscarPratoPorIdHandler;
-    private AtualizarPratoHandler atualizarPratoHandler;
-    private ExcluirPratoHandler excluirPratoHandler;
+    private CriarItemDoCardapioHandler criarItemDoCardapioHandler;
+    private ListarItemDoCardapioHandler listarItemDoCardapioHandler;
+    private BuscarItemDoCardapioPorIdHandler buscarItemDoCardapioPorIdHandler;
+    private AtualizarItemDoCardapioHandler atualizarItemDoCardapioHandler;
+    private ExcluirItemDoCardapioHandler excluirItemDoCardapioHandler;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
     void setUp() {
-        criarPratoHandler = mock(CriarPratoHandler.class);
-        listarPratosHandler = mock(ListarPratosHandler.class);
-        buscarPratoPorIdHandler = mock(BuscarPratoPorIdHandler.class);
-        atualizarPratoHandler = mock(AtualizarPratoHandler.class);
-        excluirPratoHandler = mock(ExcluirPratoHandler.class);
+        criarItemDoCardapioHandler = mock(CriarItemDoCardapioHandler.class);
+        listarItemDoCardapioHandler = mock(ListarItemDoCardapioHandler.class);
+        buscarItemDoCardapioPorIdHandler = mock(BuscarItemDoCardapioPorIdHandler.class);
+        atualizarItemDoCardapioHandler = mock(AtualizarItemDoCardapioHandler.class);
+        excluirItemDoCardapioHandler = mock(ExcluirItemDoCardapioHandler.class);
 
-        PratoController controller = new PratoController(
-                criarPratoHandler,
-                listarPratosHandler,
-                buscarPratoPorIdHandler,
-                atualizarPratoHandler,
-                excluirPratoHandler
+        ItemDoCardapioController controller = new ItemDoCardapioController(
+                criarItemDoCardapioHandler,
+                listarItemDoCardapioHandler,
+                buscarItemDoCardapioPorIdHandler,
+                atualizarItemDoCardapioHandler,
+                excluirItemDoCardapioHandler
         );
 
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
@@ -51,15 +50,15 @@ class PratoControllerTest {
 
     @Test
     void deveCriarPratoRetornando201() throws Exception {
-        PratoRequestDTO request = new PratoRequestDTO();
+        ItemDoCardapioRequestDTO request = new ItemDoCardapioRequestDTO();
         request.setNome("Pizza de Calabresa");
         request.setDescricao("Deliciosa pizza com calabresa artesanal");
         request.setPreco(BigDecimal.valueOf(45.90));
         request.setDisponivelSomenteNoLocal(false);
 
-        PratoResponseDTO responseDTO = new PratoResponseDTO(1L, "Pizza de Calabresa", "Deliciosa pizza com calabresa artesanal", BigDecimal.valueOf(45.90), false, null, 1L);
+        ItemDoCardapioResponseDTO responseDTO = new ItemDoCardapioResponseDTO(1L, "Pizza de Calabresa", "Deliciosa pizza com calabresa artesanal", BigDecimal.valueOf(45.90), false, null, 1L);
 
-        when(criarPratoHandler.executar(any())).thenReturn(responseDTO);
+        when(criarItemDoCardapioHandler.executar(any())).thenReturn(responseDTO);
 
         mockMvc.perform(post("/restaurante/1/pratos")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -71,9 +70,9 @@ class PratoControllerTest {
 
     @Test
     void deveListarPratosPorRestaurante() throws Exception {
-        PratoResponseDTO prato = new PratoResponseDTO(1L, "Pizza de Calabresa", "Descrição", BigDecimal.valueOf(45.90), false, null, 1L);
+        ItemDoCardapioResponseDTO prato = new ItemDoCardapioResponseDTO(1L, "Pizza de Calabresa", "Descrição", BigDecimal.valueOf(45.90), false, null, 1L);
 
-        when(listarPratosHandler.executarPorRestaurante(1L)).thenReturn(List.of(prato));
+        when(listarItemDoCardapioHandler.executarPorRestaurante(1L)).thenReturn(List.of(prato));
 
         mockMvc.perform(get("/restaurante/1/pratos"))
                 .andExpect(status().isOk())
@@ -83,9 +82,9 @@ class PratoControllerTest {
 
     @Test
     void deveBuscarPratoPorId() throws Exception {
-        PratoResponseDTO prato = new PratoResponseDTO(1L, "Pizza de Calabresa", "Descrição", BigDecimal.valueOf(45.90), false, null, 1L);
+        ItemDoCardapioResponseDTO prato = new ItemDoCardapioResponseDTO(1L, "Pizza de Calabresa", "Descrição", BigDecimal.valueOf(45.90), false, null, 1L);
 
-        when(buscarPratoPorIdHandler.executar(1L, 1L)).thenReturn(prato);
+        when(buscarItemDoCardapioPorIdHandler.executar(1L, 1L)).thenReturn(prato);
 
         mockMvc.perform(get("/restaurante/1/pratos/1"))
                 .andExpect(status().isOk())
@@ -95,15 +94,15 @@ class PratoControllerTest {
 
     @Test
     void deveAtualizarPrato() throws Exception {
-        PratoRequestDTO request = new PratoRequestDTO();
+        ItemDoCardapioRequestDTO request = new ItemDoCardapioRequestDTO();
         request.setNome("Pizza Atualizada");
         request.setDescricao("Descrição atualizada");
         request.setPreco(BigDecimal.valueOf(50.00));
         request.setDisponivelSomenteNoLocal(true);
 
-        PratoResponseDTO responseDTO = new PratoResponseDTO(1L, "Pizza Atualizada", "Descrição atualizada", BigDecimal.valueOf(50.00), true, null, 1L);
+        ItemDoCardapioResponseDTO responseDTO = new ItemDoCardapioResponseDTO(1L, "Pizza Atualizada", "Descrição atualizada", BigDecimal.valueOf(50.00), true, null, 1L);
 
-        when(atualizarPratoHandler.executar(eq(1L), eq(1L), any())).thenReturn(responseDTO);
+        when(atualizarItemDoCardapioHandler.executar(eq(1L), eq(1L), any())).thenReturn(responseDTO);
 
         mockMvc.perform(put("/restaurante/1/pratos/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -116,7 +115,7 @@ class PratoControllerTest {
 
     @Test
     void deveExcluirPratoRetornando204() throws Exception {
-        doNothing().when(excluirPratoHandler).executar(1L, 1L);
+        doNothing().when(excluirItemDoCardapioHandler).executar(1L, 1L);
 
         mockMvc.perform(delete("/restaurante/1/pratos/1"))
                 .andExpect(status().isNoContent());

@@ -1,10 +1,10 @@
 package br.com.techchallenge.foodsys.comandos.cardapio.dtos;
-import br.com.techchallenge.foodsys.dominio.cardapio.Prato;
+import br.com.techchallenge.foodsys.dominio.cardapio.ItemDoCardapio;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-public class PratoResponseDTO {
+public class ItemDoCardapioResponseDTO {
 
     private Long id;
 
@@ -23,8 +23,8 @@ public class PratoResponseDTO {
     @NotNull(message = "restauranteId é obrigatório")
     private Long restauranteId;
 
-    public PratoResponseDTO(Long id, String nome, String descricao, BigDecimal preco,
-                            Boolean disponivelSomenteNoLocal, String caminhoFoto, Long restauranteId) {
+    public ItemDoCardapioResponseDTO(Long id, String nome, String descricao, BigDecimal preco,
+                                     Boolean disponivelSomenteNoLocal, String caminhoFoto, Long restauranteId) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
@@ -62,15 +62,15 @@ public class PratoResponseDTO {
         return restauranteId;
     }
 
-    public static PratoResponseDTO fromEntity(Prato prato) {
-        return new PratoResponseDTO(
-                prato.getId(),
-                prato.getNome(),
-                prato.getDescricao(),
-                prato.getPreco(),
-                prato.getDisponivelSomenteNoLocal(),
-                prato.getCaminhoFoto(),
-                prato.getRestaurante().getId()
+    public static ItemDoCardapioResponseDTO fromEntity(ItemDoCardapio itemDoCardapio) {
+        return new ItemDoCardapioResponseDTO(
+                itemDoCardapio.getId(),
+                itemDoCardapio.getNome(),
+                itemDoCardapio.getDescricao(),
+                itemDoCardapio.getPreco(),
+                itemDoCardapio.getDisponivelSomenteNoLocal(),
+                itemDoCardapio.getCaminhoFoto(),
+                itemDoCardapio.getRestaurante().getId()
         );
     }
 }

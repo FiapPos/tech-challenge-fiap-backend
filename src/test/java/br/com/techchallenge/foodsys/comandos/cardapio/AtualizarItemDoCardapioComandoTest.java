@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-class AtualizarPratoComandoTest {
+class AtualizarItemDoCardapioComandoTest {
 
     @Test
     void deveCriarAtualizarPratoComandoComDadosCorretos() {
@@ -13,7 +13,7 @@ class AtualizarPratoComandoTest {
         BigDecimal preco = new BigDecimal("39.90");
         Boolean disponivelNoLocal = true;
 
-        AtualizarPratoComando comando = new AtualizarPratoComando(nome, descricao, preco, disponivelNoLocal);
+        AtualizarItemDoCardapioComando comando = new AtualizarItemDoCardapioComando(nome, descricao, preco, disponivelNoLocal);
 
         assertEquals(nome, comando.getNome());
         assertEquals(descricao, comando.getDescricao());

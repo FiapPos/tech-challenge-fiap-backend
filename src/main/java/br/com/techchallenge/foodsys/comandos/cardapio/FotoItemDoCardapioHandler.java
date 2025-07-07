@@ -1,6 +1,6 @@
 package br.com.techchallenge.foodsys.comandos.cardapio;
-import br.com.techchallenge.foodsys.dominio.cardapio.Prato;
-import br.com.techchallenge.foodsys.dominio.cardapio.PratoRepository;
+import br.com.techchallenge.foodsys.dominio.cardapio.ItemDoCardapio;
+import br.com.techchallenge.foodsys.dominio.cardapio.ItemDoCardapioRepository;
 import br.com.techchallenge.foodsys.dominio.foto.FotoPratoDocumento;
 import br.com.techchallenge.foodsys.dominio.foto.FotoPratoRepository;
 import org.springframework.stereotype.Service;
@@ -8,19 +8,19 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @Service
-public class FotoPratoHandler {
+public class FotoItemDoCardapioHandler {
 
     private final FotoPratoRepository fotoPratoRepository;
-    private final PratoRepository pratoRepository;
+    private final ItemDoCardapioRepository itemDoCardapioRepository;
 
-    public FotoPratoHandler(FotoPratoRepository fotoPratoRepository, PratoRepository pratoRepository) {
+    public FotoItemDoCardapioHandler(FotoPratoRepository fotoPratoRepository, ItemDoCardapioRepository itemDoCardapioRepository) {
         this.fotoPratoRepository = fotoPratoRepository;
-        this.pratoRepository = pratoRepository;
+        this.itemDoCardapioRepository = itemDoCardapioRepository;
     }
 
     public void salvarFoto(Long restauranteId, Long pratoId, MultipartFile arquivo) throws IOException {
 
-        Prato prato = pratoRepository.findById(pratoId)
+        ItemDoCardapio itemDoCardapio = itemDoCardapioRepository.findById(pratoId)
                 .orElseThrow(() -> new RuntimeException("Prato não encontrado"));
 
         FotoPratoDocumento foto = new FotoPratoDocumento();
@@ -33,7 +33,7 @@ public class FotoPratoHandler {
         fotoPratoRepository.save(foto);
 
         String caminhoFoto = "/foto/prato/" + pratoId;
-        prato.setCaminhoFoto(caminhoFoto);
-        pratoRepository.save(prato);
+        itemDoCardapio.setCaminhoFoto(caminhoFoto);
+        itemDoCardapioRepository.save(itemDoCardapio);
     }
 }

@@ -1,7 +1,7 @@
 package br.com.techchallenge.foodsys.comandos.cardapio;
 import java.math.BigDecimal;
 
-public class AtualizarPratoComando {
+public class AtualizarItemDoCardapioComando {
 
     private final String nome;
     private final String descricao;
@@ -9,8 +9,8 @@ public class AtualizarPratoComando {
     private final Boolean disponivelSomenteNoLocal;
 
 
-    public AtualizarPratoComando(String nome, String descricao, BigDecimal preco,
-                                 Boolean disponivelSomenteNoLocal) {
+    public AtualizarItemDoCardapioComando(String nome, String descricao, BigDecimal preco,
+                                          Boolean disponivelSomenteNoLocal) {
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;

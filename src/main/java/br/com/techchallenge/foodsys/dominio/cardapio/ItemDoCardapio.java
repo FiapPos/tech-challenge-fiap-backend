@@ -6,8 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "prato")
-public class Prato {
+@Table(name = "item_do_cardapio")
+public class ItemDoCardapio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

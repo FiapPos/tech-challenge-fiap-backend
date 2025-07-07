@@ -1,5 +1,5 @@
 package br.com.techchallenge.foodsys.controller;
-import br.com.techchallenge.foodsys.comandos.cardapio.FotoPratoHandler;
+import br.com.techchallenge.foodsys.comandos.cardapio.FotoItemDoCardapioHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -14,15 +14,15 @@ import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-class FotoPratoControllerTest {
+class FotoItemDoCardapioControllerTest {
 
     private MockMvc mockMvc;
-    private FotoPratoHandler fotoPratoHandler;
+    private FotoItemDoCardapioHandler fotoItemDoCardapioHandler;
 
     @BeforeEach
     void setUp() {
-        fotoPratoHandler = Mockito.mock(FotoPratoHandler.class);
-        FotoPratoController controller = new FotoPratoController(fotoPratoHandler);
+        fotoItemDoCardapioHandler = Mockito.mock(FotoItemDoCardapioHandler.class);
+        FotoItemDoCardapioController controller = new FotoItemDoCardapioController(fotoItemDoCardapioHandler);
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
@@ -35,7 +35,7 @@ class FotoPratoControllerTest {
                 "conteudo".getBytes()
         );
 
-        doNothing().when(fotoPratoHandler).salvarFoto(anyLong(), anyLong(), any());
+        doNothing().when(fotoItemDoCardapioHandler).salvarFoto(anyLong(), anyLong(), any());
 
         mockMvc.perform(multipart("/restaurantes/1/pratos/1/foto")
                         .file(arquivo))
@@ -52,7 +52,7 @@ class FotoPratoControllerTest {
                 "conteudo".getBytes()
         );
 
-        doThrow(IOException.class).when(fotoPratoHandler).salvarFoto(anyLong(), anyLong(), any());
+        doThrow(IOException.class).when(fotoItemDoCardapioHandler).salvarFoto(anyLong(), anyLong(), any());
 
         mockMvc.perform(multipart("/restaurantes/1/pratos/1/foto")
                         .file(arquivo))
@@ -69,7 +69,7 @@ class FotoPratoControllerTest {
                 "conteudo".getBytes()
         );
 
-        doThrow(new RuntimeException("Prato não encontrado")).when(fotoPratoHandler).salvarFoto(anyLong(), anyLong(), any());
+        doThrow(new RuntimeException("Prato não encontrado")).when(fotoItemDoCardapioHandler).salvarFoto(anyLong(), anyLong(), any());
 
         mockMvc.perform(multipart("/restaurantes/1/pratos/1/foto")
                         .file(arquivo))

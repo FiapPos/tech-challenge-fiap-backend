@@ -1,5 +1,5 @@
 package br.com.techchallenge.foodsys.controller;
-import br.com.techchallenge.foodsys.comandos.cardapio.FotoPratoHandler;
+import br.com.techchallenge.foodsys.comandos.cardapio.FotoItemDoCardapioHandler;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,12 +8,12 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/pratos/{pratoId}/foto")
-public class FotoPratoController {
+public class FotoItemDoCardapioController {
 
-    private final FotoPratoHandler fotoPratoHandler;
+    private final FotoItemDoCardapioHandler fotoItemDoCardapioHandler;
 
-    public FotoPratoController(FotoPratoHandler fotoPratoHandler) {
-        this.fotoPratoHandler = fotoPratoHandler;
+    public FotoItemDoCardapioController(FotoItemDoCardapioHandler fotoItemDoCardapioHandler) {
+        this.fotoItemDoCardapioHandler = fotoItemDoCardapioHandler;
     }
 
     @PostMapping
@@ -23,7 +23,7 @@ public class FotoPratoController {
             @RequestParam("arquivo") MultipartFile arquivo) {
 
         try {
-            fotoPratoHandler.salvarFoto(restauranteId, pratoId, arquivo);
+            fotoItemDoCardapioHandler.salvarFoto(restauranteId, pratoId, arquivo);
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body("Foto salva com sucesso!");

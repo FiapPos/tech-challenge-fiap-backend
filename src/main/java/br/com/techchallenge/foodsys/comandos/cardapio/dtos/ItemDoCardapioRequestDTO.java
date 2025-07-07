@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-public class PratoRequestDTO {
+public class ItemDoCardapioRequestDTO {
 
     @NotBlank(message = "O nome não pode estar em branco")
     private String nome;
@@ -16,11 +16,11 @@ public class PratoRequestDTO {
 
     private Boolean disponivelSomenteNoLocal;
 
-    public PratoRequestDTO() {
+    public ItemDoCardapioRequestDTO() {
     }
 
-    public PratoRequestDTO(String nome, String descricao, BigDecimal preco,
-                           Boolean disponivelSomenteNoLocal) {
+    public ItemDoCardapioRequestDTO(String nome, String descricao, BigDecimal preco,
+                                    Boolean disponivelSomenteNoLocal) {
         this.nome = nome;
         this.descricao = descricao;
         this.preco = preco;
