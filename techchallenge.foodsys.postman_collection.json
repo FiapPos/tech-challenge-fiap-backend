@@ -235,110 +235,143 @@
 			]
 		},
 		{
-			"name": "prato",
+			"name": "itens-do-cardapio",
 			"item": [
 				{
-					"name": "Criar prato",
+					"name": "Criar Item do Cardápio",
 					"request": {
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"nome\": \"Pizza Margherita\",\n  \"descricao\": \"Molho de tomate, mussarela e manjericão.\",\n  \"preco\": 39.90,\n  \"categoria\": \"Pizza\",\n  \"restauranteId\": 1\n}"
+							"raw": "{\n  \"nome\": \"Pizza Margherita\",\n  \"descricao\": \"Deliciosa pizza com tomate, mussarela e manjericão\",\n  \"preco\": 35.50,\n  \"disponivelSomenteNoLocal\": false\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/prato",
-							"host": ["{{base_url}}"],
-							"path": ["prato"]
+							"raw": "{{base_url}}/restaurante/{{restauranteId}}/itens-do-cardapio",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"restaurante",
+								"{{restauranteId}}",
+								"itens-do-cardapio"
+							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Atualizar prato",
+					"name": "Listar Itens do Cardápio",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/restaurante/{{restauranteId}}/itens-do-cardapio",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"restaurante",
+								"{{restauranteId}}",
+								"itens-do-cardapio"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Item do Cardápio por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/restaurante/{{restauranteId}}/itens-do-cardapio/{{itemId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"restaurante",
+								"{{restauranteId}}",
+								"itens-do-cardapio",
+								"{{itemId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Item do Cardápio",
 					"request": {
 						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
 								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"nome\": \"Pizza Calabresa\",\n  \"descricao\": \"Pizza com calabresa, cebola e mussarela.\",\n  \"preco\": 42.50,\n  \"categoria\": \"Pizza\"\n}"
+							"raw": "{\n  \"nome\": \"Pizza Margherita Atualizada\",\n  \"descricao\": \"Descrição atualizada do prato\",\n  \"preco\": 38.00,\n  \"disponivelSomenteNoLocal\": true\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/prato/1",
-							"host": ["{{base_url}}"],
-							"path": ["prato", "1"]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Listar pratos",
-					"request": {
-						"method": "GET",
-						"url": {
-							"raw": "{{base_url}}/prato?ativo=true&categoria=Pizza",
-							"host": ["{{base_url}}"],
-							"path": ["prato"],
-							"query": [
-								{
-									"key": "ativo",
-									"value": "true"
-								},
-								{
-									"key": "categoria",
-									"value": "Pizza"
-								}
+							"raw": "{{base_url}}/restaurante/{{restauranteId}}/itens-do-cardapio/{{itemId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"restaurante",
+								"{{restauranteId}}",
+								"itens-do-cardapio",
+								"{{itemId}}"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Desativar prato",
+					"name": "Excluir Item do Cardápio",
 					"request": {
 						"method": "DELETE",
-						"url": {
-							"raw": "{{base_url}}/prato/1",
-							"host": ["{{base_url}}"],
-							"path": ["prato", "1"]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Postar foto do prato",
-					"request": {
-						"method": "POST",
 						"header": [
 							{
-								"key": "Content-Type",
-								"value": "multipart/form-data"
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
 							}
 						],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "foto",
-									"type": "file",
-									"src": "/caminho/para/imagem.jpg"
-								}
-							]
-						},
 						"url": {
-							"raw": "{{base_url}}/prato/1/foto",
-							"host": ["{{base_url}}"],
-							"path": ["prato", "1", "foto"]
+							"raw": "{{base_url}}/restaurante/{{restauranteId}}/itens-do-cardapio/{{itemId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"restaurante",
+								"{{restauranteId}}",
+								"itens-do-cardapio",
+								"{{itemId}}"
+							]
 						}
 					},
 					"response": []
