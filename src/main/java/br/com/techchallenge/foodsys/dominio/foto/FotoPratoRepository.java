@@ -1,5 +1,4 @@
 package br.com.techchallenge.foodsys.dominio.foto;
-
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;

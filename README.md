@@ -59,18 +59,24 @@ Desenvolver um sistema **backend robusto** com **Spring Boot** que possibilite:
 
 ## 3. Endpoints da API
 
-| Endpoint                         | Método | Descrição               |
-| -------------------------------- | ------ | ----------------------- |
-| `/usuarios`                      | POST   | Criação de usuários     |
-| `/usuarios/{usuarioId}`          | PUT    | Atualização de usuários |
-| `/usuarios?ativo=`               | GET    | Listagem de usuários    |
-| `/usuarios/{usuarioId}`          | DELETE | Desativação de usuário  |
-| `/login`                         | POST   | Autenticação            |
-| `/login/atualiza-senha`          | PUT    | Atualização de senha    |
-| `/enderecos`                     | POST   | Criação de endereço     |
-| `/enderecos/{enderecoId}`        | PUT    | Atualização de endereço |
-| `/enderecos/usuario/{usuarioId}` | GET    | Listagem de endereços   |
-| `/enderecos`                     | DELETE | Exclusão de endereço    |
+| Endpoint                              | Método | Descrição                     |
+| ----------------------------------- | ------ | ----------------------------- |
+| /usuarios                           | POST   | Criação de usuários           |
+| /usuarios/{usuarioId}               | PUT    | Atualização de usuários       |
+| /usuarios?ativo=                    | GET    | Listagem de usuários          |
+| /usuarios/{usuarioId}               | DELETE | Desativação de usuário        |
+| /login                             | POST   | Autenticação                  |
+| /login/atualiza-senha              | PUT    | Atualização de senha          |
+| /enderecos                         | POST   | Criação de endereço           |
+| /enderecos/{enderecoId}            | PUT    | Atualização de endereço       |
+| /enderecos/usuario/{usuarioId}     | GET    | Listagem de endereços         |
+| /enderecos                        | DELETE | Exclusão de endereço          |
+| /restaurante/{restauranteId}/pratos | POST   | Criação de prato              |
+| /restaurante/{restauranteId}/pratos | GET    | Listagem de pratos por restaurante |
+| /restaurante/{restauranteId}/pratos/{pratoId} | GET    | Buscar prato por ID           |
+| /restaurante/{restauranteId}/pratos/{pratoId} | PUT    | Atualização de prato          |
+| /restaurante/{restauranteId}/pratos/{pratoId} | DELETE | Exclusão de prato             |
+| /restaurantes/{restauranteId}/pratos/{pratoId}/foto | POST   | Upload de foto do prato       |
 
 ### 📄 Documentação Swagger
 
@@ -127,6 +133,76 @@ docker-compose up -d foodsys-api
 * Usuário: `sa`
 * Senha: `senhasegura`
 
+---
+
+### 📘 Como configurar o MongoDB usando MongoDB Compass e converter em imagem
+
+## ✅ 1. Baixando e instalando o MongoDB Compass
+
+1. Acesse o site oficial:
+   👉 [https://www.mongodb.com/try/download/compass](https://www.mongodb.com/try/download/compass)
+
+2. Selecione a versão para seu sistema operacional (ex: Linux .deb, Windows ou macOS)
+
+3. Clique em **"Download"** e instale normalmente no seu sistema.
+
+---
+
+## 🔌 2. Conectando ao banco de dados
+
+1. Abra o MongoDB Compass
+
+2. No campo **"Connection string"**, insira a URI do seu banco. Exemplo para local:
+
+   ```
+   mongodb://localhost:27017
+   ```
+
+3. Clique em **"Connect"**
+
+---
+
+## 🔍 3. Acessando a coleção que armazena a imagem
+
+1. Na lateral esquerda, clique no nome do seu **banco de dados** (ex: `techchallenge`)
+
+2. Clique na **coleção** onde a imagem está armazenada (ex: `pratos`)
+
+3. Procure pelo documento que contém a imagem. Você verá um campo como:
+
+   ```json
+   "foto": {
+     "$binary": {
+       "base64": "iVBORw0KGgoAAAANSUhEUgAAAIAAAACAC...",
+       "subType": "00"
+     }
+   }
+   ```
+
+---
+
+## 🧬 4. Convertendo o campo `foto` em imagem real
+
+1. Copie **somente o valor `base64`** (aquele texto enorme do tipo `iVBORw0K...`)
+
+2. Acesse o site:
+   👉 [https://codebeautify.org/base64-to-image-converter](https://codebeautify.org/base64-to-image-converter)
+
+3. Cole o código no campo **"Paste your Base64 string"**
+
+4. Clique em **"Generate Image"**
+
+5. A imagem será renderizada logo abaixo e você poderá clicar em **"Download"** se quiser salvar.
+
+---
+
+## 🔁 Observação final
+
+Se o campo for algo como:
+
+```json
+"foto": "iVBORw0KGgoAAAANSUhEUgAA..."
+```
 ---
 
 ## 5. Qualidade do Código
