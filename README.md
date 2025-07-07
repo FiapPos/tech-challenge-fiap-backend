@@ -196,15 +196,6 @@ docker-compose up -d foodsys-api
 
 ---
 
-## 🔁 Observação final
-
-Se o campo for algo como:
-
-```json
-"foto": "iVBORw0KGgoAAAANSUhEUgAA..."
-```
----
-
 ## 5. Qualidade do Código
 
 ### 🧠 Princípios SOLID
