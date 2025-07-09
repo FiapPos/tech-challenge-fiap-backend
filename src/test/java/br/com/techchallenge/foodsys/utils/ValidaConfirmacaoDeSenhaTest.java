@@ -65,5 +65,15 @@ class ValidaConfirmacaoDeSenhaTest {
         void deveRetornarFalseParaOutraClasse() {
             assertFalse(validator.supports(String.class));
         }
+
+        @Test
+        void deveRetornarSemErroQuandoTargetNaoForAtualizaCredenciaisComandoDto() {
+            String target = "não é um DTO";
+            Errors errors = new BeanPropertyBindingResult(target, "target");
+
+            validator.validate(target, errors);
+
+            assertFalse(errors.hasErrors());
+        }
     }
 }
