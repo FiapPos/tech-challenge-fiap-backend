@@ -46,6 +46,7 @@ public class ListarRestaurantesQuery {
                 .ativo(restaurante.isAtivo())
                 .dataCriacao(restaurante.getDataCriacao())
                 .dataAtualizacao(restaurante.getDataAtualizacao())
+                .dataDesativacao(restaurante.getDataDesativacao())
                 .build();
     }
 }

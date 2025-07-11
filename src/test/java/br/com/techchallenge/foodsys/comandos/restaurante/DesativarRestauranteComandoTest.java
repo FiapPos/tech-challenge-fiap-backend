@@ -1,10 +1,15 @@
 package br.com.techchallenge.foodsys.comandos.restaurante;
 
-import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
-import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
-import br.com.techchallenge.foodsys.dominio.restaurante.RestauranteRepository;
-import br.com.techchallenge.foodsys.excpetion.BadRequestException;
-import br.com.techchallenge.foodsys.utils.ValidarRestauranteExistente;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,8 +17,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
+import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
+import br.com.techchallenge.foodsys.dominio.restaurante.RestauranteRepository;
+import br.com.techchallenge.foodsys.excpetion.BadRequestException;
+import br.com.techchallenge.foodsys.utils.ValidarRestauranteExistente;
 
 public class DesativarRestauranteComandoTest {
 
@@ -31,8 +39,41 @@ public class DesativarRestauranteComandoTest {
         MockitoAnnotations.openMocks(this);
     }
 
+    @Test
+    void deveDesativarRestauranteComSucesso() {
 
+        Long restauranteId = 1L;
+        Restaurante restaurante = new Restaurante();
+        restaurante.setId(restauranteId);
+        restaurante.setAtivo(true);
+        LocalDateTime dataDesativacao = LocalDateTime.now();
 
+        when(validarRestauranteExistente.execute(restauranteId)).thenReturn(restaurante);
+        when(sharedService.getCurrentDateTime()).thenReturn(dataDesativacao);
+        when(restauranteRepository.save(any(Restaurante.class))).thenAnswer(i -> i.getArgument(0));
 
+        Restaurante resultado = comando.execute(restauranteId);
+
+        assertFalse(resultado.isAtivo());
+        assertEquals(dataDesativacao, resultado.getDataDesativacao());
+        verify(restauranteRepository, times(1)).save(restaurante);
+    }
+
+    @Test
+    void deveLancarExcecaoQuandoRestauranteJaDesativado() {
+        Long restauranteId = 1L;
+        Restaurante restaurante = new Restaurante();
+        restaurante.setId(restauranteId);
+        restaurante.setAtivo(false);
+
+        when(validarRestauranteExistente.execute(restauranteId)).thenReturn(restaurante);
+
+        Exception exception = assertThrows(BadRequestException.class, () -> {
+            comando.execute(restauranteId);
+        });
+
+        assertEquals("restaurante.ja.esta.desativado", exception.getMessage());
+        verify(restauranteRepository, never()).save(any(Restaurante.class));
+    }
 
 }

@@ -22,4 +22,5 @@ public class ListarRestaurantesResultadoItem {
     private Boolean ativo;
     private LocalDateTime dataCriacao;
     private LocalDateTime dataAtualizacao;
+    private LocalDateTime dataDesativacao;
 }

@@ -108,6 +108,10 @@ public class EnderecoController {
 
                 ListarEnderecosParams params = new ListarEnderecosParams(usuario.getId(), restauranteId);
                 List<ListarEnderecoPorResultadoItem> resultado = listarEnderecosQuery.execute(params);
+
+                if (resultado.isEmpty()) {
+                        return ResponseEntity.noContent().build();
+                }
                 return ResponseEntity.ok(resultado);
         }
 }
