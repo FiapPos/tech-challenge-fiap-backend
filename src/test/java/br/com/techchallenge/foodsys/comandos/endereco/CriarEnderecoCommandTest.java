@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.comandos.restaurante;
+package br.com.techchallenge.foodsys.comandos.endereco;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import br.com.techchallenge.foodsys.comandos.endereco.CriarEnderecoCommand;
 import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoCommandDto;
 import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
@@ -56,7 +55,6 @@ public class CriarEnderecoCommandTest {
 
     @Test
     void deveCriarEnderecoParaRestaurante() {
-        // Arrange
         Long usuarioId = 1L;
         Long restauranteId = 2L;
 
@@ -79,7 +77,6 @@ public class CriarEnderecoCommandTest {
         endereco.setUsuario(usuario);
         endereco.setRestaurante(restaurante);
 
-        // Mocks
         when(validarUsuarioExistente.execute(usuario.getId())).thenReturn(usuario);
         when(validarEnderecoExistente.validarEnderecoRestauranteExistente(restauranteId, usuarioId)).thenReturn(false);
         when(validarRestauranteExistente.execute(restauranteId)).thenReturn(restaurante);
@@ -97,10 +94,8 @@ public class CriarEnderecoCommandTest {
                 validarRestauranteExistente,
                 validarProprietarioRestaurante);
 
-        // Act
         Endereco resultado = comando.execute(dto, usuario);
 
-        // Assert
         assertNotNull(resultado);
         assertEquals(dto.getRua(), resultado.getRua());
         assertEquals(dto.getCep(), resultado.getCep());
@@ -117,7 +112,6 @@ public class CriarEnderecoCommandTest {
 
     @Test
     void deveCriarEnderecoParaUsuario() {
-        // Arrange
         Long usuarioId = 1L;
 
         Usuario usuario = new Usuario();
@@ -134,7 +128,6 @@ public class CriarEnderecoCommandTest {
         endereco.setNumero(dto.getNumero());
         endereco.setUsuario(usuario);
 
-        // Mocks
         when(validarUsuarioExistente.execute(usuario.getId())).thenReturn(usuario);
         doNothing().when(validarCepDuplicado).validarCep(usuarioId, null, dto.getCep());
         when(sharedService.getCurrentDateTime()).thenReturn(java.time.LocalDateTime.now());
@@ -149,10 +142,8 @@ public class CriarEnderecoCommandTest {
                 validarRestauranteExistente,
                 validarProprietarioRestaurante);
 
-        // Act
         Endereco resultado = comando.execute(dto, usuario);
 
-        // Assert
         assertNotNull(resultado);
         assertEquals(dto.getRua(), resultado.getRua());
         assertEquals(dto.getCep(), resultado.getCep());
@@ -166,7 +157,6 @@ public class CriarEnderecoCommandTest {
 
     @Test
     void deveLancarExcecaoQuandoUsuarioNaoExiste() {
-        // Arrange
         Long usuarioId = 1L;
 
         Usuario usuario = new Usuario();
@@ -177,7 +167,6 @@ public class CriarEnderecoCommandTest {
         dto.setCep("12345-000");
         dto.setNumero("10");
 
-        // Mock: usuário não existe, lança exceção
         doThrow(new BadRequestException("usuario.nao.encontrado"))
                 .when(validarUsuarioExistente).execute(usuarioId);
 
@@ -190,7 +179,6 @@ public class CriarEnderecoCommandTest {
                 validarRestauranteExistente,
                 validarProprietarioRestaurante);
 
-        // Act & Assert
         BadRequestException exception = assertThrows(
                 BadRequestException.class,
                 () -> comando.execute(dto, usuario));
@@ -199,7 +187,6 @@ public class CriarEnderecoCommandTest {
 
     @Test
     void deveLancarExcecaoQuandoEnderecoDoRestauranteExiste() {
-        // Arrange
         Long usuarioId = 1L;
         Long restauranteId = 2L;
 
@@ -224,7 +211,6 @@ public class CriarEnderecoCommandTest {
                 validarRestauranteExistente,
                 validarProprietarioRestaurante);
 
-        // Act & Assert
         BadRequestException exception = assertThrows(
                 BadRequestException.class,
                 () -> comando.execute(dto, usuario));
@@ -233,7 +219,6 @@ public class CriarEnderecoCommandTest {
 
     @Test
     void deveLancarExcecaoQuandoRestauranteNaoExiste() {
-        // Arrange
         Long usuarioId = 1L;
         Long restauranteId = 2L;
 
@@ -260,7 +245,6 @@ public class CriarEnderecoCommandTest {
                 validarRestauranteExistente,
                 validarProprietarioRestaurante);
 
-        // Act & Assert
         BadRequestException exception = assertThrows(
                 BadRequestException.class,
                 () -> comando.execute(dto, usuario));
@@ -269,7 +253,6 @@ public class CriarEnderecoCommandTest {
 
     @Test
     void deveLancarExcecaoQuandoUsuarioNaoForProprietarioRestaurante() {
-        // Arrange
         Long usuarioId = 1L;
         Long restauranteId = 2L;
 
@@ -290,7 +273,6 @@ public class CriarEnderecoCommandTest {
         endereco.setUsuario(usuario);
         endereco.setRestaurante(restaurante);
 
-        // Mocks
         when(validarUsuarioExistente.execute(usuarioId)).thenReturn(usuario);
         when(validarEnderecoExistente.validarEnderecoRestauranteExistente(restauranteId, usuarioId)).thenReturn(false);
         when(validarRestauranteExistente.execute(restauranteId)).thenReturn(restaurante);
@@ -306,7 +288,6 @@ public class CriarEnderecoCommandTest {
                 validarRestauranteExistente,
                 validarProprietarioRestaurante);
 
-        // Act & Assert
         BadRequestException exception = assertThrows(
                 BadRequestException.class,
                 () -> comando.execute(dto, usuario));
@@ -315,7 +296,6 @@ public class CriarEnderecoCommandTest {
 
     @Test
     void deveLancarExcecaoQuandoCepDuplicado() {
-        // Arrange
         Long usuarioId = 1L;
         Long restauranteId = 2L;
 
@@ -336,7 +316,6 @@ public class CriarEnderecoCommandTest {
         endereco.setUsuario(usuario);
         endereco.setRestaurante(restaurante);
 
-        // Mocks
         when(validarUsuarioExistente.execute(usuarioId)).thenReturn(usuario);
         when(validarEnderecoExistente.validarEnderecoRestauranteExistente(restauranteId, usuarioId))
                 .thenReturn(false);
@@ -354,7 +333,6 @@ public class CriarEnderecoCommandTest {
                 validarRestauranteExistente,
                 validarProprietarioRestaurante);
 
-        // Act & Assert
         BadRequestException exception = assertThrows(
                 BadRequestException.class,
                 () -> comando.execute(dto, usuario));

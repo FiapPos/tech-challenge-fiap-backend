@@ -37,7 +37,6 @@ class DeletarEnderecoComandoTest {
 
     @Test
     void deveDeletarEnderecoUsuarioComSucesso() {
-        // Arrange
         Long enderecoId = 1L;
         Long usuarioId = 2L;
         Long restauranteId = null;
@@ -57,10 +56,8 @@ class DeletarEnderecoComandoTest {
         doNothing().when(validarProprietarioEndereco).validarProprietarioEndereco(endereco, usuarioId, restauranteId);
         doNothing().when(enderecoRepository).delete(endereco);
 
-        // Act
         deletarEnderecoComando.execute(dto, usuario);
 
-        // Assert
         verify(validarUsuarioExistente).execute(usuarioId);
         verify(validarEnderecoExistente).execute(enderecoId);
         verify(validarProprietarioEndereco).validarProprietarioEndereco(endereco, usuarioId, restauranteId);
@@ -69,7 +66,6 @@ class DeletarEnderecoComandoTest {
 
     @Test
     void deveDeletarEnderecoRestauranteComSucesso() {
-        // Arrange
         Long enderecoId = 1L;
         Long usuarioId = 2L;
         Long restauranteId = 3L;
@@ -89,10 +85,8 @@ class DeletarEnderecoComandoTest {
         doNothing().when(validarProprietarioEndereco).validarProprietarioEndereco(endereco, usuarioId, restauranteId);
         doNothing().when(enderecoRepository).delete(endereco);
 
-        // Act
         deletarEnderecoComando.execute(dto, usuario);
 
-        // Assert
         verify(validarUsuarioExistente).execute(usuarioId);
         verify(validarEnderecoExistente).execute(enderecoId);
         verify(validarProprietarioEndereco).validarProprietarioEndereco(endereco, usuarioId, restauranteId);

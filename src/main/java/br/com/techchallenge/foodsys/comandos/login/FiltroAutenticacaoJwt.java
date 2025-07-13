@@ -40,7 +40,8 @@ public class FiltroAutenticacaoJwt extends OncePerRequestFilter {
 
         if (authorizationHeader != null && authorizationHeader.startsWith(AUTHENTICATION_HEADER)) {
             String token = authorizationHeader.substring(AUTHENTICATION_HEADER.length());
-            if (!token.isEmpty()) tryToAuthenticate(token);
+            if (!token.isEmpty())
+                tryToAuthenticate(token);
         }
 
         filterChain.doFilter(request, response);
@@ -52,7 +53,8 @@ public class FiltroAutenticacaoJwt extends OncePerRequestFilter {
             Usuario user = userAuthenticationService.getByLogin(login);
             DetalhesUsuarioDto userDetails = new DetalhesUsuarioDto(user);
 
-            SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()));
+            SecurityContextHolder.getContext().setAuthentication(
+                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()));
         } catch (Exception e) {
             logger.warn("Falha ao autenticar token JWT. Token: {}. Erro: {}", token, e.getMessage());
         }

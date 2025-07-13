@@ -9,8 +9,6 @@ import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoComand
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
-import br.com.techchallenge.foodsys.excpetion.BadRequestException;
-import br.com.techchallenge.foodsys.query.endereco.ListarEnderecoPorIdUsuario;
 import br.com.techchallenge.foodsys.query.endereco.ListarEnderecosQuery;
 import br.com.techchallenge.foodsys.query.params.ListarEnderecosParams;
 import br.com.techchallenge.foodsys.query.resultadoItem.endereco.ListarEnderecoPorResultadoItem;
@@ -80,7 +78,7 @@ class EnderecoControllerTest {
 
     @Test
     void deveAtualizarEnderecoComSucesso() {
-        // Arrange
+
         Long enderecoId = 1L;
         AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
         dto.setRua("Rua Atualizada");
@@ -99,10 +97,8 @@ class EnderecoControllerTest {
         doNothing().when(autorizacaoService).validarAcessoUsuario(usuario.getId());
         when(atualizarEnderecoComando.execute(enderecoId, dto, usuario)).thenReturn(endereco);
 
-        // Act
         ResponseEntity<Void> response = enderecoController.atualizar(enderecoId, dto);
 
-        // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         verify(autorizacaoService).validarAcessoUsuario(usuario.getId());
         verify(atualizarEnderecoComando).execute(enderecoId, dto, usuario);
@@ -137,7 +133,6 @@ class EnderecoControllerTest {
 
     @Test
     void deveListarEnderecosPorUsuarioComSucesso() {
-        // Arrange
         Usuario usuario = new Usuario();
         usuario.setId(1L);
 
@@ -152,10 +147,8 @@ class EnderecoControllerTest {
 
         when(listarEnderecosQuery.execute(any())).thenReturn(resultado);
 
-        // Act
         ResponseEntity<List<ListarEnderecoPorResultadoItem>> response = enderecoController.listarEnderecos(null);
 
-        // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(resultado, response.getBody());
         verify(autorizacaoService).validarAcessoUsuario(usuario.getId());
@@ -164,7 +157,6 @@ class EnderecoControllerTest {
 
     @Test
     void deveRetornarNoContentQuandoListaVazia() {
-        // Arrange
         Usuario usuario = new Usuario();
         usuario.setId(1L);
 
@@ -174,10 +166,8 @@ class EnderecoControllerTest {
         ListarEnderecosParams params = new ListarEnderecosParams(usuario.getId(), null);
         when(listarEnderecosQuery.execute(params)).thenReturn(List.of());
 
-        // Act
         ResponseEntity<List<ListarEnderecoPorResultadoItem>> response = enderecoController.listarEnderecos(null);
 
-        // Assert
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         assertNull(response.getBody());
         verify(autorizacaoService).validarAcessoUsuario(usuario.getId());

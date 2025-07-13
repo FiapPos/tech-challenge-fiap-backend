@@ -46,7 +46,6 @@ public class AtualizarEnderecoComandoTest {
 
     @Test
     void deveAtualizarEnderecoComCamposCorretos() {
-        // Arrange
         Long enderecoId = 1L;
         Long usuarioId = 2L;
 
@@ -77,10 +76,8 @@ public class AtualizarEnderecoComandoTest {
                 sharedService,
                 validarCepDuplicado);
 
-        // Act
         Endereco resultado = comando.execute(enderecoId, dto, usuario);
 
-        // Assert
         assertNotNull(resultado);
         assertEquals("Nova Rua", resultado.getRua());
         assertEquals("12345-678", resultado.getCep());
@@ -134,7 +131,6 @@ public class AtualizarEnderecoComandoTest {
 
     @Test
     void deveAtualizarApenasRuaQuandoApenasRuaPreenchida() {
-        // Arrange
         Long enderecoId = 1L;
         Long usuarioId = 2L;
 
@@ -166,10 +162,8 @@ public class AtualizarEnderecoComandoTest {
                 sharedService,
                 validarCepDuplicado);
 
-        // Act
         Endereco resultado = comando.execute(enderecoId, dto, usuario);
 
-        // Assert
         assertNotNull(resultado);
         assertEquals("Rua Atualizada", resultado.getRua());
         assertEquals("00000-000", resultado.getCep());
@@ -181,7 +175,6 @@ public class AtualizarEnderecoComandoTest {
 
     @Test
     void deveAtualizarApenasQuandoCepPreenchido() {
-        // Arrange
         Long enderecoId = 1L;
         Long usuarioId = 2L;
 
@@ -213,10 +206,8 @@ public class AtualizarEnderecoComandoTest {
                 sharedService,
                 validarCepDuplicado);
 
-        // Act
         Endereco resultado = comando.execute(enderecoId, dto, usuario);
 
-        // Assert
         assertNotNull(resultado);
         assertEquals("Rua Antiga", resultado.getRua());
         assertEquals("54321-987", resultado.getCep());
@@ -228,7 +219,6 @@ public class AtualizarEnderecoComandoTest {
 
     @Test
     void deveAtualizarApenasQuandoNumeroPreenchido() {
-        // Arrange
         Long enderecoId = 1L;
         Long usuarioId = 2L;
 
@@ -260,10 +250,8 @@ public class AtualizarEnderecoComandoTest {
                 sharedService,
                 validarCepDuplicado);
 
-        // Act
         Endereco resultado = comando.execute(enderecoId, dto, usuario);
 
-        // Assert
         assertNotNull(resultado);
         assertEquals("Rua Antiga", resultado.getRua());
         assertEquals("00000-000", resultado.getCep());
@@ -275,7 +263,6 @@ public class AtualizarEnderecoComandoTest {
 
     @Test
     void deveAtualizarRuaECepQuandoApenasEssesCamposPreenchidos() {
-        // Arrange
         Long enderecoId = 1L;
         Long usuarioId = 2L;
 
@@ -308,10 +295,8 @@ public class AtualizarEnderecoComandoTest {
                 sharedService,
                 validarCepDuplicado);
 
-        // Act
         Endereco resultado = comando.execute(enderecoId, dto, usuario);
 
-        // Assert
         assertNotNull(resultado);
         assertEquals("Rua Atualizada", resultado.getRua());
         assertEquals("54321-987", resultado.getCep());

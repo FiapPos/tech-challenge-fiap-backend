@@ -39,7 +39,7 @@ public class ListarRestaurantesQueryTest {
 
     @Test
     void deveListarRestaurantePorTipoCozinha() {
-        // Arrange
+
         ListarRestaurantesParams params = new ListarRestaurantesParams();
         params.setTipoCozinha("Italiana");
 
@@ -59,11 +59,9 @@ public class ListarRestaurantesQueryTest {
 
         when(listarRestaurantesQuery.execute(params)).thenReturn(resultado);
 
-        // Act
         ResponseEntity<List<ListarRestaurantesResultadoItem>> response = restauranteController
                 .listarRestaurantes(params);
 
-        // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertFalse(response.getBody().isEmpty());
@@ -83,7 +81,7 @@ public class ListarRestaurantesQueryTest {
 
     @Test
     void deveListarRestauranteQuandoForAtivo() {
-        // Arrange
+
         ListarRestaurantesParams params = new ListarRestaurantesParams();
         params.setAtivo(true);
 
@@ -103,11 +101,9 @@ public class ListarRestaurantesQueryTest {
 
         when(listarRestaurantesQuery.execute(params)).thenReturn(resultado);
 
-        // Act
         ResponseEntity<List<ListarRestaurantesResultadoItem>> response = restauranteController
                 .listarRestaurantes(params);
 
-        // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertFalse(response.getBody().isEmpty());
@@ -127,7 +123,7 @@ public class ListarRestaurantesQueryTest {
 
     @Test
     void deveListarRestauranteQuandoForInativo() {
-        // Arrange
+
         ListarRestaurantesParams params = new ListarRestaurantesParams();
         params.setAtivo(false);
 
@@ -149,11 +145,9 @@ public class ListarRestaurantesQueryTest {
 
         when(listarRestaurantesQuery.execute(params)).thenReturn(resultado);
 
-        // Act
         ResponseEntity<List<ListarRestaurantesResultadoItem>> response = restauranteController
                 .listarRestaurantes(params);
 
-        // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertFalse(response.getBody().isEmpty());
@@ -173,7 +167,7 @@ public class ListarRestaurantesQueryTest {
 
     @Test
     void deveListarTodosRestaurantesQuandoParametroForNull() {
-        // Arrange
+
         ListarRestaurantesParams params = new ListarRestaurantesParams(); // todos os filtros null
 
         ListarRestaurantesResultadoItem item1 = new ListarRestaurantesResultadoItem();
@@ -198,11 +192,9 @@ public class ListarRestaurantesQueryTest {
 
         when(listarRestaurantesQuery.execute(params)).thenReturn(resultado);
 
-        // Act
         ResponseEntity<List<ListarRestaurantesResultadoItem>> response = restauranteController
                 .listarRestaurantes(params);
 
-        // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(2, response.getBody().size());

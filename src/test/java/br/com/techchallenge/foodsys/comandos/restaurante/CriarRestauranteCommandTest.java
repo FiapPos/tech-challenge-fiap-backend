@@ -50,7 +50,7 @@ public class CriarRestauranteCommandTest {
 
     @Test
     void deveCriarRestauranteComSucesso() {
-        // Arrange
+
         Restaurante restaurante = new Restaurante();
         CriarRestauranteCommandDto dto = new CriarRestauranteCommandDto();
         dto.setNome("Restaurante Teste");
@@ -71,10 +71,8 @@ public class CriarRestauranteCommandTest {
         when(sharedService.getCurrentDateTime()).thenReturn(dataCriacao);
         when(restauranteRepository.save(any(Restaurante.class))).thenAnswer(i -> i.getArgument(0));
 
-        // Act
         restaurante = criarRestauranteCommand.execute(dto, usuario);
 
-        // Assert
         assertEquals(dto.getNome(), restaurante.getNome());
         assertEquals(dto.getHorarioAbertura(), restaurante.getHorarioAbertura());
         assertEquals(dto.getHorarioFechamento(), restaurante.getHorarioFechamento());
@@ -85,7 +83,7 @@ public class CriarRestauranteCommandTest {
 
     @Test
     void deveLancarExcecaoQuandoUsuarioNaoExistir() {
-        // Arrange
+
         CriarRestauranteCommandDto dto = new CriarRestauranteCommandDto();
         dto.setNome("Restaurante Teste");
         dto.setHorarioAbertura("08:00");
@@ -109,7 +107,7 @@ public class CriarRestauranteCommandTest {
 
     @Test
     void deveLancarExcecaoQuandoUsuarioNaoForDono() {
-        // Arrange
+
         CriarRestauranteCommandDto dto = new CriarRestauranteCommandDto();
         dto.setNome("Restaurante Teste");
         dto.setHorarioAbertura("08:00");
@@ -133,7 +131,7 @@ public class CriarRestauranteCommandTest {
 
     @Test
     void deveLancarExcecaoQuandoRestauranteJaExistir() {
-        // Arrange
+
         CriarRestauranteCommandDto dto = new CriarRestauranteCommandDto();
         dto.setNome("Restaurante Duplicado");
         dto.setHorarioAbertura("08:00");

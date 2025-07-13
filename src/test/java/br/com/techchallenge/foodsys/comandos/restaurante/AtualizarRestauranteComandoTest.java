@@ -45,7 +45,7 @@ public class AtualizarRestauranteComandoTest {
 
     @Test
     void deveAtualizarRestauranteComSucesso() {
-        // Arrange
+
         Long id = 1L;
         AtualizarRestauranteComandoDto dto = new AtualizarRestauranteComandoDto();
         dto.setNome("Restaurante Atualizado");
@@ -66,10 +66,8 @@ public class AtualizarRestauranteComandoTest {
         when(sharedService.getCurrentDateTime()).thenReturn(dataAtualizacao);
         when(restauranteRepository.save(any(Restaurante.class))).thenAnswer(i -> i.getArgument(0));
 
-        // Act
         Restaurante resultado = atualizarRestauranteComando.execute(id, dto, usuario);
 
-        // Assert
         assertEquals(dto.getNome(), resultado.getNome());
         assertEquals(dto.getHorarioAbertura(), resultado.getHorarioAbertura());
         assertEquals(dto.getHorarioFechamento(), resultado.getHorarioFechamento());
@@ -79,7 +77,6 @@ public class AtualizarRestauranteComandoTest {
 
     @Test
     void deveLancarExcecaoQuandoNenhumCampoForPreenchido() {
-        // Arrange
         Long id = 1L;
         AtualizarRestauranteComandoDto dto = new AtualizarRestauranteComandoDto();
         Usuario usuario = new Usuario();
@@ -97,7 +94,6 @@ public class AtualizarRestauranteComandoTest {
 
     @Test
     void deveLancarExcecaoQuandoRestauranteNaoExistir() {
-        // Arrange
         Long id = 1L;
         AtualizarRestauranteComandoDto dto = new AtualizarRestauranteComandoDto();
         dto.setNome("Restaurante Atualizado");
@@ -116,18 +112,15 @@ public class AtualizarRestauranteComandoTest {
         doThrow(new BadRequestException("restaurante.nao.encontrado")).when(validarRestauranteExistente)
                 .execute(id);
 
-        // Act
         BadRequestException exception = assertThrows(BadRequestException.class, () -> {
             atualizarRestauranteComando.execute(id, dto, usuario);
         });
 
-        // Assert
         assertEquals("restaurante.nao.encontrado", exception.getMessage());
     }
 
     @Test
     void deveLancarExcecaoQuandoUsuarioNaoForProprietario() {
-        // Arrange
         Long id = 1L;
         AtualizarRestauranteComandoDto dto = new AtualizarRestauranteComandoDto();
         dto.setNome("Restaurante Teste");
@@ -138,7 +131,7 @@ public class AtualizarRestauranteComandoTest {
         Usuario usuario = new Usuario();
         usuario.setId(1L);
         usuario.setNome("Cliente Teste");
-        usuario.setTipo(TipoUsuario.CLIENTE); // Tipo diferente de ADMIN
+        usuario.setTipo(TipoUsuario.CLIENTE);
 
         Restaurante restaurante = new Restaurante();
         restaurante.setId(id);
@@ -157,7 +150,6 @@ public class AtualizarRestauranteComandoTest {
 
     @Test
     void deveAtualizarRestauranteQuandoApenasNomeForPreenchido() {
-        // Arrange
         Long id = 1L;
         AtualizarRestauranteComandoDto dto = new AtualizarRestauranteComandoDto();
         dto.setNome("Novo Nome Restaurante");
@@ -173,17 +165,14 @@ public class AtualizarRestauranteComandoTest {
         when(validarRestauranteExistente.execute(id)).thenReturn(restaurante);
         when(restauranteRepository.save(any(Restaurante.class))).thenAnswer(i -> i.getArgument(0));
 
-        // Act
         Restaurante resultado = atualizarRestauranteComando.execute(id, dto, usuario);
 
-        // Assert
         assertEquals(dto.getNome(), resultado.getNome());
         verify(restauranteRepository).save(any(Restaurante.class));
     }
 
     @Test
     void deveAtualizarRestauranteQuandoApenasHorarioAberturaForPreenchido() {
-        // Arrange
         Long id = 1L;
         AtualizarRestauranteComandoDto dto = new AtualizarRestauranteComandoDto();
         dto.setHorarioAbertura("10:00");
@@ -199,17 +188,14 @@ public class AtualizarRestauranteComandoTest {
         when(validarRestauranteExistente.execute(id)).thenReturn(restaurante);
         when(restauranteRepository.save(any(Restaurante.class))).thenAnswer(i -> i.getArgument(0));
 
-        // Act
         Restaurante resultado = atualizarRestauranteComando.execute(id, dto, usuario);
 
-        // Assert
         assertEquals(dto.getHorarioAbertura(), resultado.getHorarioAbertura());
         verify(restauranteRepository).save(any(Restaurante.class));
     }
 
     @Test
     void deveAtualizarRestauranteQuandoApenasHorarioFechamentoForPreenchido() {
-        // Arrange
         Long id = 1L;
         AtualizarRestauranteComandoDto dto = new AtualizarRestauranteComandoDto();
         dto.setHorarioFechamento("22:00");
@@ -225,17 +211,14 @@ public class AtualizarRestauranteComandoTest {
         when(validarRestauranteExistente.execute(id)).thenReturn(restaurante);
         when(restauranteRepository.save(any(Restaurante.class))).thenAnswer(i -> i.getArgument(0));
 
-        // Act
         Restaurante resultado = atualizarRestauranteComando.execute(id, dto, usuario);
 
-        // Assert
         assertEquals(dto.getHorarioFechamento(), resultado.getHorarioFechamento());
         verify(restauranteRepository).save(any(Restaurante.class));
     }
 
     @Test
     void deveAtualizarRestauranteQuandoApenasTipoCozinhaForPreenchido() {
-        // Arrange
         Long id = 1L;
         AtualizarRestauranteComandoDto dto = new AtualizarRestauranteComandoDto();
         dto.setTipoCozinha("Brasileira");
@@ -251,10 +234,8 @@ public class AtualizarRestauranteComandoTest {
         when(validarRestauranteExistente.execute(id)).thenReturn(restaurante);
         when(restauranteRepository.save(any(Restaurante.class))).thenAnswer(i -> i.getArgument(0));
 
-        // Act
         Restaurante resultado = atualizarRestauranteComando.execute(id, dto, usuario);
 
-        // Assert
         assertEquals(dto.getTipoCozinha(), resultado.getTipoCozinha());
         verify(restauranteRepository).save(any(Restaurante.class));
     }

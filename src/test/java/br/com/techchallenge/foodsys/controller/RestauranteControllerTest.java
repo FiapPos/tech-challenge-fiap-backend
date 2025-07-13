@@ -115,16 +115,14 @@ public class RestauranteControllerTest {
 
     @Test
     void deveListarRestaurantesComSucesso() {
-        // Arrange
+
         ListarRestaurantesParams params = new ListarRestaurantesParams();
         List<ListarRestaurantesResultadoItem> resultado = List.of(new ListarRestaurantesResultadoItem());
         when(listarRestaurantesQuery.execute(params)).thenReturn(resultado);
 
-        // Act
         ResponseEntity<List<ListarRestaurantesResultadoItem>> response = restauranteController
                 .listarRestaurantes(params);
 
-        // Assert
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(resultado, response.getBody());
         verify(listarRestaurantesQuery, times(1)).execute(params);
@@ -133,15 +131,13 @@ public class RestauranteControllerTest {
 
     @Test
     void deveRetornarNoContentQuandoListaRestaurantesVazia() {
-        // Arrange
+
         ListarRestaurantesParams params = new ListarRestaurantesParams();
         when(listarRestaurantesQuery.execute(params)).thenReturn(List.of());
 
-        // Act
         ResponseEntity<List<ListarRestaurantesResultadoItem>> response = restauranteController
                 .listarRestaurantes(params);
 
-        // Assert
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         assertNull(response.getBody());
         verify(listarRestaurantesQuery, times(1)).execute(params);

@@ -44,7 +44,7 @@ public class ListarEnderecosQueryTest {
 
     @Test
     void deveListarEnderecosPorUsuario() {
-        // Arrange
+
         Long usuarioId = 1L;
         ListarEnderecosParams params = new ListarEnderecosParams();
         params.setUsuarioId(usuarioId);
@@ -76,10 +76,8 @@ public class ListarEnderecosQueryTest {
         ListarEnderecosQuery query = new ListarEnderecosQuery(enderecoRepository, validarUsuarioExistente,
                 validarRestauranteExistente);
 
-        // Act
         List<ListarEnderecoPorResultadoItem> resultado = query.execute(params);
 
-        // Assert
         assertNotNull(resultado);
         assertEquals(2, resultado.size());
         assertEquals(endereco1.getId(), resultado.get(0).getId());
@@ -101,7 +99,6 @@ public class ListarEnderecosQueryTest {
 
     @Test
     void deveListarEnderecosPorRestaurante() {
-        // Arrange
         Long restauranteId = 5L;
         ListarEnderecosParams params = new ListarEnderecosParams();
         params.setRestauranteId(restauranteId);
@@ -133,10 +130,8 @@ public class ListarEnderecosQueryTest {
         ListarEnderecosQuery query = new ListarEnderecosQuery(enderecoRepository, validarUsuarioExistente,
                 validarRestauranteExistente);
 
-        // Act
         List<ListarEnderecoPorResultadoItem> resultado = query.execute(params);
 
-        // Assert
         assertNotNull(resultado);
         assertEquals(2, resultado.size());
         assertEquals(endereco1.getId(), resultado.get(0).getId());
@@ -158,7 +153,6 @@ public class ListarEnderecosQueryTest {
 
     @Test
     void deveLancarExcecaoQuandoUsuarioERestauranteNulo() {
-        // Arrange
         ListarEnderecosParams params = new ListarEnderecosParams();
         params.setUsuarioId(null);
         params.setRestauranteId(null);
@@ -166,7 +160,6 @@ public class ListarEnderecosQueryTest {
         ListarEnderecosQuery query = new ListarEnderecosQuery(enderecoRepository, validarUsuarioExistente,
                 validarRestauranteExistente);
 
-        // Act & Assert
         BadRequestException exception = assertThrows(
                 BadRequestException.class,
                 () -> query.execute(params));
