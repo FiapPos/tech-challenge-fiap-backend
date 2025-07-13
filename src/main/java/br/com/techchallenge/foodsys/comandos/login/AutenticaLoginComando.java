@@ -20,7 +20,8 @@ public class AutenticaLoginComando {
 
     public Usuario login(CredenciaisUsuarioDto credentials) {
         try {
-            Authentication authenticationToken = new UsernamePasswordAuthenticationToken(credentials.login(), credentials.senha());
+            Authentication authenticationToken = new UsernamePasswordAuthenticationToken(credentials.login(),
+                    credentials.senha());
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
             return ((DetalhesUsuarioDto) authentication.getPrincipal()).usuario();
         } catch (Exception e) {

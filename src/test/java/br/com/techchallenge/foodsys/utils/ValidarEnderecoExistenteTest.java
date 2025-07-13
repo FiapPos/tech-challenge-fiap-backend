@@ -12,9 +12,11 @@ import org.mockito.MockitoAnnotations;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-class ValidarEnderecoExistenteTest {
+public class ValidarEnderecoExistenteTest {
+
     @Mock
     private EnderecoRepository enderecoRepository;
     @InjectMocks
@@ -37,4 +39,42 @@ class ValidarEnderecoExistenteTest {
         when(enderecoRepository.findById(2L)).thenReturn(Optional.empty());
         assertThrows(BadRequestException.class, () -> validarEnderecoExistente.execute(2L));
     }
-} 
+
+    @Test
+    void deveLancarExcecaoQuandoEnderecoRestauranteExiste() {
+        Long usuarioId = 1L;
+        Long restauranteId = 2L;
+
+        when(enderecoRepository.existsByUsuarioIdAndRestauranteId(usuarioId, restauranteId)).thenReturn(true);
+
+        BadRequestException exception = assertThrows(
+                BadRequestException.class,
+                () -> validarEnderecoExistente.validarEnderecoRestauranteExistente(restauranteId, usuarioId));
+        assertEquals("endereco.restaurante.ja.cadastrado", exception.getMessage());
+        verify(enderecoRepository, times(1)).existsByUsuarioIdAndRestauranteId(usuarioId, restauranteId);
+    }
+
+    @Test
+    void deveRetornarFalseQuandoRestauranteNulo() {
+        Long usuarioId = 1L;
+        Long restauranteId = null;
+
+        boolean resultado = validarEnderecoExistente.validarEnderecoRestauranteExistente(restauranteId, usuarioId);
+
+        assertFalse(resultado);
+        verify(enderecoRepository, never()).existsByUsuarioIdAndRestauranteId(any(), any());
+    }
+
+    @Test
+    void deveRetornarFalseQuandoEnderecoRestauranteNaoExiste() {
+        Long usuarioId = 1L;
+        Long restauranteId = 2L;
+
+        when(enderecoRepository.existsByUsuarioIdAndRestauranteId(usuarioId, restauranteId)).thenReturn(false);
+
+        boolean resultado = validarEnderecoExistente.validarEnderecoRestauranteExistente(restauranteId, usuarioId);
+
+        assertFalse(resultado);
+        verify(enderecoRepository, times(1)).existsByUsuarioIdAndRestauranteId(usuarioId, restauranteId);
+    }
+}

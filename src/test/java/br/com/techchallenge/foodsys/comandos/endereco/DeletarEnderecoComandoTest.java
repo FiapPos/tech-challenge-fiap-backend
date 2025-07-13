@@ -4,25 +4,29 @@ import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoComand
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
-import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import br.com.techchallenge.foodsys.utils.ValidarEnderecoExistente;
 import br.com.techchallenge.foodsys.utils.ValidarUsuarioExistente;
+import br.com.techchallenge.foodsys.utils.ValidarProprietarioEndereco;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class DeletarEnderecoComandoTest {
+
     @Mock
     private EnderecoRepository enderecoRepository;
+
     @Mock
-    private ValidarEnderecoExistente validarEnderecoExistente;
+    private ValidarProprietarioEndereco validarProprietarioEndereco;
+
     @Mock
     private ValidarUsuarioExistente validarUsuarioExistente;
+
+    @Mock
+    private ValidarEnderecoExistente validarEnderecoExistente;
+
     @InjectMocks
     private DeletarEnderecoComando deletarEnderecoComando;
 
@@ -32,41 +36,60 @@ class DeletarEnderecoComandoTest {
     }
 
     @Test
-    void deveDeletarEnderecoComSucesso() {
+    void deveDeletarEnderecoUsuarioComSucesso() {
+        Long enderecoId = 1L;
+        Long usuarioId = 2L;
+        Long restauranteId = null;
+
+        Endereco endereco = new Endereco();
+        endereco.setId(enderecoId);
+
+        Usuario usuario = new Usuario();
+        usuario.setId(usuarioId);
+
         DeletarEnderecoComandoDto dto = new DeletarEnderecoComandoDto();
-        dto.setEnderecoId(1L);
-        dto.setUsuarioId(2L);
+        dto.setEnderecoId(enderecoId);
+        dto.setRestauranteId(restauranteId);
 
-        Usuario usuario = mock(Usuario.class);
-        Endereco endereco = mock(Endereco.class);
-        
-        when(usuario.getId()).thenReturn(2L);
-        when(endereco.getId()).thenReturn(1L);
-        when(endereco.getUsuario()).thenReturn(usuario);
-        when(validarUsuarioExistente.execute(dto.getUsuarioId())).thenReturn(usuario);
-        when(validarEnderecoExistente.execute(dto.getEnderecoId())).thenReturn(endereco);
-        doNothing().when(enderecoRepository).deleteById(1L);
+        when(validarUsuarioExistente.execute(usuarioId)).thenReturn(usuario);
+        when(validarEnderecoExistente.execute(enderecoId)).thenReturn(endereco);
+        doNothing().when(validarProprietarioEndereco).validarProprietarioEndereco(endereco, usuarioId, restauranteId);
+        doNothing().when(enderecoRepository).delete(endereco);
 
-        assertDoesNotThrow(() -> deletarEnderecoComando.execute(dto));
-        verify(enderecoRepository).deleteById(1L);
+        deletarEnderecoComando.execute(dto, usuario);
+
+        verify(validarUsuarioExistente).execute(usuarioId);
+        verify(validarEnderecoExistente).execute(enderecoId);
+        verify(validarProprietarioEndereco).validarProprietarioEndereco(endereco, usuarioId, restauranteId);
+        verify(enderecoRepository).deleteById(enderecoId);
     }
 
     @Test
-    void deveLancarExcecaoQuandoEnderecoNaoPertenceAoUsuario() {
+    void deveDeletarEnderecoRestauranteComSucesso() {
+        Long enderecoId = 1L;
+        Long usuarioId = 2L;
+        Long restauranteId = 3L;
+
+        Endereco endereco = new Endereco();
+        endereco.setId(enderecoId);
+
+        Usuario usuario = new Usuario();
+        usuario.setId(usuarioId);
+
         DeletarEnderecoComandoDto dto = new DeletarEnderecoComandoDto();
-        dto.setEnderecoId(1L);
-        dto.setUsuarioId(2L);
+        dto.setEnderecoId(enderecoId);
+        dto.setRestauranteId(restauranteId);
 
-        Usuario usuario = mock(Usuario.class);
-        when(usuario.getId()).thenReturn(3L);
+        when(validarUsuarioExistente.execute(usuarioId)).thenReturn(usuario);
+        when(validarEnderecoExistente.execute(enderecoId)).thenReturn(endereco);
+        doNothing().when(validarProprietarioEndereco).validarProprietarioEndereco(endereco, usuarioId, restauranteId);
+        doNothing().when(enderecoRepository).delete(endereco);
 
-        Endereco endereco = mock(Endereco.class);
-        when(endereco.getId()).thenReturn(1L);
+        deletarEnderecoComando.execute(dto, usuario);
 
-        when(endereco.getUsuario()).thenReturn(usuario);
-        when(validarUsuarioExistente.execute(dto.getUsuarioId())).thenReturn(usuario);
-        when(validarEnderecoExistente.execute(dto.getEnderecoId())).thenReturn(endereco);
-
-        assertThrows(BadRequestException.class, () -> deletarEnderecoComando.execute(dto));
+        verify(validarUsuarioExistente).execute(usuarioId);
+        verify(validarEnderecoExistente).execute(enderecoId);
+        verify(validarProprietarioEndereco).validarProprietarioEndereco(endereco, usuarioId, restauranteId);
+        verify(enderecoRepository).deleteById(enderecoId);
     }
-} 
+}

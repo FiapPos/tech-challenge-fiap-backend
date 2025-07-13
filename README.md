@@ -59,18 +59,22 @@ Desenvolver um sistema **backend robusto** com **Spring Boot** que possibilite:
 
 ## 3. Endpoints da API
 
-| Endpoint                         | Método | Descrição               |
-| -------------------------------- | ------ | ----------------------- |
-| `/usuarios`                      | POST   | Criação de usuários     |
-| `/usuarios/{usuarioId}`          | PUT    | Atualização de usuários |
-| `/usuarios?ativo=`               | GET    | Listagem de usuários    |
-| `/usuarios/{usuarioId}`          | DELETE | Desativação de usuário  |
-| `/login`                         | POST   | Autenticação            |
-| `/login/atualiza-senha`          | PUT    | Atualização de senha    |
-| `/enderecos`                     | POST   | Criação de endereço     |
-| `/enderecos/{enderecoId}`        | PUT    | Atualização de endereço |
-| `/enderecos/usuario/{usuarioId}` | GET    | Listagem de endereços   |
-| `/enderecos`                     | DELETE | Exclusão de endereço    |
+| Endpoint                                | Método | Descrição               |
+| --------------------------------------- | ------ | ----------------------- |
+| `/usuarios`                             | POST   | Criação de usuários     |
+| `/usuarios/{usuarioId}`                 | PUT    | Atualização de usuários |
+| `/usuarios?ativo=`                      | GET    | Listagem de usuários    |
+| `/usuarios/{usuarioId}`                 | DELETE | Desativação de usuário  |
+| `/login`                                | POST   | Autenticação            |
+| `/login/atualiza-senha`                 | PUT    | Atualização de senha    |
+| `/enderecos`                            | POST   | Criação de endereço     |
+| `/enderecos/{enderecoId}`               | PUT    | Atualização de endereço |
+| `/enderecos?restauranteId=`             | GET    | Listagem de endereços   |
+| `/enderecos`                            | DELETE | Exclusão de endereço    |
+| `/restaurante`                          | POST   | Criação de restaurante  |
+| `/restaurante/{restauranteId}`          | PUT    | Atualização de restaurante |
+| `/restaurante?ativo=true&tipoCozinha=`  | GET    | Listagem de restaurantes   |
+| `/restaurante/{restauranteId}`          | DELETE | Exclusão de restaurante    |
 
 ### 📄 Documentação Swagger
 

@@ -1,4 +1,5 @@
 package br.com.techchallenge.foodsys.config;
+
 import br.com.techchallenge.foodsys.comandos.login.FiltroAutenticacaoJwt;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,11 +45,9 @@ public class SecurityConfig {
                                 "/webjars/**",
                                 "/usuarios/**")
                         .permitAll()
-                        .anyRequest().authenticated()
-                )
-                .exceptionHandling(exceptionHandling ->
-                        exceptionHandling.authenticationEntryPoint(authenticationEntryPoint())
-                )
+                        .anyRequest().authenticated())
+                .exceptionHandling(
+                        exceptionHandling -> exceptionHandling.authenticationEntryPoint(authenticationEntryPoint()))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -60,7 +59,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
+    public AuthenticationManager authenticationManager(UserDetailsService userDetailsService,
+            PasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder);

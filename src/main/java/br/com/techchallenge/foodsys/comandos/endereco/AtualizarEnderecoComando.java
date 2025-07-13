@@ -4,8 +4,9 @@ import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoComa
 import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
+import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
-import br.com.techchallenge.foodsys.utils.ValidarCepDoUsuario;
+import br.com.techchallenge.foodsys.utils.ValidarCepDuplicado;
 import br.com.techchallenge.foodsys.utils.ValidarEnderecoExistente;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,16 @@ public class AtualizarEnderecoComando {
     private final EnderecoRepository enderecoRepository;
     private final ValidarEnderecoExistente validarEnderecoExistente;
     private final CompartilhadoService sharedService;
-    private final ValidarCepDoUsuario validarCepDoUsuario;
+    private final ValidarCepDuplicado validarCepDuplicado;
 
-    public Endereco execute(Long id, AtualizarEnderecoComandoDto dto) {
+    public Endereco execute(Long id, AtualizarEnderecoComandoDto dto, Usuario usuario) {
         validarDto(dto);
+
         Endereco endereco = validarEnderecoExistente.execute(id);
-        validarCepDoUsuario.validarCepDuplicado(dto.getUsuarioId(), dto.getCep());
+
+        validarProprietarioEndereco(endereco, usuario.getId(), dto.getRestauranteId());
+
+        validarCepDuplicado.validarCep(usuario.getId(), dto.getRestauranteId(), dto.getCep());
         atualizarCampos(endereco, dto);
         return enderecoRepository.save(endereco);
     }
@@ -60,6 +65,21 @@ public class AtualizarEnderecoComando {
     private void atualizarNumero(Endereco endereco, String numero) {
         if (numero != null) {
             endereco.setNumero(numero);
+        }
+    }
+
+    private void validarProprietarioEndereco(Endereco endereco, Long usuarioId, Long restauranteId) {
+
+        if (restauranteId != null) {
+
+            if (!endereco.getRestaurante().getId().equals(restauranteId)) {
+                throw new BadRequestException("endereco.nao.pertence.ao.restaurante");
+            }
+        } else {
+
+            if (!endereco.getUsuario().getId().equals(usuarioId)) {
+                throw new BadRequestException("endereco.nao.pertence.ao.usuario");
+            }
         }
     }
 

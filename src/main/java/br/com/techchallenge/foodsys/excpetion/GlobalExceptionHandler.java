@@ -30,7 +30,8 @@ public class GlobalExceptionHandler {
 
             if (defaultMessage != null && defaultMessage.startsWith("{") && defaultMessage.endsWith("}")) {
                 String messageKey = defaultMessage.substring(1, defaultMessage.length() - 1);
-                defaultMessage = messageSource.getMessage(messageKey, null, messageKey, LocaleContextHolder.getLocale());
+                defaultMessage = messageSource.getMessage(messageKey, null, messageKey,
+                        LocaleContextHolder.getLocale());
             }
 
             errors.put(fieldName, defaultMessage);
@@ -53,6 +54,7 @@ public class GlobalExceptionHandler {
         body.put("erro", ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body);
     }
+
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<ErrorResponse> handleForbiddenException(ForbiddenException ex) {
         String mensagem = messageSource.getMessage(ex.getMessage(), null, LocaleContextHolder.getLocale());

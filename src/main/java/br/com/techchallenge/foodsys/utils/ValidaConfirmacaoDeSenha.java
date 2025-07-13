@@ -23,13 +23,15 @@ public class ValidaConfirmacaoDeSenha implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        if (!(target instanceof AtualizaCredenciaisComandoDto dto)) return;
+        if (!(target instanceof AtualizaCredenciaisComandoDto dto))
+            return;
 
-        if(!dto.senha().equals(dto.confirmacaoSenha())) {
-            String message = messageSource.getMessage("senha.e.confirmacao.nao.sao.iguais", null, LocaleContextHolder.getLocale());
+        if (!dto.senha().equals(dto.confirmacaoSenha())) {
+            String message = messageSource.getMessage("senha.e.confirmacao.nao.sao.iguais", null,
+                    LocaleContextHolder.getLocale());
 
-            errors.rejectValue("senha",null, message);
-            errors.rejectValue("confirmacaoSenha",  null, message);
+            errors.rejectValue("senha", null, message);
+            errors.rejectValue("confirmacaoSenha", null, message);
         }
     }
 }
