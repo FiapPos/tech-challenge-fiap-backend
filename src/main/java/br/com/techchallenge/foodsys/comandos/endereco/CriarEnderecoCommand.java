@@ -55,4 +55,5 @@ public class CriarEnderecoCommand {
         endereco.setDataCriacao(sharedService.getCurrentDateTime());
         return endereco;
     }
+
 }
