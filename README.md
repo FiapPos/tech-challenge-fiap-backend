@@ -76,7 +76,7 @@ Desenvolver um sistema **backend robusto** com **Spring Boot** que possibilite:
 | /restaurantes/{restauranteId}/itens/{itemId} | GET    | Buscar itemDoCardapio por ID           |
 | /restaurantes/{restauranteId}/itens/{itemId} | PUT    | Atualização de itemDoCardapio          |
 | /restaurantes/{restauranteId}/itens/{itemId}| DELETE | Exclusão de itemDoCardapio             |
-| /restaurantes/{restauranteId}/itens/{itemId}/foto" | POST   | Upload de foto do itemDoCardapio       |
+| /restaurantes/{restauranteId}/itens/{itemId}/foto | POST   | Upload de foto do itemDoCardapio       |
 
 ### 📄 Documentação Swagger
 
