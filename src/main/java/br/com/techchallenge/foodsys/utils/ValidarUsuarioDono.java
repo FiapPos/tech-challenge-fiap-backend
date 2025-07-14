@@ -13,8 +13,10 @@ import lombok.RequiredArgsConstructor;
 public class ValidarUsuarioDono {
 
     public void validarUsuarioDono(Usuario usuario) {
+        boolean isAdmin = usuario.getUsuarioTipos().stream()
+                .anyMatch(usuarioTipo -> TipoUsuario.ADMIN.equals(usuarioTipo.getTipo()));
 
-        if (!TipoUsuario.ADMIN.equals(usuario.getTipo())) {
+        if (!isAdmin) {
             throw new BadRequestException("usuario.nao.e.dono");
         }
     }

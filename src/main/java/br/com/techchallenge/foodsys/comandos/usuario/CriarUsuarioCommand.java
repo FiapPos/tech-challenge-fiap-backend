@@ -1,14 +1,13 @@
 package br.com.techchallenge.foodsys.comandos.usuario;
 
 import br.com.techchallenge.foodsys.comandos.usuario.dtos.CriarUsuarioCommandDto;
-import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.dominio.usuario.UsuarioRepository;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import br.com.techchallenge.foodsys.utils.ValidarEmailExistente;
 import br.com.techchallenge.foodsys.utils.ValidarLoginExistente;
+import br.com.techchallenge.foodsys.utils.usuario.CriarUsuarioBase;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,27 +15,30 @@ import org.springframework.stereotype.Service;
 public class CriarUsuarioCommand {
 
     private final UsuarioRepository usuarioRepository;
-    private final CompartilhadoService sharedService;
     private final ValidarEmailExistente validarEmailExistente;
     private final ValidarLoginExistente validarLoginExistente;
-    private final PasswordEncoder passwordEncoder;
+    private final CriarUsuarioBase criarUsuarioBase;
+    private final br.com.techchallenge.foodsys.comandos.usuario.tipo.AdicionarTipoUsuarioComando adicionarTipoUsuarioComando;
 
-    public Usuario execute(CriarUsuarioCommandDto criarUsuarioCommandDto) {
-        validarEmailExistente.execute(criarUsuarioCommandDto.getEmail());
-        validarLoginExistente.execute(criarUsuarioCommandDto.getLogin());
-        Usuario usuario = mapToEntity(criarUsuarioCommandDto);
+    public Usuario execute(CriarUsuarioCommandDto dto) {
+        validarDadosUsuario(dto);
+        Usuario usuario = criarUsuarioBase.execute(dto);
+        adicionarTipoUsuario(usuario, dto);
+        return salvarUsuario(usuario);
+    }
+
+    private void validarDadosUsuario(CriarUsuarioCommandDto dto) {
+        validarEmailExistente.execute(dto.getEmail());
+        validarLoginExistente.execute(dto.getLogin());
+    }
+
+    private void adicionarTipoUsuario(Usuario usuario, CriarUsuarioCommandDto dto) {
+        dto.getTipos().forEach(tipo -> {
+            adicionarTipoUsuarioComando.execute(usuario, tipo);
+        });
+    }
+
+    private Usuario salvarUsuario(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
-
-    private Usuario mapToEntity(CriarUsuarioCommandDto criarUsuarioCommandDto) {
-        Usuario usuario = new Usuario();
-        usuario.setNome(criarUsuarioCommandDto.getNome());
-        usuario.setEmail(criarUsuarioCommandDto.getEmail());
-        usuario.setSenha(passwordEncoder.encode(criarUsuarioCommandDto.getSenha()));
-        usuario.setLogin(criarUsuarioCommandDto.getLogin());
-        usuario.setTipo(TipoUsuario.fromCodigo(criarUsuarioCommandDto.getTipo().getCodigo()));
-        usuario.setDataCriacao(sharedService.getCurrentDateTime());
-        return usuario;
-    }
-
 }
