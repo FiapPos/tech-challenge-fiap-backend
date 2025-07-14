@@ -71,12 +71,12 @@ Desenvolver um sistema **backend robusto** com **Spring Boot** que possibilite:
 | /enderecos/{enderecoId}            | PUT    | Atualização de endereço       |
 | /enderecos/usuario/{usuarioId}     | GET    | Listagem de endereços         |
 | /enderecos                        | DELETE | Exclusão de endereço          |
-| /restaurante/{restauranteId}/pratos | POST   | Criação de itemDoCardapio              |
-| /restaurante/{restauranteId}/pratos | GET    | Listagem de pratos por restaurante |
-| /restaurante/{restauranteId}/pratos/{pratoId} | GET    | Buscar itemDoCardapio por ID           |
-| /restaurante/{restauranteId}/pratos/{pratoId} | PUT    | Atualização de itemDoCardapio          |
-| /restaurante/{restauranteId}/pratos/{pratoId} | DELETE | Exclusão de itemDoCardapio             |
-| /restaurantes/{restauranteId}/pratos/{pratoId}/foto | POST   | Upload de foto do itemDoCardapio       |
+| /restaurantes/{restauranteId}/itens | POST   | Criação de itemDoCardapio              |
+| /restaurantes/{restauranteId}/itens | GET    | Listagem de pratos por restaurante |
+| /restaurantes/{restauranteId}/itens/{itemId} | GET    | Buscar itemDoCardapio por ID           |
+| /restaurantes/{restauranteId}/itens/{itemId} | PUT    | Atualização de itemDoCardapio          |
+| /restaurantes/{restauranteId}/itens/{itemId}| DELETE | Exclusão de itemDoCardapio             |
+| /restaurantes/{restauranteId}/itens/{itemId}/foto" | POST   | Upload de foto do itemDoCardapio       |
 
 ### 📄 Documentação Swagger
 

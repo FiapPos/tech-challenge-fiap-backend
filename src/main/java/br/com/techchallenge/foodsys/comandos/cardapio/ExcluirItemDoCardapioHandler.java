@@ -1,7 +1,7 @@
 package br.com.techchallenge.foodsys.comandos.cardapio;
 
 import br.com.techchallenge.foodsys.dominio.cardapio.ItemDoCardapioRepository;
-import br.com.techchallenge.foodsys.excpetion.PratoNaoEncontradoException;
+import br.com.techchallenge.foodsys.excpetion.ItemDoCardapioNaoEncontradoException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +18,7 @@ public class ExcluirItemDoCardapioHandler {
         if (exists) {
             itemDoCardapioRepository.deleteById(pratoId);
         } else {
-            throw new PratoNaoEncontradoException(pratoId);
+            throw new ItemDoCardapioNaoEncontradoException(pratoId);
         }
     }
 }

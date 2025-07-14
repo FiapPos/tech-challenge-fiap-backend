@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/restaurantes/{restauranteId}/pratos/{pratoId}/foto")
+@RequestMapping("/restaurantes/{restauranteId}/itens/{itemId}/foto")
 public class FotoItemDoCardapioController {
 
     private final FotoItemDoCardapioHandler fotoItemDoCardapioHandler;

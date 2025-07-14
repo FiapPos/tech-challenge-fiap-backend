@@ -1,4 +1,6 @@
 package br.com.techchallenge.foodsys.comandos.cardapio;
+import br.com.techchallenge.foodsys.dominio.cardapio.ItemDoCardapio;
+
 import java.math.BigDecimal;
 
 public class AtualizarItemDoCardapioComando {
@@ -32,6 +34,21 @@ public class AtualizarItemDoCardapioComando {
 
     public Boolean getDisponivelSomenteNoLocal() {
         return disponivelSomenteNoLocal;
+    }
+
+    public void aplicarEm(ItemDoCardapio item) {
+        if (this.nome != null) {
+            item.setNome(this.nome);
+        }
+        if (this.descricao != null) {
+            item.setDescricao(this.descricao);
+        }
+        if (this.preco != null) {
+            item.setPreco(this.preco);
+        }
+        if (this.disponivelSomenteNoLocal != null) {
+            item.setDisponivelSomenteNoLocal(this.disponivelSomenteNoLocal);
+        }
     }
 
 }

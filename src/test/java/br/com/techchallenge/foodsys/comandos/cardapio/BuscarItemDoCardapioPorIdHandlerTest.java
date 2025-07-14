@@ -4,7 +4,7 @@ import br.com.techchallenge.foodsys.comandos.cardapio.dtos.ItemDoCardapioRespons
 import br.com.techchallenge.foodsys.dominio.cardapio.ItemDoCardapio;
 import br.com.techchallenge.foodsys.dominio.cardapio.ItemDoCardapioRepository;
 import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
-import br.com.techchallenge.foodsys.excpetion.PratoNaoEncontradoException;
+import br.com.techchallenge.foodsys.excpetion.ItemDoCardapioNaoEncontradoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -55,7 +55,7 @@ public class BuscarItemDoCardapioPorIdHandlerTest {
         when(itemDoCardapioRepository.findByIdAndRestauranteId(pratoId, restauranteId))
                 .thenReturn(Optional.empty());
 
-        assertThrows(PratoNaoEncontradoException.class,
+        assertThrows(ItemDoCardapioNaoEncontradoException.class,
                 () -> handler.executar(restauranteId, pratoId));
     }
 }

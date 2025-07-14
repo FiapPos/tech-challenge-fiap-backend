@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/restaurante/{restauranteId}/itens-do-cardapio")
+@RequestMapping("/restaurantes/{restauranteId}/itens")
 public class ItemDoCardapioController {
 
     private final CriarItemDoCardapioHandler criarItemDoCardapioHandler;

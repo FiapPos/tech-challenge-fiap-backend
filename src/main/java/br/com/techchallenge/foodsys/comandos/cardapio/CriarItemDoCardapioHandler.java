@@ -21,6 +21,11 @@ public class CriarItemDoCardapioHandler {
         Restaurante restaurante = restauranteRepository.findById(comando.getRestauranteId())
                 .orElseThrow(() -> new IllegalArgumentException("Restaurante com ID " + comando.getRestauranteId() + " não encontrado."));
 
+        boolean nomeJaExiste = itemDoCardapioRepository.existsByNomeAndRestauranteId(comando.getNome(), comando.getRestauranteId());
+        if (nomeJaExiste) {
+            throw new IllegalArgumentException("Já existe um item com esse nome no cardápio do restaurante.");
+        }
+
         ItemDoCardapio itemDoCardapio = new ItemDoCardapio();
         itemDoCardapio.setNome(comando.getNome());
         itemDoCardapio.setDescricao(comando.getDescricao());
@@ -31,4 +36,5 @@ public class CriarItemDoCardapioHandler {
         ItemDoCardapio salvo = itemDoCardapioRepository.save(itemDoCardapio);
         return ItemDoCardapioResponseDTO.fromEntity(salvo);
     }
+
 }

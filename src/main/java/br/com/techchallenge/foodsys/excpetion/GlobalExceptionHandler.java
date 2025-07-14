@@ -61,8 +61,8 @@ public class GlobalExceptionHandler {
                 .body(new ErrorResponse(mensagem));
     }
 
-    @ExceptionHandler(PratoNaoEncontradoException.class)
-    public ResponseEntity<ErrorResponse> handlePratoNaoEncontradoException(PratoNaoEncontradoException ex) {
+    @ExceptionHandler(ItemDoCardapioNaoEncontradoException.class)
+    public ResponseEntity<ErrorResponse> handlePratoNaoEncontradoException(ItemDoCardapioNaoEncontradoException ex) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(ex.getMessage()));

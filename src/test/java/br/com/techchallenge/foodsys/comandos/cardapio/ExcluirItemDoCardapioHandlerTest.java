@@ -1,6 +1,6 @@
 package br.com.techchallenge.foodsys.comandos.cardapio;
 import br.com.techchallenge.foodsys.dominio.cardapio.ItemDoCardapioRepository;
-import br.com.techchallenge.foodsys.excpetion.PratoNaoEncontradoException;
+import br.com.techchallenge.foodsys.excpetion.ItemDoCardapioNaoEncontradoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -39,7 +39,7 @@ class ExcluirItemDoCardapioHandlerTest {
 
         when(itemDoCardapioRepository.existsByIdAndRestauranteId(pratoId, restauranteId)).thenReturn(false);
 
-        assertThrows(PratoNaoEncontradoException.class, () -> {
+        assertThrows(ItemDoCardapioNaoEncontradoException.class, () -> {
             excluirItemDoCardapioHandler.executar(restauranteId, pratoId);
         });
 

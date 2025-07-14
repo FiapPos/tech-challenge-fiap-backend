@@ -242,142 +242,78 @@
 					"request": {
 						"method": "POST",
 						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
+							{ "key": "Content-Type", "value": "application/json" },
+							{ "key": "Authorization", "value": "Bearer {{token}}" }
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"nome\": \"Pizza Margherita\",\n  \"descricao\": \"Deliciosa pizza com tomate, mussarela e manjericão\",\n  \"preco\": 35.50,\n  \"disponivelSomenteNoLocal\": false\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/restaurante/{{restauranteId}}/itens-do-cardapio",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"restaurante",
-								"{{restauranteId}}",
-								"itens-do-cardapio"
-							]
+							"raw": "{{base_url}}/restaurantes/{{restauranteId}}/itens",
+							"host": ["{{base_url}}"],
+							"path": ["restaurantes", "{{restauranteId}}", "itens"]
 						}
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Listar Itens do Cardápio",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
-						],
+						"header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
 						"url": {
-							"raw": "{{base_url}}/restaurante/{{restauranteId}}/itens-do-cardapio",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"restaurante",
-								"{{restauranteId}}",
-								"itens-do-cardapio"
-							]
+							"raw": "{{base_url}}/restaurantes/{{restauranteId}}/itens",
+							"host": ["{{base_url}}"],
+							"path": ["restaurantes", "{{restauranteId}}", "itens"]
 						}
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Buscar Item do Cardápio por ID",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
-						],
+						"header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
 						"url": {
-							"raw": "{{base_url}}/restaurante/{{restauranteId}}/itens-do-cardapio/{{itemId}}",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"restaurante",
-								"{{restauranteId}}",
-								"itens-do-cardapio",
-								"{{itemId}}"
-							]
+							"raw": "{{base_url}}/restaurantes/{{restauranteId}}/itens/{{itemId}}",
+							"host": ["{{base_url}}"],
+							"path": ["restaurantes", "{{restauranteId}}", "itens", "{{itemId}}"]
 						}
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Atualizar Item do Cardápio",
 					"request": {
 						"method": "PUT",
 						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
+							{ "key": "Content-Type", "value": "application/json" },
+							{ "key": "Authorization", "value": "Bearer {{token}}" }
 						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"nome\": \"Pizza Margherita Atualizada\",\n  \"descricao\": \"Descrição atualizada do prato\",\n  \"preco\": 38.00,\n  \"disponivelSomenteNoLocal\": true\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/restaurante/{{restauranteId}}/itens-do-cardapio/{{itemId}}",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"restaurante",
-								"{{restauranteId}}",
-								"itens-do-cardapio",
-								"{{itemId}}"
-							]
+							"raw": "{{base_url}}/restaurantes/{{restauranteId}}/itens/{{itemId}}",
+							"host": ["{{base_url}}"],
+							"path": ["restaurantes", "{{restauranteId}}", "itens", "{{itemId}}"]
 						}
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Excluir Item do Cardápio",
 					"request": {
 						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
-						],
+						"header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
 						"url": {
-							"raw": "{{base_url}}/restaurante/{{restauranteId}}/itens-do-cardapio/{{itemId}}",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"restaurante",
-								"{{restauranteId}}",
-								"itens-do-cardapio",
-								"{{itemId}}"
-							]
+							"raw": "{{base_url}}/restaurantes/{{restauranteId}}/itens/{{itemId}}",
+							"host": ["{{base_url}}"],
+							"path": ["restaurantes", "{{restauranteId}}", "itens", "{{itemId}}"]
 						}
-					},
-					"response": []
+					}
 				}
 			]
 		}
+
 	],
 	"variable": [
 		{

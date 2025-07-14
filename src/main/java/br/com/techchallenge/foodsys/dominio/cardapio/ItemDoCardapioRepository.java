@@ -9,4 +9,6 @@ public interface ItemDoCardapioRepository extends JpaRepository<ItemDoCardapio, 
      Optional<ItemDoCardapio> findByIdAndRestauranteId(Long pratoId, Long restauranteId);
 
     boolean existsByIdAndRestauranteId(Long pratoId, Long restauranteId);
+
+    boolean existsByNomeAndRestauranteId(String nome, Long restauranteId);
 }
