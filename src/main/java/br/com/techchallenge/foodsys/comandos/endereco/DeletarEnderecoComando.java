@@ -4,9 +4,7 @@ import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoComand
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
-import br.com.techchallenge.foodsys.utils.ValidarEnderecoExistente;
-import br.com.techchallenge.foodsys.utils.ValidarUsuarioExistente;
-import br.com.techchallenge.foodsys.utils.ValidarProprietarioEndereco;
+import br.com.techchallenge.foodsys.utils.ValidarDadosDelecaoEndereco;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,14 +13,12 @@ import org.springframework.stereotype.Service;
 public class DeletarEnderecoComando {
 
     private final EnderecoRepository enderecoRepository;
-    private final ValidarUsuarioExistente validarUsuarioExistente;
-    private final ValidarEnderecoExistente validarEnderecoExistente;
-    private final ValidarProprietarioEndereco validarProprietarioEndereco;
+    private final ValidarDadosDelecaoEndereco validarDadosDelecao;
 
     public void execute(DeletarEnderecoComandoDto dto, Usuario usuario) {
-        validarUsuarioExistente.execute(usuario.getId());
-        Endereco endereco = validarEnderecoExistente.execute(dto.getEnderecoId());
-        validarProprietarioEndereco.validarProprietarioEndereco(endereco, usuario.getId(), dto.getRestauranteId());
+
+        Endereco endereco = validarDadosDelecao.validarDelecao(dto.getEnderecoId(), usuario.getId(),
+                dto.getRestauranteId());
         deletarEndereco(endereco);
     }
 

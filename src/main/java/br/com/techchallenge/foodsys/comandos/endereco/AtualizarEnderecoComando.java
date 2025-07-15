@@ -5,9 +5,7 @@ import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
-import br.com.techchallenge.foodsys.excpetion.BadRequestException;
-import br.com.techchallenge.foodsys.utils.ValidarCepDuplicado;
-import br.com.techchallenge.foodsys.utils.ValidarEnderecoExistente;
+import br.com.techchallenge.foodsys.utils.ValidarDadosAtualizacaoEndereco;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,31 +14,15 @@ import org.springframework.stereotype.Service;
 public class AtualizarEnderecoComando {
 
     private final EnderecoRepository enderecoRepository;
-    private final ValidarEnderecoExistente validarEnderecoExistente;
     private final CompartilhadoService sharedService;
-    private final ValidarCepDuplicado validarCepDuplicado;
+    private final ValidarDadosAtualizacaoEndereco validarDadosAtualizacaoEndereco;
 
     public Endereco execute(Long id, AtualizarEnderecoComandoDto dto, Usuario usuario) {
-        validarDto(dto);
 
-        Endereco endereco = validarEnderecoExistente.execute(id);
+        Endereco endereco = validarDadosAtualizacaoEndereco.validarAtualizacao(id, dto, usuario);
 
-        validarProprietarioEndereco(endereco, usuario.getId(), dto.getRestauranteId());
-
-        validarCepDuplicado.validarCep(usuario.getId(), dto.getRestauranteId(), dto.getCep());
         atualizarCampos(endereco, dto);
         return enderecoRepository.save(endereco);
-    }
-
-    private void validarDto(AtualizarEnderecoComandoDto dto) {
-        if (!isPeloMenosUmCampoPreenchido(dto)) {
-            throw new BadRequestException("atualizar.endereco.nenhum.campo");
-        }
-    }
-
-    private boolean isPeloMenosUmCampoPreenchido(AtualizarEnderecoComandoDto dto) {
-        return dto.getRua() != null || dto.getCep() != null ||
-                dto.getNumero() != null;
     }
 
     private void atualizarCampos(Endereco endereco, AtualizarEnderecoComandoDto dto) {
@@ -67,20 +49,4 @@ public class AtualizarEnderecoComando {
             endereco.setNumero(numero);
         }
     }
-
-    private void validarProprietarioEndereco(Endereco endereco, Long usuarioId, Long restauranteId) {
-
-        if (restauranteId != null) {
-
-            if (!endereco.getRestaurante().getId().equals(restauranteId)) {
-                throw new BadRequestException("endereco.nao.pertence.ao.restaurante");
-            }
-        } else {
-
-            if (!endereco.getUsuario().getId().equals(usuarioId)) {
-                throw new BadRequestException("endereco.nao.pertence.ao.usuario");
-            }
-        }
-    }
-
 }

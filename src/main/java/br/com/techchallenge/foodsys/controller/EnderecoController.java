@@ -9,7 +9,6 @@ import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoComand
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
-import br.com.techchallenge.foodsys.query.endereco.ListarEnderecoPorIdUsuario;
 import br.com.techchallenge.foodsys.query.params.ListarEnderecosParams;
 import br.com.techchallenge.foodsys.query.resultadoItem.endereco.ListarEnderecoPorResultadoItem;
 import br.com.techchallenge.foodsys.query.endereco.ListarEnderecosQuery;
@@ -95,7 +94,7 @@ public class EnderecoController {
         @Operation(summary = "Listar endereço por ID.", description = "Recurso para listar endereço.",
 
                         responses = {
-                                        @ApiResponse(responseCode = "200", description = "Endereco listado com sucesso.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ListarEnderecoPorIdUsuario.class))),
+                                        @ApiResponse(responseCode = "200", description = "Endereco listado com sucesso.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ListarEnderecoPorResultadoItem.class))),
 
                                         @ApiResponse(responseCode = "400", description = "Endereco não encontrado.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestException.class)))
                         })

@@ -4,18 +4,16 @@ import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
-import org.springframework.data.domain.Sort;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -25,17 +23,16 @@ import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.query.params.ListarEnderecosParams;
 import br.com.techchallenge.foodsys.query.resultadoItem.endereco.ListarEnderecoPorResultadoItem;
-import br.com.techchallenge.foodsys.utils.ValidarRestauranteExistente;
-import br.com.techchallenge.foodsys.utils.ValidarUsuarioExistente;
+import br.com.techchallenge.foodsys.utils.ValidarListaDeEndereco;
 
 public class ListarEnderecosQueryTest {
 
     @Mock
     private EnderecoRepository enderecoRepository;
     @Mock
-    private ValidarUsuarioExistente validarUsuarioExistente;
-    @Mock
-    private ValidarRestauranteExistente validarRestauranteExistente;
+    private ValidarListaDeEndereco validarListaDeEndereco;
+    @InjectMocks
+    private ListarEnderecosQuery listarEnderecosQuery;
 
     @BeforeEach
     void setUp() {
@@ -70,13 +67,9 @@ public class ListarEnderecosQueryTest {
 
         List<Endereco> enderecos = List.of(endereco1, endereco2);
 
-        when(enderecoRepository.findByUsuarioId(eq(usuarioId), any(Sort.class))).thenReturn(enderecos);
-        when(validarUsuarioExistente.execute(usuarioId)).thenReturn(usuario);
+        when(validarListaDeEndereco.listarEnderecos(usuarioId, null)).thenReturn(enderecos);
 
-        ListarEnderecosQuery query = new ListarEnderecosQuery(enderecoRepository, validarUsuarioExistente,
-                validarRestauranteExistente);
-
-        List<ListarEnderecoPorResultadoItem> resultado = query.execute(params);
+        List<ListarEnderecoPorResultadoItem> resultado = listarEnderecosQuery.execute(params);
 
         assertNotNull(resultado);
         assertEquals(2, resultado.size());
@@ -93,12 +86,12 @@ public class ListarEnderecosQueryTest {
         assertNull(resultado.get(0).getDataAtualizacao());
         assertNull(resultado.get(1).getDataAtualizacao());
 
-        verify(validarUsuarioExistente).execute(usuarioId);
-        verify(enderecoRepository).findByUsuarioId(eq(usuarioId), any(Sort.class));
+        verify(validarListaDeEndereco).listarEnderecos(usuarioId, null);
     }
 
     @Test
     void deveListarEnderecosPorRestaurante() {
+
         Long restauranteId = 5L;
         ListarEnderecosParams params = new ListarEnderecosParams();
         params.setRestauranteId(restauranteId);
@@ -124,13 +117,9 @@ public class ListarEnderecosQueryTest {
 
         List<Endereco> enderecos = List.of(endereco1, endereco2);
 
-        when(enderecoRepository.findByRestauranteId(restauranteId)).thenReturn(enderecos);
-        when(validarRestauranteExistente.execute(restauranteId)).thenReturn(restaurante);
+        when(validarListaDeEndereco.listarEnderecos(null, restauranteId)).thenReturn(enderecos);
 
-        ListarEnderecosQuery query = new ListarEnderecosQuery(enderecoRepository, validarUsuarioExistente,
-                validarRestauranteExistente);
-
-        List<ListarEnderecoPorResultadoItem> resultado = query.execute(params);
+        List<ListarEnderecoPorResultadoItem> resultado = listarEnderecosQuery.execute(params);
 
         assertNotNull(resultado);
         assertEquals(2, resultado.size());
@@ -147,22 +136,67 @@ public class ListarEnderecosQueryTest {
         assertNull(resultado.get(0).getDataAtualizacao());
         assertNull(resultado.get(1).getDataAtualizacao());
 
-        verify(validarRestauranteExistente).execute(restauranteId);
-        verify(enderecoRepository).findByRestauranteId(restauranteId);
+        verify(validarListaDeEndereco).listarEnderecos(null, restauranteId);
     }
 
     @Test
-    void deveLancarExcecaoQuandoUsuarioERestauranteNulo() {
+    void deveMapearCorretamenteOsDtos() {
+        Long usuarioId = 1L;
+        ListarEnderecosParams params = new ListarEnderecosParams();
+        params.setUsuarioId(usuarioId);
+
+        Endereco endereco = new Endereco();
+        endereco.setId(123L);
+        endereco.setRua("Rua Teste");
+        endereco.setCep("99999-999");
+        endereco.setNumero("321");
+        endereco.setDataCriacao(java.time.LocalDateTime.of(2023, 5, 10, 12, 0));
+        endereco.setDataAtualizacao(java.time.LocalDateTime.of(2023, 6, 15, 15, 30));
+
+        List<Endereco> enderecos = List.of(endereco);
+
+        when(validarListaDeEndereco.listarEnderecos(usuarioId, null)).thenReturn(enderecos);
+
+        List<ListarEnderecoPorResultadoItem> resultado = listarEnderecosQuery.execute(params);
+
+        assertNotNull(resultado);
+        assertEquals(1, resultado.size());
+        ListarEnderecoPorResultadoItem dto = resultado.get(0);
+        assertEquals(endereco.getId(), dto.getId());
+        assertEquals(endereco.getRua(), dto.getRua());
+        assertEquals(endereco.getCep(), dto.getCep());
+        assertEquals(endereco.getNumero(), dto.getNumero());
+        assertEquals(endereco.getDataCriacao(), dto.getDataCriacao());
+        assertEquals(endereco.getDataAtualizacao(), dto.getDataAtualizacao());
+    }
+
+    @Test
+    void deveRetornarListaVaziaQuandoNaoHaEnderecos() {
+        Long usuarioId = 1L;
+        ListarEnderecosParams params = new ListarEnderecosParams();
+        params.setUsuarioId(usuarioId);
+
+        when(validarListaDeEndereco.listarEnderecos(usuarioId, null)).thenReturn(List.of());
+
+        List<ListarEnderecoPorResultadoItem> resultado = listarEnderecosQuery.execute(params);
+
+        assertNotNull(resultado);
+        assertEquals(0, resultado.size());
+    }
+
+    @Test
+    void deveLancarExcecaoQuandoUsuarioeRestauranteNulos() {
         ListarEnderecosParams params = new ListarEnderecosParams();
         params.setUsuarioId(null);
         params.setRestauranteId(null);
 
-        ListarEnderecosQuery query = new ListarEnderecosQuery(enderecoRepository, validarUsuarioExistente,
-                validarRestauranteExistente);
+        // Configura o mock para lançar a exceção esperada
+        when(validarListaDeEndereco.listarEnderecos(null, null))
+                .thenThrow(new BadRequestException("usuario.id.ou.restaurante.id.obrigatorio"));
 
         BadRequestException exception = assertThrows(
                 BadRequestException.class,
-                () -> query.execute(params));
+                () -> listarEnderecosQuery.execute(params));
         assertEquals("usuario.id.ou.restaurante.id.obrigatorio", exception.getMessage());
     }
 }
