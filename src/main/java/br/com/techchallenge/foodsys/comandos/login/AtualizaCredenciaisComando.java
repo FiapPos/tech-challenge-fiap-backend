@@ -14,7 +14,8 @@ public class AtualizaCredenciaisComando {
     private final PasswordEncoder passwordEncoder;
     private final UsuarioRepository usuarioRepository;
 
-    public AtualizaCredenciaisComando(UsuarioLogado usuarioLogado, PasswordEncoder passwordEncoder, UsuarioRepository usuarioRepository) {
+    public AtualizaCredenciaisComando(UsuarioLogado usuarioLogado, PasswordEncoder passwordEncoder,
+            UsuarioRepository usuarioRepository) {
         this.usuarioLogado = usuarioLogado;
         this.passwordEncoder = passwordEncoder;
         this.usuarioRepository = usuarioRepository;
@@ -28,7 +29,6 @@ public class AtualizaCredenciaisComando {
         usuarioRepository
                 .findById(usuarioLogado.getUsuarioId())
                 .ifPresent(
-                        usuario -> usuario.trocaSenha(passwordEncoder.encode(atualizaCredenciaisComandoDto.senha()))
-                );
+                        usuario -> usuario.trocaSenha(passwordEncoder.encode(atualizaCredenciaisComandoDto.senha())));
     }
 }

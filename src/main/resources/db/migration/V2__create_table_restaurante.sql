@@ -1,9 +1,9 @@
 CREATE TABLE restaurante (
     id BIGSERIAL PRIMARY KEY,
     nome VARCHAR(155),
-    endereco VARCHAR(200),
     tipo_cozinha VARCHAR(100),
-    horario_funcionamento VARCHAR(50),
+    horario_abertura VARCHAR(50),
+    horario_fechamento VARCHAR(50),
     usuario_dono_id BIGINT NOT NULL,
     ativo BOOLEAN NOT NULL DEFAULT TRUE,
     data_criacao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

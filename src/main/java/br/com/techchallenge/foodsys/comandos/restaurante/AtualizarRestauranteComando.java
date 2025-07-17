@@ -6,6 +6,7 @@ import br.com.techchallenge.foodsys.comandos.restaurante.dtos.AtualizarRestauran
 import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
 import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
 import br.com.techchallenge.foodsys.dominio.restaurante.RestauranteRepository;
+import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import br.com.techchallenge.foodsys.utils.ValidarProprietarioRestaurante;
 import br.com.techchallenge.foodsys.utils.ValidarRestauranteExistente;
@@ -21,10 +22,10 @@ public class AtualizarRestauranteComando {
     private final ValidarProprietarioRestaurante validarProprietarioRestaurante;
     private final CompartilhadoService sharedService;
 
-    public Restaurante execute(Long id, AtualizarRestauranteComandoDto dto) {
+    public Restaurante execute(Long id, AtualizarRestauranteComandoDto dto, Usuario usuario) {
         validarDto(dto);
         Restaurante restaurante = validarRestauranteExistente.execute(id);
-        validarProprietarioRestaurante.validarProprietario(restaurante, dto.getUsuarioDonoId());
+        validarProprietarioRestaurante.validarProprietario(restaurante, usuario.getId());
         atualizarCampos(restaurante, dto);
         return restauranteRepository.save(restaurante);
     }
@@ -36,15 +37,15 @@ public class AtualizarRestauranteComando {
     }
 
     private boolean isPeloMenosUmCampoPreenchido(AtualizarRestauranteComandoDto dto) {
-        return dto.getNome() != null || dto.getEndereco() != null || dto.getHorarioFuncionamento() != null ||
+        return dto.getNome() != null || dto.getHorarioAbertura() != null || dto.getHorarioFechamento() != null ||
                 dto.getTipoCozinha() != null;
     }
 
     private void atualizarCampos(Restaurante restaurante, AtualizarRestauranteComandoDto dto) {
         atualizarNome(restaurante, dto.getNome());
-        atualizarEndereco(restaurante, dto.getEndereco());
+        atualizarHorarioAbertura(restaurante, dto.getHorarioAbertura());
+        atualizarHorarioFechamento(restaurante, dto.getHorarioFechamento());
         atualizarTipoCozinha(restaurante, dto.getTipoCozinha());
-        atualizarHorarioFuncionamento(restaurante, dto.getHorarioFuncionamento());
         restaurante.setDataAtualizacao(sharedService.getCurrentDateTime());
     }
 
@@ -54,9 +55,15 @@ public class AtualizarRestauranteComando {
         }
     }
 
-    public void atualizarEndereco(Restaurante restaurante, String endereco) {
-        if (endereco != null) {
-            restaurante.setEndereco(endereco);
+    public void atualizarHorarioFechamento(Restaurante restaurante, String horarioFechamento) {
+        if (horarioFechamento != null) {
+            restaurante.setHorarioFechamento(horarioFechamento);
+        }
+    }
+
+    public void atualizarHorarioAbertura(Restaurante restaurante, String horarioAbertura) {
+        if (horarioAbertura != null) {
+            restaurante.setHorarioAbertura(horarioAbertura);
         }
     }
 
@@ -66,9 +73,4 @@ public class AtualizarRestauranteComando {
         }
     }
 
-    public void atualizarHorarioFuncionamento(Restaurante restaurante, String horarioFuncionamento) {
-        if (horarioFuncionamento != null) {
-            restaurante.setHorarioFuncionamento(horarioFuncionamento);
-        }
-    }
 }

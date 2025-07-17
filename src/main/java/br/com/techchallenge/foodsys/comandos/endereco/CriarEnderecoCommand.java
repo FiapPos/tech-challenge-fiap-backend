@@ -1,6 +1,7 @@
 package br.com.techchallenge.foodsys.comandos.endereco;
 
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoCommandDto;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriaEnderecoComandoDto;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoUsuarioCommandDto;
 import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
@@ -19,14 +20,14 @@ public class CriarEnderecoCommand {
     private final ValidarUsuarioExistente validarUsuarioExistente;
     private final ValidarCepDoUsuario validarCepDoUsuario;
 
-    public Endereco execute(CriarEnderecoCommandDto criarEnderecoCommandDto) {
-        Usuario usuario = validarUsuarioExistente.execute(criarEnderecoCommandDto.getUsuarioId());
+    public Endereco execute(Long usuarioId, CriaEnderecoComandoDto criarEnderecoCommandDto) {
+        Usuario usuario = validarUsuarioExistente.execute(usuarioId);
         validarCepDoUsuario.validarCepDuplicado(usuario.getId(), criarEnderecoCommandDto.getCep());
         Endereco endereco = mapToEntity(criarEnderecoCommandDto, usuario);
         return enderecoRepository.save(endereco);
     }
 
-    private Endereco mapToEntity(CriarEnderecoCommandDto dto, Usuario usuario) {
+    private Endereco mapToEntity(CriaEnderecoComandoDto dto, Usuario usuario) {
         Endereco endereco = new Endereco();
         endereco.setRua(dto.getRua());
         endereco.setCep(dto.getCep());

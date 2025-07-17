@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.query.resultadoItem.endereco;
+package br.com.techchallenge.foodsys.query.resultadoItem.enderecoRestaurante;
 
 import lombok.Builder;
 import lombok.Data;
@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class ListarEnderecoPorResultadoItem {
+public class ListarEnderecoPorRestauranteResultadoItem {
     private Long id;
     private String rua;
     private String cep;

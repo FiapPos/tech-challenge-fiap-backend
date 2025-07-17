@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
 import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
 import br.com.techchallenge.foodsys.dominio.restaurante.RestauranteRepository;
+import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import br.com.techchallenge.foodsys.utils.ValidarRestauranteExistente;
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +19,10 @@ public class DesativarRestauranteComando {
 
     public Restaurante execute(Long id) {
         Restaurante restaurante = validarRestauranteExistente.execute(id);
+
+        if (!restaurante.isAtivo()) {
+            throw new BadRequestException("restaurante.ja.esta.desativado");
+        }
         desativarRestaurante(restaurante);
         return restauranteRepository.save(restaurante);
     }
