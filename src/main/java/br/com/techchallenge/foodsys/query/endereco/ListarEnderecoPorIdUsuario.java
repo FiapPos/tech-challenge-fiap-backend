@@ -2,7 +2,9 @@ package br.com.techchallenge.foodsys.query.endereco;
 
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
-import br.com.techchallenge.foodsys.query.resultadoItem.endereco.ListarEnderecoPorResultadoItem;
+
+
+import br.com.techchallenge.foodsys.query.resultadoItem.endereco.ListarEnderecoPorIdUsuarioResultadoItem;
 import br.com.techchallenge.foodsys.utils.ValidarUsuarioExistente;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -17,8 +19,7 @@ public class ListarEnderecoPorIdUsuario {
     private final EnderecoRepository enderecoRepository;
     private final ValidarUsuarioExistente validarUsuarioExistente;
 
-    public List<ListarEnderecoPorResultadoItem> execute(Long usuarioId) {
-
+    public List<ListarEnderecoPorIdUsuarioResultadoItem> execute(Long usuarioId) {
         validarUsuarioExistente.execute(usuarioId);
         List<Endereco> enderecos = buscarEnderecos(usuarioId);
         return mapToResultadoItemList(enderecos);
@@ -29,14 +30,14 @@ public class ListarEnderecoPorIdUsuario {
         return enderecoRepository.findByUsuarioId(usuarioId, sort);
     }
 
-    private List<ListarEnderecoPorResultadoItem> mapToResultadoItemList(List<Endereco> enderecos) {
+    private List<ListarEnderecoPorIdUsuarioResultadoItem> mapToResultadoItemList(List<Endereco> enderecos) {
         return enderecos.stream()
                 .map(this::mapToResultadoItem)
                 .toList();
     }
 
-    private ListarEnderecoPorResultadoItem mapToResultadoItem(Endereco endereco) {
-        return ListarEnderecoPorResultadoItem.builder()
+    private ListarEnderecoPorIdUsuarioResultadoItem mapToResultadoItem(Endereco endereco) {
+        return ListarEnderecoPorIdUsuarioResultadoItem.builder()
                 .id(endereco.getId())
                 .rua(endereco.getRua())
                 .cep(endereco.getCep())

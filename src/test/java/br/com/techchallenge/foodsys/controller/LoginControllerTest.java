@@ -17,7 +17,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -48,7 +47,7 @@ class LoginControllerTest {
         Usuario usuario = new Usuario();
         usuario.setLogin("usuario1");
         String token = "jwtToken";
-        
+
         when(bindingResult.hasErrors()).thenReturn(false);
         when(autenticaLoginComando.login(credenciais)).thenReturn(usuario);
         when(autenticaJwtComando.createToken(usuario)).thenReturn(token);
@@ -62,11 +61,10 @@ class LoginControllerTest {
     @Test
     void deveRetornarErroQuandoCredenciaisInvalidas() {
         CredenciaisUsuarioDto credenciais = new CredenciaisUsuarioDto("usuario1", "senha123");
-        
+
         when(bindingResult.hasErrors()).thenReturn(true);
         when(bindingResult.getFieldErrors()).thenReturn(java.util.List.of(
-            new FieldError("credentials", "login", "Login é obrigatório")
-        ));
+                new FieldError("credentials", "login", "Login é obrigatório")));
 
         ResponseEntity<Map<String, String>> response = loginController.login(credenciais, bindingResult);
 
@@ -77,7 +75,7 @@ class LoginControllerTest {
     @Test
     void deveAtualizarSenhaComSucesso() {
         AtualizaCredenciaisComandoDto dto = new AtualizaCredenciaisComandoDto("novaSenha123", "novaSenha123");
-        
+
         when(bindingResult.hasErrors()).thenReturn(false);
         doNothing().when(atualizaCredenciaisComando).execute(dto);
 
@@ -90,11 +88,10 @@ class LoginControllerTest {
     @Test
     void deveRetornarErroQuandoAtualizacaoSenhaInvalida() {
         AtualizaCredenciaisComandoDto dto = new AtualizaCredenciaisComandoDto("senha", "senhaDiferente");
-        
+
         when(bindingResult.hasErrors()).thenReturn(true);
         when(bindingResult.getFieldErrors()).thenReturn(java.util.List.of(
-            new FieldError("dto", "confirmacaoSenha", "Senhas não conferem")
-        ));
+                new FieldError("dto", "confirmacaoSenha", "Senhas não conferem")));
 
         ResponseEntity<Map<String, String>> response = loginController.atualizaSenha(dto, bindingResult);
 
@@ -105,9 +102,9 @@ class LoginControllerTest {
     @Test
     void deveConfigurarValidadorNoInitBinder() {
         WebDataBinder webDataBinder = mock(WebDataBinder.class);
-        
+
         loginController.initBinder(webDataBinder);
-        
+
         verify(webDataBinder).addValidators(validaConfirmacaoDeSenha);
     }
 
@@ -117,7 +114,7 @@ class LoginControllerTest {
         Usuario usuario = new Usuario();
         usuario.setLogin("usuario1");
         String token = "jwtToken";
-        
+
         when(bindingResult.hasErrors()).thenReturn(false);
         when(autenticaLoginComando.login(credenciais)).thenReturn(usuario);
         when(autenticaJwtComando.createToken(usuario)).thenReturn(token);
@@ -133,7 +130,7 @@ class LoginControllerTest {
     @Test
     void deveRetornarOkQuandoAtualizacaoSenhaBemSucedida() {
         AtualizaCredenciaisComandoDto dto = new AtualizaCredenciaisComandoDto("novaSenha123", "novaSenha123");
-        
+
         when(bindingResult.hasErrors()).thenReturn(false);
         doNothing().when(atualizaCredenciaisComando).execute(dto);
 
@@ -143,4 +140,4 @@ class LoginControllerTest {
         assertNull(response.getBody());
         verify(atualizaCredenciaisComando).execute(dto);
     }
-} 
+}

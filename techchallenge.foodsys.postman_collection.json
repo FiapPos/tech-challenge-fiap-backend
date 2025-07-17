@@ -175,7 +175,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"senha\": \"novaSenha123\",\n  \"confirmacaoSenha\": \"novaSenha123\"\n}"
+							"raw": "{\n  \"novaSenha\": \"novaSenha123\",\n  \"confirmacaoNovaSenha\": \"novaSenha123\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/login/atualiza-senha",
@@ -243,7 +243,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzUxOTE0MDUxfQ.0ir4MrJt7el2ng9gUTLReAPeZ4wd4Vx1MZuY5uHA1IM",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzUyODAxOTIxfQ.B-g2vLggYwfhhhRxE275l153EDFYRPPYDQ6vUxxWBm4",
 									"type": "string"
 								}
 							]
@@ -261,16 +261,16 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"rua\": \"Rua Atualizada 1 vez\",\n  \"numero\": \"456\"\n}"
+							"raw": "{\n  \"usuarioId\":\"1\",     \n  \"rua\": \"Rua Atualizada 1 vez\",\n  \"numero\": \"456\"\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/enderecos/3",
+							"raw": "{{base_url}}/enderecos/1",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"enderecos",
-								"3"
+								"1"
 							]
 						}
 					},
@@ -349,6 +349,170 @@
 							],
 							"path": [
 								"enderecos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "enderecoRestaurante",
+			"item": [
+				{
+					"name": "Criar endereço restaurante",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzUyODAwNzA5fQ._wy4DWBpDUt2kTExRM4uK74jBmlNwMyWTSSU8zQY92w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \n  \"restauranteId\": \"1\",\n  \"rua\": \"Rua 1 do Restaurante 1\",\n  \"numero\": \"1234\",\n  \"cep\": \"01001003\"  \n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/enderecoRestaurante",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"enderecoRestaurante"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar endereço restaurante",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzUyODAwNzA5fQ._wy4DWBpDUt2kTExRM4uK74jBmlNwMyWTSSU8zQY92w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"rua\": \"Rua Atualizada 1 vez\",\n  \"numero\": \"456\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/enderecoRestaurante/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"enderecoRestaurante",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar endereço restaurante",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzUyODAwNzA5fQ._wy4DWBpDUt2kTExRM4uK74jBmlNwMyWTSSU8zQY92w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/enderecoRestaurante?restauranteId=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"enderecoRestaurante"
+							],
+							"query": [
+								{
+									"key": "restauranteId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Excluir endereço restaurante",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzUyODAwNzA5fQ._wy4DWBpDUt2kTExRM4uK74jBmlNwMyWTSSU8zQY92w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"enderecoId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/enderecoRestaurante",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"enderecoRestaurante"
 							]
 						}
 					},

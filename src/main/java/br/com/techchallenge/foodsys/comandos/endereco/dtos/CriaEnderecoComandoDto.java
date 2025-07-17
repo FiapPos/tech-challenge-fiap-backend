@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class CriarEnderecoCommandDto {
+public abstract class CriaEnderecoComandoDto {
     @NotBlank(message = "{rua.obrigatoria}")
     private String rua;
 
@@ -13,6 +13,4 @@ public class CriarEnderecoCommandDto {
 
     @NotBlank(message = "{numero.obrigatorio}")
     private String numero;
-
-    private Long restauranteId;
 }
