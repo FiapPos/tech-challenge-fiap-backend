@@ -1,5 +1,6 @@
 package br.com.techchallenge.foodsys.comandos.usuario.dtos;
 
+import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
 
@@ -13,5 +14,6 @@ public class AtualizarUsuarioComandoDto {
     private String senha;
 
     private String login;
+
 
 }

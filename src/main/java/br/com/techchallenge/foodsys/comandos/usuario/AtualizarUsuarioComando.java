@@ -4,6 +4,7 @@ import br.com.techchallenge.foodsys.comandos.usuario.dtos.AtualizarUsuarioComand
 import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.dominio.usuario.UsuarioRepository;
+import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import br.com.techchallenge.foodsys.utils.ValidarEmailExistente;
 import br.com.techchallenge.foodsys.utils.ValidarLoginExistente;
@@ -36,6 +37,8 @@ public class AtualizarUsuarioComando {
             throw new BadRequestException("atualizar.usuario.nenhum.campo");
         }
     }
+
+
 
     private void validarCamposUnicos(Usuario usuario, AtualizarUsuarioComandoDto dto) {
         validarEmailUnico(usuario, dto);

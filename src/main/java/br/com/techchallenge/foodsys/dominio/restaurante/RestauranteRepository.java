@@ -20,4 +20,6 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Long> 
     List<Restaurante> findByAtivoAndTipoCozinha(Boolean ativo, String tipoCozinha);
 
     boolean existsByUsuarioId(Long usuarioId);
+
+
 }
