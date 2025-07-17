@@ -1,11 +1,11 @@
-package br.com.techchallenge.foodsys.comandos.endereco.dtos;
+package br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class CriarEnderecoCommandDto {
+public class CriarEnderecoRestauranteComandoDto {
     @NotBlank(message = "{rua.obrigatoria}")
     private String rua;
 
@@ -15,6 +15,6 @@ public class CriarEnderecoCommandDto {
     @NotBlank(message = "{numero.obrigatorio}")
     private String numero;
 
-    @NotNull(message = "{usuario.id.obrigatorio}")
-    private Long usuarioId;
+    @NotNull(message = "{restauranteId.obrigatorio}")
+    private Long restauranteId;
 }

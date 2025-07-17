@@ -1,38 +1,34 @@
 package br.com.techchallenge.foodsys.comandos.endereco;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.time.LocalDateTime;
-
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoComandoDto;
+import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
+import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
+import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
+import br.com.techchallenge.foodsys.excpetion.BadRequestException;
+import br.com.techchallenge.foodsys.utils.ValidarCepDoUsuario;
+import br.com.techchallenge.foodsys.utils.ValidarEnderecoExistente;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoComandoDto;
-import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
-import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
-import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
-import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
-import br.com.techchallenge.foodsys.excpetion.BadRequestException;
-import br.com.techchallenge.foodsys.utils.ValidarDadosAtualizacaoEndereco;
+import java.time.LocalDateTime;
 
-public class AtualizarEnderecoComandoTest {
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-    @InjectMocks
-    private AtualizarEnderecoComando atualizarEnderecoComando;
+class AtualizarEnderecoComandoTest {
     @Mock
     private EnderecoRepository enderecoRepository;
     @Mock
-    private ValidarDadosAtualizacaoEndereco validarDadosAtualizacaoEndereco;
+    private ValidarEnderecoExistente validarEnderecoExistente;
     @Mock
     private CompartilhadoService sharedService;
+    @Mock
+    private ValidarCepDoUsuario validarCepDoUsuario;
+    @InjectMocks
+    private AtualizarEnderecoComando atualizarEnderecoComando;
 
     @BeforeEach
     void setUp() {
@@ -41,220 +37,160 @@ public class AtualizarEnderecoComandoTest {
 
     @Test
     void deveAtualizarEnderecoComCamposCorretos() {
-        Long enderecoId = 1L;
-        Long usuarioId = 2L;
+        Long id = 1L;
+        Endereco endereco = new Endereco();
+        endereco.setId(id);
 
         AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
         dto.setRua("Nova Rua");
         dto.setCep("12345-678");
         dto.setNumero("100");
-        dto.setRestauranteId(3L);
+        dto.setUsuarioId(2L);
 
-        Usuario usuario = new Usuario();
-        usuario.setId(usuarioId);
+        when(validarEnderecoExistente.execute(id)).thenReturn(endereco);
+        doNothing().when(validarCepDoUsuario).validarCepDuplicado(dto.getUsuarioId(), dto.getCep());
+        when(sharedService.getCurrentDateTime()).thenReturn(LocalDateTime.now());
+        when(enderecoRepository.save(any(Endereco.class))).thenAnswer(i -> i.getArgument(0));
 
+        Endereco atualizado = atualizarEnderecoComando.execute(id, dto);
+        assertEquals("Nova Rua", atualizado.getRua());
+        assertEquals("12345-678", atualizado.getCep());
+        assertEquals("100", atualizado.getNumero());
+    }
+
+    @Test
+    void deveLancarExcecaoQuandoNenhumCampoPreenchido() {
+        AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
+        dto.setUsuarioId(2L);
+        assertThrows(BadRequestException.class, () -> atualizarEnderecoComando.execute(1L, dto));
+    }
+
+    @Test
+    void deveValidarCepDuplicado() {
+        Long id = 1L;
         Endereco endereco = new Endereco();
-        endereco.setId(enderecoId);
-        endereco.setUsuario(usuario);
+        endereco.setId(id);
 
-        // Mocka a validação e obtenção do endereço
-        when(validarDadosAtualizacaoEndereco.validarAtualizacao(enderecoId, dto, usuario)).thenReturn(endereco);
-        when(sharedService.getCurrentDateTime()).thenReturn(LocalDateTime.of(2024, 7, 15, 10, 0));
-        when(enderecoRepository.save(endereco)).thenReturn(endereco);
+        AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
+        dto.setCep("12345-678");
+        dto.setUsuarioId(2L);
+        dto.setRua("Rua Teste");
 
-        Endereco resultado = atualizarEnderecoComando.execute(enderecoId, dto, usuario);
+        when(validarEnderecoExistente.execute(id)).thenReturn(endereco);
+        doNothing().when(validarCepDoUsuario).validarCepDuplicado(dto.getUsuarioId(), dto.getCep());
+        when(sharedService.getCurrentDateTime()).thenReturn(LocalDateTime.now());
+        when(enderecoRepository.save(any(Endereco.class))).thenAnswer(i -> i.getArgument(0));
 
-        assertNotNull(resultado);
-        assertEquals("Nova Rua", resultado.getRua());
-        assertEquals("12345-678", resultado.getCep());
-        assertEquals("100", resultado.getNumero());
-        assertEquals(enderecoId, resultado.getId());
-        assertEquals(usuarioId, resultado.getUsuario().getId());
-        assertEquals(LocalDateTime.of(2024, 7, 15, 10, 0), resultado.getDataAtualizacao());
-
-        verify(validarDadosAtualizacaoEndereco).validarAtualizacao(enderecoId, dto, usuario);
-        verify(sharedService).getCurrentDateTime();
-        verify(enderecoRepository).save(endereco);
+        atualizarEnderecoComando.execute(id, dto);
+        verify(validarCepDoUsuario).validarCepDuplicado(dto.getUsuarioId(), dto.getCep());
     }
 
     @Test
     void deveAtualizarApenasRuaQuandoApenasRuaPreenchida() {
-        Long enderecoId = 1L;
-        Long usuarioId = 2L;
-
-        AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
-        dto.setRua("Rua Atualizada");
-        dto.setRestauranteId(3L);
-
-        Usuario usuario = new Usuario();
-        usuario.setId(usuarioId);
-
-        Restaurante restaurante = new Restaurante();
-        restaurante.setId(dto.getRestauranteId());
-
+        Long id = 1L;
         Endereco endereco = new Endereco();
-        endereco.setId(enderecoId);
-        endereco.setUsuario(usuario);
-        endereco.setRestaurante(restaurante);
+        endereco.setId(id);
         endereco.setRua("Rua Antiga");
         endereco.setCep("00000-000");
         endereco.setNumero("50");
+        
+        AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
+        dto.setRua("Nova Rua");
+        dto.setUsuarioId(2L);
+        
+        when(validarEnderecoExistente.execute(id)).thenReturn(endereco);
+        doNothing().when(validarCepDoUsuario).validarCepDuplicado(dto.getUsuarioId(), dto.getCep());
+        when(sharedService.getCurrentDateTime()).thenReturn(LocalDateTime.now());
+        when(enderecoRepository.save(any(Endereco.class))).thenAnswer(i -> i.getArgument(0));
 
-        when(validarDadosAtualizacaoEndereco.validarAtualizacao(enderecoId, dto, usuario)).thenReturn(endereco);
-        when(sharedService.getCurrentDateTime()).thenReturn(LocalDateTime.of(2024, 7, 15, 10, 0));
-        when(enderecoRepository.save(endereco)).thenReturn(endereco);
-
-        Endereco resultado = atualizarEnderecoComando.execute(enderecoId, dto, usuario);
-
-        assertNotNull(resultado);
-        assertEquals("Rua Atualizada", resultado.getRua());
-        assertEquals("00000-000", resultado.getCep());
-        assertEquals("50", resultado.getNumero());
-        assertEquals(enderecoId, resultado.getId());
-        assertEquals(usuarioId, resultado.getUsuario().getId());
-        assertEquals(dto.getRestauranteId(), resultado.getRestaurante().getId());
+        Endereco atualizado = atualizarEnderecoComando.execute(id, dto);
+        
+        assertEquals("Nova Rua", atualizado.getRua());
+        assertEquals("00000-000", atualizado.getCep());
+        assertEquals("50", atualizado.getNumero());
     }
 
     @Test
-    void deveAtualizarApenasQuandoCepPreenchido() {
-        Long enderecoId = 1L;
-        Long usuarioId = 2L;
-
+    void deveAtualizarApenasCepQuandoApenasCepPreenchido() {
+        Long id = 1L;
+        Endereco endereco = new Endereco();
+        endereco.setId(id);
+        endereco.setRua("Rua Antiga");
+        endereco.setCep("00000-000");
+        endereco.setNumero("50");
+        
         AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
         dto.setCep("54321-987");
-        dto.setRestauranteId(3L);
+        dto.setUsuarioId(2L);
+        
+        when(validarEnderecoExistente.execute(id)).thenReturn(endereco);
+        doNothing().when(validarCepDoUsuario).validarCepDuplicado(dto.getUsuarioId(), dto.getCep());
+        when(sharedService.getCurrentDateTime()).thenReturn(LocalDateTime.now());
+        when(enderecoRepository.save(any(Endereco.class))).thenAnswer(i -> i.getArgument(0));
 
-        Usuario usuario = new Usuario();
-        usuario.setId(usuarioId);
-
-        Restaurante restaurante = new Restaurante();
-        restaurante.setId(dto.getRestauranteId());
-
-        Endereco endereco = new Endereco();
-        endereco.setId(enderecoId);
-        endereco.setUsuario(usuario);
-        endereco.setRestaurante(restaurante);
-        endereco.setRua("Rua Antiga");
-        endereco.setCep("00000-000");
-        endereco.setNumero("50");
-
-        when(validarDadosAtualizacaoEndereco.validarAtualizacao(enderecoId, dto, usuario)).thenReturn(endereco);
-        when(sharedService.getCurrentDateTime()).thenReturn(LocalDateTime.of(2024, 7, 15, 10, 0));
-        when(enderecoRepository.save(endereco)).thenReturn(endereco);
-
-        Endereco resultado = atualizarEnderecoComando.execute(enderecoId, dto, usuario);
-
-        assertNotNull(resultado);
-        assertEquals("Rua Antiga", resultado.getRua());
-        assertEquals("54321-987", resultado.getCep());
-        assertEquals("50", resultado.getNumero());
-        assertEquals(enderecoId, resultado.getId());
-        assertEquals(usuarioId, resultado.getUsuario().getId());
-        assertEquals(dto.getRestauranteId(), resultado.getRestaurante().getId());
+        Endereco atualizado = atualizarEnderecoComando.execute(id, dto);
+        
+        assertEquals("Rua Antiga", atualizado.getRua());
+        assertEquals("54321-987", atualizado.getCep());
+        assertEquals("50", atualizado.getNumero());
     }
 
     @Test
-    void deveAtualizarApenasQuandoNumeroPreenchido() {
-        Long enderecoId = 1L;
-        Long usuarioId = 2L;
-
-        AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
-        dto.setNumero("200");
-        dto.setRestauranteId(3L);
-
-        Usuario usuario = new Usuario();
-        usuario.setId(usuarioId);
-
-        Restaurante restaurante = new Restaurante();
-        restaurante.setId(dto.getRestauranteId());
-
+    void deveAtualizarApenasNumeroQuandoApenasNumeroPreenchido() {
+        Long id = 1L;
         Endereco endereco = new Endereco();
-        endereco.setId(enderecoId);
-        endereco.setUsuario(usuario);
-        endereco.setRestaurante(restaurante);
+        endereco.setId(id);
         endereco.setRua("Rua Antiga");
         endereco.setCep("00000-000");
         endereco.setNumero("50");
+        
+        AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
+        dto.setNumero("200");
+        dto.setUsuarioId(2L);
+        
+        when(validarEnderecoExistente.execute(id)).thenReturn(endereco);
+        doNothing().when(validarCepDoUsuario).validarCepDuplicado(dto.getUsuarioId(), dto.getCep());
+        when(sharedService.getCurrentDateTime()).thenReturn(LocalDateTime.now());
+        when(enderecoRepository.save(any(Endereco.class))).thenAnswer(i -> i.getArgument(0));
 
-        when(validarDadosAtualizacaoEndereco.validarAtualizacao(enderecoId, dto, usuario)).thenReturn(endereco);
-        when(sharedService.getCurrentDateTime()).thenReturn(LocalDateTime.of(2024, 7, 15, 10, 0));
-        when(enderecoRepository.save(endereco)).thenReturn(endereco);
-
-        Endereco resultado = atualizarEnderecoComando.execute(enderecoId, dto, usuario);
-
-        assertNotNull(resultado);
-        assertEquals("Rua Antiga", resultado.getRua());
-        assertEquals("00000-000", resultado.getCep());
-        assertEquals("200", resultado.getNumero());
-        assertEquals(enderecoId, resultado.getId());
-        assertEquals(usuarioId, resultado.getUsuario().getId());
-        assertEquals(dto.getRestauranteId(), resultado.getRestaurante().getId());
+        Endereco atualizado = atualizarEnderecoComando.execute(id, dto);
+        
+        assertEquals("Rua Antiga", atualizado.getRua());
+        assertEquals("00000-000", atualizado.getCep());
+        assertEquals("200", atualizado.getNumero());
     }
 
     @Test
     void deveAtualizarRuaECepQuandoApenasEssesCamposPreenchidos() {
-        Long enderecoId = 1L;
-        Long usuarioId = 2L;
-
-        AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
-        dto.setCep("54321-987");
-        dto.setRua("Rua Atualizada");
-        dto.setRestauranteId(3L);
-
-        Usuario usuario = new Usuario();
-        usuario.setId(usuarioId);
-
-        Restaurante restaurante = new Restaurante();
-        restaurante.setId(dto.getRestauranteId());
-
+        Long id = 1L;
         Endereco endereco = new Endereco();
-        endereco.setId(enderecoId);
-        endereco.setUsuario(usuario);
-        endereco.setRestaurante(restaurante);
+        endereco.setId(id);
         endereco.setRua("Rua Antiga");
         endereco.setCep("00000-000");
         endereco.setNumero("50");
+        
+        AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
+        dto.setRua("Nova Rua");
+        dto.setCep("54321-987");
+        dto.setUsuarioId(2L);
+        
+        when(validarEnderecoExistente.execute(id)).thenReturn(endereco);
+        doNothing().when(validarCepDoUsuario).validarCepDuplicado(dto.getUsuarioId(), dto.getCep());
+        when(sharedService.getCurrentDateTime()).thenReturn(LocalDateTime.now());
+        when(enderecoRepository.save(any(Endereco.class))).thenAnswer(i -> i.getArgument(0));
 
-        when(validarDadosAtualizacaoEndereco.validarAtualizacao(enderecoId, dto, usuario)).thenReturn(endereco);
-        when(sharedService.getCurrentDateTime()).thenReturn(LocalDateTime.of(2024, 7, 15, 10, 0));
-        when(enderecoRepository.save(endereco)).thenReturn(endereco);
-
-        Endereco resultado = atualizarEnderecoComando.execute(enderecoId, dto, usuario);
-
-        assertNotNull(resultado);
-        assertEquals("Rua Atualizada", resultado.getRua());
-        assertEquals("54321-987", resultado.getCep());
-        assertEquals("50", resultado.getNumero());
-        assertEquals(enderecoId, resultado.getId());
-        assertEquals(usuarioId, resultado.getUsuario().getId());
-        assertEquals(dto.getRestauranteId(), resultado.getRestaurante().getId());
+        Endereco atualizado = atualizarEnderecoComando.execute(id, dto);
+        
+        assertEquals("Nova Rua", atualizado.getRua());
+        assertEquals("54321-987", atualizado.getCep());
+        assertEquals("50", atualizado.getNumero());
     }
 
     @Test
-    void deveLancarExcecaoQuandoDadosInvalidos() {
-        Long enderecoId = 1L;
-        Long usuarioId = 2L;
-
+    void deveLancarExcecaoQuandoTodosCamposNulos() {
         AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
-        dto.setRua(null);
-        dto.setCep(null);
-        dto.setNumero(null);
-        dto.setRestauranteId(3L);
-
-        Usuario usuario = new Usuario();
-        usuario.setId(usuarioId);
-
-        BadRequestException exceptionEsperada = new BadRequestException("atualizar.endereco.nenhum.campo");
-        when(validarDadosAtualizacaoEndereco.validarAtualizacao(enderecoId, dto, usuario))
-                .thenThrow(exceptionEsperada);
-
-        BadRequestException exception = assertThrows(BadRequestException.class, () -> {
-            atualizarEnderecoComando.execute(enderecoId, dto, usuario);
-        });
-
-        assertEquals("atualizar.endereco.nenhum.campo", exception.getMessage());
-        verify(validarDadosAtualizacaoEndereco).validarAtualizacao(enderecoId, dto, usuario);
-        verify(enderecoRepository, org.mockito.Mockito.never()).save(org.mockito.Mockito.any(Endereco.class));
+        dto.setUsuarioId(2L);
+        
+        assertThrows(BadRequestException.class, () -> atualizarEnderecoComando.execute(1L, dto));
     }
-
-}
+} 

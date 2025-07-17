@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class ListarEnderecoPorResultadoItem {
+public class ListarEnderecoPorIdUsuarioResultadoItem {
     private Long id;
     private String rua;
     private String cep;

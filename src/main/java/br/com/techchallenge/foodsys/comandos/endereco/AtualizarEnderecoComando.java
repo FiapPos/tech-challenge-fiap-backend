@@ -4,8 +4,9 @@ import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoComa
 import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
-import br.com.techchallenge.foodsys.utils.ValidarDadosAtualizacaoEndereco;
+import br.com.techchallenge.foodsys.excpetion.BadRequestException;
+import br.com.techchallenge.foodsys.utils.ValidarCepDoUsuario;
+import br.com.techchallenge.foodsys.utils.ValidarEnderecoExistente;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +15,27 @@ import org.springframework.stereotype.Service;
 public class AtualizarEnderecoComando {
 
     private final EnderecoRepository enderecoRepository;
+    private final ValidarEnderecoExistente validarEnderecoExistente;
     private final CompartilhadoService sharedService;
-    private final ValidarDadosAtualizacaoEndereco validarDadosAtualizacaoEndereco;
+    private final ValidarCepDoUsuario validarCepDoUsuario;
 
-    public Endereco execute(Long id, AtualizarEnderecoComandoDto dto, Usuario usuario) {
-
-        Endereco endereco = validarDadosAtualizacaoEndereco.validarAtualizacao(id, dto, usuario);
-
+    public Endereco execute(Long id, AtualizarEnderecoComandoDto dto) {
+        validarDto(dto);
+        Endereco endereco = validarEnderecoExistente.execute(id);
+        validarCepDoUsuario.validarCepDuplicado(dto.getUsuarioId(), dto.getCep());
         atualizarCampos(endereco, dto);
         return enderecoRepository.save(endereco);
+    }
+
+    private void validarDto(AtualizarEnderecoComandoDto dto) {
+        if (!isPeloMenosUmCampoPreenchido(dto)) {
+            throw new BadRequestException("atualizar.endereco.nenhum.campo");
+        }
+    }
+
+    private boolean isPeloMenosUmCampoPreenchido(AtualizarEnderecoComandoDto dto) {
+        return dto.getRua() != null || dto.getCep() != null ||
+                dto.getNumero() != null;
     }
 
     private void atualizarCampos(Endereco endereco, AtualizarEnderecoComandoDto dto) {
@@ -49,4 +62,5 @@ public class AtualizarEnderecoComando {
             endereco.setNumero(numero);
         }
     }
+
 }

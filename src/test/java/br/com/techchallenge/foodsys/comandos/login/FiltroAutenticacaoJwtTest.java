@@ -1,6 +1,5 @@
 package br.com.techchallenge.foodsys.comandos.login;
 
-import br.com.techchallenge.foodsys.comandos.login.dto.DetalhesUsuarioDto;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -100,4 +99,4 @@ class FiltroAutenticacaoJwtTest {
         verify(filterChain).doFilter(request, response);
         verifyNoInteractions(jwtService, userAuthenticationService);
     }
-} 
+}

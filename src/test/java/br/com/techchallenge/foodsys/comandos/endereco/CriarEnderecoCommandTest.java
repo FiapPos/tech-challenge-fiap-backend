@@ -1,40 +1,34 @@
 package br.com.techchallenge.foodsys.comandos.endereco;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.mockito.InjectMocks;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
 import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoCommandDto;
 import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
-import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
-import br.com.techchallenge.foodsys.utils.ValidarDadosCriacaoEndereco;
+import br.com.techchallenge.foodsys.utils.ValidarCepDoUsuario;
+import br.com.techchallenge.foodsys.utils.ValidarUsuarioExistente;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-public class CriarEnderecoCommandTest {
+import java.time.LocalDateTime;
 
-    @InjectMocks
-    private CriarEnderecoCommand criarEnderecoComand;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
+class CriarEnderecoCommandTest {
     @Mock
     private EnderecoRepository enderecoRepository;
     @Mock
     private CompartilhadoService sharedService;
     @Mock
-    private ValidarDadosCriacaoEndereco validarDadosDeEndereco;
+    private ValidarUsuarioExistente validarUsuarioExistente;
+    @Mock
+    private ValidarCepDoUsuario validarCepDoUsuario;
+    @InjectMocks
+    private CriarEnderecoCommand criarEnderecoCommand;
 
     @BeforeEach
     void setUp() {
@@ -42,122 +36,48 @@ public class CriarEnderecoCommandTest {
     }
 
     @Test
-    void deveCriarEnderecoParaRestaurante() {
-        Long usuarioId = 1L;
-        Long restauranteId = 2L;
+    void deveCriarEnderecoComCamposCorretos() {
+        CriarEnderecoCommandDto dto = new CriarEnderecoCommandDto();
+        dto.setRua("Rua Teste");
+        dto.setCep("12345-678");
+        dto.setNumero("100");
+        dto.setUsuarioId(1L);
 
         Usuario usuario = new Usuario();
-        usuario.setId(usuarioId);
+        usuario.setId(1L);
 
-        Restaurante restaurante = new Restaurante();
-        restaurante.setId(restauranteId);
+        LocalDateTime dataCriacao = LocalDateTime.now();
+        when(validarUsuarioExistente.execute(dto.getUsuarioId())).thenReturn(usuario);
+        doNothing().when(validarCepDoUsuario).validarCepDuplicado(usuario.getId(), dto.getCep());
+        when(sharedService.getCurrentDateTime()).thenReturn(dataCriacao);
+        when(enderecoRepository.save(any(Endereco.class))).thenAnswer(i -> i.getArgument(0));
 
-        CriarEnderecoCommandDto dto = new CriarEnderecoCommandDto();
-        dto.setRua("Rua Restaurante");
-        dto.setCep("12345-000");
-        dto.setNumero("10");
-        dto.setRestauranteId(restauranteId);
-
-        Endereco enderecoEsperado = new Endereco();
-        enderecoEsperado.setRua(dto.getRua());
-        enderecoEsperado.setCep(dto.getCep());
-        enderecoEsperado.setNumero(dto.getNumero());
-        enderecoEsperado.setUsuario(usuario);
-        enderecoEsperado.setRestaurante(restaurante);
-
-        doNothing().when(validarDadosDeEndereco).validarCriacao(dto, usuario);
-        when(validarDadosDeEndereco.obterRestauranteSeNecessario(dto, usuario)).thenReturn(restaurante);
-        when(sharedService.getCurrentDateTime()).thenReturn(java.time.LocalDateTime.now());
-        when(enderecoRepository.save(any(Endereco.class))).thenReturn(enderecoEsperado);
-
-        CriarEnderecoCommand comando = new CriarEnderecoCommand(
-                enderecoRepository,
-                sharedService,
-                validarDadosDeEndereco);
-
-        Endereco resultado = comando.execute(dto, usuario);
-
-        assertNotNull(resultado);
-        assertEquals(dto.getRua(), resultado.getRua());
-        assertEquals(dto.getCep(), resultado.getCep());
-        assertEquals(dto.getNumero(), resultado.getNumero());
-        assertEquals(usuarioId, resultado.getUsuario().getId());
-        assertEquals(restauranteId, resultado.getRestaurante().getId());
-
-        verify(validarDadosDeEndereco).validarCriacao(dto, usuario);
-        verify(validarDadosDeEndereco).obterRestauranteSeNecessario(dto, usuario);
-        verify(enderecoRepository).save(any(Endereco.class));
+        Endereco endereco = criarEnderecoCommand.execute(dto);
+        assertEquals(dto.getRua(), endereco.getRua());
+        assertEquals(dto.getCep(), endereco.getCep());
+        assertEquals(dto.getNumero(), endereco.getNumero());
+        assertEquals(usuario, endereco.getUsuario());
+        assertEquals(dataCriacao, endereco.getDataCriacao());
     }
 
     @Test
-    void deveCriarEnderecoParaUsuario() {
-        Long usuarioId = 1L;
+    void deveValidarUsuarioECepDuplicado() {
+        CriarEnderecoCommandDto dto = new CriarEnderecoCommandDto();
+        dto.setRua("Rua Teste");
+        dto.setCep("12345-678");
+        dto.setNumero("100");
+        dto.setUsuarioId(1L);
 
         Usuario usuario = new Usuario();
-        usuario.setId(usuarioId);
+        usuario.setId(1L);
 
-        CriarEnderecoCommandDto dto = new CriarEnderecoCommandDto();
-        dto.setRua("Rua Usuário");
-        dto.setCep("11111-111");
-        dto.setNumero("99");
-        dto.setRestauranteId(null);
+        when(validarUsuarioExistente.execute(dto.getUsuarioId())).thenReturn(usuario);
+        doNothing().when(validarCepDoUsuario).validarCepDuplicado(usuario.getId(), dto.getCep());
+        when(sharedService.getCurrentDateTime()).thenReturn(LocalDateTime.now());
+        when(enderecoRepository.save(any(Endereco.class))).thenAnswer(i -> i.getArgument(0));
 
-        Endereco enderecoEsperado = new Endereco();
-        enderecoEsperado.setRua(dto.getRua());
-        enderecoEsperado.setCep(dto.getCep());
-        enderecoEsperado.setNumero(dto.getNumero());
-        enderecoEsperado.setUsuario(usuario);
-        enderecoEsperado.setRestaurante(null);
-
-        doNothing().when(validarDadosDeEndereco).validarCriacao(dto, usuario);
-        when(validarDadosDeEndereco.obterRestauranteSeNecessario(dto, usuario)).thenReturn(null);
-        when(sharedService.getCurrentDateTime()).thenReturn(java.time.LocalDateTime.now());
-        when(enderecoRepository.save(any(Endereco.class))).thenReturn(enderecoEsperado);
-
-        CriarEnderecoCommand comando = new CriarEnderecoCommand(
-                enderecoRepository,
-                sharedService,
-                validarDadosDeEndereco);
-
-        Endereco resultado = comando.execute(dto, usuario);
-
-        assertNotNull(resultado);
-        assertEquals(dto.getRua(), resultado.getRua());
-        assertEquals(dto.getCep(), resultado.getCep());
-        assertEquals(dto.getNumero(), resultado.getNumero());
-        assertEquals(usuarioId, resultado.getUsuario().getId());
-        assertNull(resultado.getRestaurante());
-
-        verify(validarDadosDeEndereco).validarCriacao(dto, usuario);
-        verify(validarDadosDeEndereco).obterRestauranteSeNecessario(dto, usuario);
-        verify(enderecoRepository).save(any(Endereco.class));
+        criarEnderecoCommand.execute(dto);
+        verify(validarUsuarioExistente).execute(dto.getUsuarioId());
+        verify(validarCepDoUsuario).validarCepDuplicado(usuario.getId(), dto.getCep());
     }
-
-    @Test
-    void deveLancarExcecaoQuandoDadosInvalidos() {
-        Long usuarioId = 1L;
-        Usuario usuario = new Usuario();
-        usuario.setId(usuarioId);
-
-        CriarEnderecoCommandDto dto = new CriarEnderecoCommandDto();
-        dto.setRua(null);
-        dto.setCep(null);
-        dto.setNumero(null);
-        dto.setRestauranteId(null);
-
-        doThrow(new IllegalArgumentException("Dados inválidos"))
-                .when(validarDadosDeEndereco).validarCriacao(dto, usuario);
-
-        CriarEnderecoCommand comando = new CriarEnderecoCommand(
-                enderecoRepository,
-                sharedService,
-                validarDadosDeEndereco);
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> comando.execute(dto, usuario));
-        assertEquals("Dados inválidos", exception.getMessage());
-
-        verify(validarDadosDeEndereco).validarCriacao(dto, usuario);
-        verify(validarDadosDeEndereco, never()).obterRestauranteSeNecessario(dto, usuario);
-        verify(enderecoRepository, never()).save(any(Endereco.class));
-    }
-}
+} 

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 
-public class ValidarDadosDelecaoEndereco {
+public class ValidarDadosDelecaoEnderecoRestaurante {
 
     private final ValidarUsuarioExistente validarUsuarioExistente;
     private final ValidarEnderecoExistente validarEnderecoExistente;
