@@ -4,9 +4,12 @@ import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoComa
 import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
+import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
+import br.com.techchallenge.foodsys.utils.AutorizacaoService;
 import br.com.techchallenge.foodsys.utils.ValidarCepDoUsuario;
 import br.com.techchallenge.foodsys.utils.ValidarEnderecoExistente;
+import br.com.techchallenge.foodsys.utils.ValidarProprietarioEndereco;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +21,16 @@ public class AtualizarEnderecoComando {
     private final ValidarEnderecoExistente validarEnderecoExistente;
     private final CompartilhadoService sharedService;
     private final ValidarCepDoUsuario validarCepDoUsuario;
+    private final AutorizacaoService autorizacaoService;
+    private final ValidarProprietarioEndereco validarProprietarioEndereco;
 
-    public Endereco execute(Long id, AtualizarEnderecoComandoDto dto) {
+    public Endereco execute(Long id, AtualizarEnderecoComandoDto dto, Long usuarioId) {
         validarDto(dto);
+        Usuario usuarioLogado = autorizacaoService.getUsuarioLogado();
+        validarProprietarioEndereco.execute(id, usuarioId);
         Endereco endereco = validarEnderecoExistente.execute(id);
-        validarCepDoUsuario.validarCepDuplicado(dto.getUsuarioId(), dto.getCep());
+
+        validarCepDoUsuario.validarCepDuplicado(usuarioLogado.getId(), dto.getCep());
         atualizarCampos(endereco, dto);
         return enderecoRepository.save(endereco);
     }

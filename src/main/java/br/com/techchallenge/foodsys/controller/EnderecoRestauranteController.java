@@ -1,15 +1,15 @@
 package br.com.techchallenge.foodsys.controller;
 
-import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.AtualizarEnderecoRestauranteComando;
-import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.CriarEnderecoRestauranteComando;
-import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.DeletarEnderecoRestauranteComando;
-import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dtos.AtualizarEnderecoRestauranteComandoDto;
-import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dtos.CriarEnderecoRestauranteComandoDto;
-import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dtos.DeletarEnderecoRestauranteComandoDto;
+import br.com.techchallenge.foodsys.comandos.endereco.AtualizarEnderecoComando;
+import br.com.techchallenge.foodsys.comandos.endereco.CriarEnderecoCommand;
+import br.com.techchallenge.foodsys.comandos.endereco.DeletarEnderecoComando;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoRestauranteComandoDto;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoRestauranteComandoDto;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
-import br.com.techchallenge.foodsys.query.enderecoRestaurante.ListarEnderecoRestauranteQuery;
+import br.com.techchallenge.foodsys.query.enderecoRestaurante.ListarEnderecoPorIdRestaurante;
 import br.com.techchallenge.foodsys.query.params.ListarEnderecosParams;
 import br.com.techchallenge.foodsys.query.resultadoItem.enderecoRestaurante.ListarEnderecoPorRestauranteResultadoItem;
 import br.com.techchallenge.foodsys.utils.AutorizacaoService;
@@ -32,12 +32,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EnderecoRestauranteController {
 
-        private final CriarEnderecoRestauranteComando criarEnderecoCommand;
-        private final AtualizarEnderecoRestauranteComando atualizarEnderecoComando;
-        private final DeletarEnderecoRestauranteComando deletarEnderecoComando;
+        private final CriarEnderecoCommand criarEnderecoCommand;
+        private final AtualizarEnderecoComando atualizarEnderecoComando;
+        private final DeletarEnderecoComando deletarEnderecoComando;
         private final AutorizacaoService autorizacaoService;
         private final EnderecoRepository enderecoRepository;
-        private final ListarEnderecoRestauranteQuery listarEnderecosQuery;
+        private final ListarEnderecoPorIdRestaurante listarEnderecosQuery;
 
         @Operation(summary = "Criar um novo endereço para o Restaurante.", description = "Recurso para criar um novo endereço para o Restaurante.",
 
@@ -52,7 +52,7 @@ public class EnderecoRestauranteController {
                 Usuario usuario = autorizacaoService.getUsuarioLogado();
                 autorizacaoService.validarAcessoUsuario(usuario.getId());
 
-                criarEnderecoCommand.execute(dto, usuario);
+                criarEnderecoCommand.execute(usuario.getId(), dto);
                 return ResponseEntity.status(HttpStatus.CREATED).build();
         }
 
@@ -68,7 +68,7 @@ public class EnderecoRestauranteController {
                 Usuario usuario = autorizacaoService.getUsuarioLogado();
                 autorizacaoService.validarAcessoUsuario(usuario.getId());
 
-                atualizarEnderecoComando.execute(id, dto, usuario);
+                atualizarEnderecoComando.execute(id, dto, usuario.getId());
                 return ResponseEntity.ok().build();
         }
 
@@ -86,11 +86,11 @@ public class EnderecoRestauranteController {
                 Usuario usuario = autorizacaoService.getUsuarioLogado();
                 autorizacaoService.validarAcessoUsuario(usuario.getId());
 
-                deletarEnderecoComando.execute(dto, usuario);
+                deletarEnderecoComando.execute(usuario.getId(), dto);
                 return ResponseEntity.ok().build();
         }
 
-        @GetMapping
+        @GetMapping("/restaurante/{id}")
         @Operation(summary = "Listar endereço do Restaurante por ID.", description = "Recurso para listar endereço.",
 
                         responses = {
@@ -99,13 +99,12 @@ public class EnderecoRestauranteController {
                                         @ApiResponse(responseCode = "400", description = "Endereco não encontrado.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestException.class)))
                         })
 
-        public ResponseEntity<List<ListarEnderecoPorRestauranteResultadoItem>> listarEnderecos(
-                        @RequestParam(required = false) Long restauranteId) {
+        public ResponseEntity<List<ListarEnderecoPorRestauranteResultadoItem>> listarEnderecos(@PathVariable Long id) {
 
                 Usuario usuario = autorizacaoService.getUsuarioLogado();
                 autorizacaoService.validarAcessoUsuario(usuario.getId());
 
-                ListarEnderecosParams params = new ListarEnderecosParams(usuario.getId(), restauranteId);
+                ListarEnderecosParams params = new ListarEnderecosParams(usuario.getId(), id);
                 List<ListarEnderecoPorRestauranteResultadoItem> resultado = listarEnderecosQuery.execute(params);
 
                 if (resultado.isEmpty()) {

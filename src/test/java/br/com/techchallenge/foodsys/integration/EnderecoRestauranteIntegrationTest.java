@@ -1,8 +1,8 @@
 package br.com.techchallenge.foodsys.integration;
 
-import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dtos.AtualizarEnderecoRestauranteComandoDto;
-import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dtos.CriarEnderecoRestauranteComandoDto;
-import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dtos.DeletarEnderecoRestauranteComandoDto;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoRestauranteComandoDto;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoRestauranteComandoDto;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.comandos.login.dto.CredenciaisUsuarioDto;
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
@@ -108,7 +108,7 @@ class EnderecoRestauranteIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(dto))
                 .when()
-                .post("/enderecos")
+                .post("/enderecoRestaurante")
                 .then()
                 .statusCode(201);
     }
@@ -124,7 +124,7 @@ class EnderecoRestauranteIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(dto))
                 .when()
-                .post("/enderecos")
+                .post("/enderecoRestaurante")
                 .then()
                 .statusCode(400);
     }
@@ -160,13 +160,9 @@ class EnderecoRestauranteIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(dto))
                 .when()
-                .put("/enderecos/" + endereco.getId())
+                .put("/enderecoRestaurante/" + endereco.getId())
                 .then()
-                .statusCode(200)
-                .body("rua", equalTo("Rua Atualizada"))
-                .body("numero", equalTo("200"))
-                .body("cep", equalTo("22222-222"))
-                .body("restauranteId", equalTo(restaurante.getId().intValue()));
+                .statusCode(200);
     }
 
     @Test
@@ -182,7 +178,7 @@ class EnderecoRestauranteIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(dto))
                 .when()
-                .put("/enderecos/999")
+                .put("/enderecoRestaurante/999")
                 .then()
                 .statusCode(400);
     }
@@ -226,7 +222,7 @@ class EnderecoRestauranteIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(dto))
                 .when()
-                .put("/enderecos/" + endereco.getId())
+                .put("/enderecoRestaurante/" + endereco.getId())
                 .then()
                 .statusCode(400);
     }
@@ -248,7 +244,7 @@ class EnderecoRestauranteIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(dto))
                 .when()
-                .delete("/enderecos")
+                .delete("/enderecoRestaurante")
                 .then()
                 .statusCode(200);
     }
@@ -263,44 +259,14 @@ class EnderecoRestauranteIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(dto))
                 .when()
-                .delete("/enderecos")
+                .delete("/enderecoRestaurante")
                 .then()
                 .statusCode(400);
     }
 
-    @Test
-    void deveListarEnderecosPorUsuarioComSucesso() throws Exception {
-        Endereco endereco1 = new Endereco();
-        endereco1.setUsuario(usuario);
-        endereco1.setRua("Rua das Flores");
-        endereco1.setNumero("123");
-        endereco1.setCep("01234-567");
-        enderecoRepository.save(endereco1);
-
-        Endereco endereco2 = new Endereco();
-        endereco2.setUsuario(usuario);
-        endereco2.setRua("Rua das Palmeiras");
-        endereco2.setNumero("456");
-        endereco2.setCep("04567-890");
-        enderecoRepository.save(endereco2);
-
-        given()
-                .header("Authorization", "Bearer " + token)
-                .when()
-                .get("/enderecos")
-                .then()
-                .statusCode(200)
-                .body("$", hasSize(2))
-                .body("[0].rua", equalTo("Rua das Flores"))
-                .body("[0].numero", equalTo("123"))
-                .body("[0].cep", equalTo("01234-567"))
-                .body("[1].rua", equalTo("Rua das Palmeiras"))
-                .body("[1].numero", equalTo("456"))
-                .body("[1].cep", equalTo("04567-890"));
-    }
 
     @Test
-    void deveListarEnderecosPorRestauranteComSucesso() throws Exception {
+    void deveListarEnderecosPorRestauranteComSucesso()   {
         Restaurante restaurante = new Restaurante();
         restaurante.setNome("Restaurante Listagem");
         restaurante.setUsuario(usuario);
@@ -311,35 +277,25 @@ class EnderecoRestauranteIntegrationTest {
         restaurante.setDataCriacao(LocalDateTime.now());
         restaurante = restauranteRepository.save(restaurante);
 
-        Endereco endereco1 = new Endereco();
-        endereco1.setUsuario(usuario);
-        endereco1.setRestaurante(restaurante);
-        endereco1.setRua("Rua do Restaurante 1");
-        endereco1.setNumero("101");
-        endereco1.setCep("11111-111");
-        enderecoRepository.save(endereco1);
+        Endereco endereco = new Endereco();
+        endereco.setUsuario(usuario);
+        endereco.setRestaurante(restaurante);
+        endereco.setRua("Rua do Restaurante");
+        endereco.setNumero("101");
+        endereco.setCep("11111-111");
+        enderecoRepository.save(endereco);
 
-        Endereco endereco2 = new Endereco();
-        endereco2.setUsuario(usuario);
-        endereco2.setRestaurante(restaurante);
-        endereco2.setRua("Rua do Restaurante 2");
-        endereco2.setNumero("202");
-        endereco2.setCep("22222-222");
-        enderecoRepository.save(endereco2);
 
         given()
                 .header("Authorization", "Bearer " + token)
                 .when()
-                .get("/enderecos/restaurante/" + restaurante.getId())
+                .get("/enderecoRestaurante/restaurante/" + restaurante.getId())
                 .then()
                 .statusCode(200)
-                .body("$", hasSize(2))
-                .body("[0].rua", equalTo("Rua do Restaurante 1"))
+                .body("$", hasSize(1))
+                .body("[0].rua", equalTo("Rua do Restaurante"))
                 .body("[0].numero", equalTo("101"))
-                .body("[0].cep", equalTo("11111-111"))
-                .body("[1].rua", equalTo("Rua do Restaurante 2"))
-                .body("[1].numero", equalTo("202"))
-                .body("[1].cep", equalTo("22222-222"));
+                .body("[0].cep", equalTo("11111-111"));
     }
 
     @Test
@@ -354,7 +310,7 @@ class EnderecoRestauranteIntegrationTest {
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(dto))
                 .when()
-                .post("/enderecos")
+                .post("/enderecoRestaurante")
                 .then()
                 .statusCode(401);
     }

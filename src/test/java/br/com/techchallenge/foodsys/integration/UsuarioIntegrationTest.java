@@ -114,7 +114,7 @@ class UsuarioIntegrationTest {
     }
 
     @Test
-    void deveListarUsuariosComSucesso() throws Exception {
+    void deveListarUsuariosComSucesso()   {
         Usuario usuario1 = new Usuario();
         usuario1.setNome("João Silva");
         usuario1.setEmail("joao@email.com");
@@ -142,7 +142,7 @@ class UsuarioIntegrationTest {
     }
 
     @Test
-    void deveRetornarNoContentQuandoNaoHouverUsuarios() throws Exception {
+    void deveRetornarNoContentQuandoNaoHouverUsuarios()   {
         given()
         .when()
             .get("/usuarios")
@@ -189,7 +189,7 @@ class UsuarioIntegrationTest {
     }
 
     @Test
-    void deveDesativarUsuarioComSucesso() throws Exception {
+    void deveDesativarUsuarioComSucesso()   {
         Usuario usuario = new Usuario();
         usuario.setNome("João Silva");
         usuario.setEmail("joao@email.com");
@@ -206,7 +206,7 @@ class UsuarioIntegrationTest {
     }
 
     @Test
-    void deveRetornarErroAoDesativarUsuarioInexistente() throws Exception {
+    void deveRetornarErroAoDesativarUsuarioInexistente()   {
         given()
         .when()
             .delete("/usuarios/999")

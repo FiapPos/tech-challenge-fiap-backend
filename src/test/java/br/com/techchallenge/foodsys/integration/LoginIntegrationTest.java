@@ -86,7 +86,6 @@ class LoginIntegrationTest {
         usuario.setTipo(TipoUsuario.CLIENTE);
         usuarioRepository.save(usuario);
 
-        // Tentar login com senha incorreta
         CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("joao123", "senha_incorreta");
 
         given()
@@ -123,7 +122,6 @@ class LoginIntegrationTest {
         usuario.setTipo(TipoUsuario.CLIENTE);
         usuarioRepository.save(usuario);
 
-        // Fazer login para obter token
         CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("joao123", "senha123");
         String token = given()
             .contentType(ContentType.JSON)
@@ -135,7 +133,6 @@ class LoginIntegrationTest {
             .extract()
             .path("token");
 
-        // Atualizar senha com token
         given()
             .header("Authorization", "Bearer " + token)
             .contentType(ContentType.JSON)
@@ -179,7 +176,7 @@ class LoginIntegrationTest {
     }
 
     @Test
-    void deveRetornarErroAoAtualizarSenhaSemToken() throws Exception {
+    void deveRetornarErroAoAtualizarSenhaSemToken()   {
         given()
             .contentType(ContentType.JSON)
             .body("{\"senha\":\"novaSenha123\",\"confirmacaoSenha\":\"novaSenha123\"}")

@@ -1,15 +1,15 @@
 package br.com.techchallenge.foodsys.controller;
 
-import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.AtualizarEnderecoRestauranteComando;
-import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.CriarEnderecoRestauranteComando;
-import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.DeletarEnderecoRestauranteComando;
-import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dtos.AtualizarEnderecoRestauranteComandoDto;
-import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dtos.CriarEnderecoRestauranteComandoDto;
-import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dtos.DeletarEnderecoRestauranteComandoDto;
+import br.com.techchallenge.foodsys.comandos.endereco.AtualizarEnderecoComando;
+import br.com.techchallenge.foodsys.comandos.endereco.CriarEnderecoCommand;
+import br.com.techchallenge.foodsys.comandos.endereco.DeletarEnderecoComando;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoRestauranteComandoDto;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoRestauranteComandoDto;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
-import br.com.techchallenge.foodsys.query.enderecoRestaurante.ListarEnderecoRestauranteQuery;
+import br.com.techchallenge.foodsys.query.enderecoRestaurante.ListarEnderecoPorIdRestaurante;
 import br.com.techchallenge.foodsys.query.params.ListarEnderecosParams;
 import br.com.techchallenge.foodsys.query.resultadoItem.enderecoRestaurante.ListarEnderecoPorRestauranteResultadoItem;
 import br.com.techchallenge.foodsys.utils.AutorizacaoService;
@@ -30,13 +30,16 @@ import static org.mockito.Mockito.*;
 
 class EnderecoRestauranteControllerTest {
     @Mock
-    private CriarEnderecoRestauranteComando criarEnderecoCommand;
+    private CriarEnderecoCommand criarEnderecoCommand;
+
     @Mock
-    private AtualizarEnderecoRestauranteComando atualizarEnderecoComando;
+    private AtualizarEnderecoComando atualizarEnderecoComando;
+
     @Mock
-    private DeletarEnderecoRestauranteComando deletarEnderecoComando;
+    private DeletarEnderecoComando deletarEnderecoComando;
+
     @Mock
-    private ListarEnderecoRestauranteQuery listarEnderecosQuery;
+    private ListarEnderecoPorIdRestaurante listarEnderecosQuery;
     @Mock
     private AutorizacaoService autorizacaoService;
     @Mock
@@ -67,13 +70,13 @@ class EnderecoRestauranteControllerTest {
         Endereco endereco = new Endereco();
         endereco.setId(1L);
 
-        when(criarEnderecoCommand.execute(dto, usuario)).thenReturn(endereco);
+        when(criarEnderecoCommand.execute(usuario.getId(), dto)).thenReturn(endereco);
 
         ResponseEntity<Void> response = enderecoController.criar(dto);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         verify(autorizacaoService).validarAcessoUsuario(usuario.getId());
-        verify(criarEnderecoCommand).execute(dto, usuario);
+        verify(criarEnderecoCommand).execute(usuario.getId(), dto);
     }
 
     @Test
@@ -95,13 +98,13 @@ class EnderecoRestauranteControllerTest {
         when(autorizacaoService.getUsuarioLogado()).thenReturn(usuario);
         when(enderecoRepository.findById(enderecoId)).thenReturn(Optional.of(endereco));
         doNothing().when(autorizacaoService).validarAcessoUsuario(usuario.getId());
-        when(atualizarEnderecoComando.execute(enderecoId, dto, usuario)).thenReturn(endereco);
+        when(atualizarEnderecoComando.execute(enderecoId, dto, usuario.getId())).thenReturn(endereco);
 
         ResponseEntity<Void> response = enderecoController.atualizar(enderecoId, dto);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         verify(autorizacaoService).validarAcessoUsuario(usuario.getId());
-        verify(atualizarEnderecoComando).execute(enderecoId, dto, usuario);
+        verify(atualizarEnderecoComando).execute(enderecoId, dto, usuario.getId());
     }
 
     @Test
@@ -121,13 +124,13 @@ class EnderecoRestauranteControllerTest {
         when(enderecoRepository.findById(dto.getEnderecoId())).thenReturn(Optional.of(endereco));
 
         doNothing().when(autorizacaoService).validarAcessoUsuario(usuario.getId());
-        doNothing().when(deletarEnderecoComando).execute(dto, usuario);
+        doNothing().when(deletarEnderecoComando).execute(usuario.getId(), dto);
 
         ResponseEntity<Void> response = enderecoController.deletar(dto);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         verify(autorizacaoService).validarAcessoUsuario(usuario.getId());
-        verify(deletarEnderecoComando).execute(dto, usuario);
+        verify(deletarEnderecoComando).execute(usuario.getId(), dto);
         verify(enderecoRepository).findById(dto.getEnderecoId());
     }
 

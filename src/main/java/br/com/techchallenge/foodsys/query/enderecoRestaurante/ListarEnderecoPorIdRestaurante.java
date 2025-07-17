@@ -2,27 +2,33 @@ package br.com.techchallenge.foodsys.query.enderecoRestaurante;
 
 import java.util.List;
 
+import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
+import br.com.techchallenge.foodsys.utils.ValidarRestauranteExistente;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.query.params.ListarEnderecosParams;
 import br.com.techchallenge.foodsys.query.resultadoItem.enderecoRestaurante.ListarEnderecoPorRestauranteResultadoItem;
-import br.com.techchallenge.foodsys.utils.ValidarListaDeEnderecoRestaurante;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ListarEnderecoRestauranteQuery {
+public class ListarEnderecoPorIdRestaurante {
 
-    private final ValidarListaDeEnderecoRestaurante validarListaDeEnderecoRestaurante;
+    private final ValidarRestauranteExistente validarRestauranteExistente;
+    private final EnderecoRepository enderecoRepository;
 
     public List<ListarEnderecoPorRestauranteResultadoItem> execute(ListarEnderecosParams params) {
-        List<Endereco> enderecos;
-
         Long restauranteId = params.getRestauranteId();
-
-        enderecos = validarListaDeEnderecoRestaurante.listarPorRestauranteId(restauranteId);
+        validarRestauranteExistente.execute(restauranteId);
+        List<Endereco> enderecos = buscarEnderecos(restauranteId);
         return mapToResultadoItemList(enderecos);
+    }
+
+    private List<Endereco> buscarEnderecos(Long restauranteId) {
+        Sort sort = Sort.by(Sort.Direction.ASC, "id");
+        return enderecoRepository.findByRestauranteId(restauranteId, sort);
     }
 
     private List<ListarEnderecoPorRestauranteResultadoItem> mapToResultadoItemList(List<Endereco> enderecos) {
