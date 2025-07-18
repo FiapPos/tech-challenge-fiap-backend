@@ -1,13 +1,11 @@
 package br.com.techchallenge.foodsys.integration;
 
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoCommandDto;
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoComandoDto;
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoComandoDto;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoUsuarioCommandDto;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoUsuarioComandoDto;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoUsuarioComandoDto;
 import br.com.techchallenge.foodsys.comandos.login.dto.CredenciaisUsuarioDto;
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
-import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
-import br.com.techchallenge.foodsys.dominio.restaurante.RestauranteRepository;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.dominio.usuario.UsuarioRepository;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
@@ -26,8 +24,6 @@ import org.springframework.test.context.ActiveProfiles;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
-import java.time.LocalDateTime;
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
 class EnderecoIntegrationTest {
@@ -42,9 +38,6 @@ class EnderecoIntegrationTest {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private RestauranteRepository restauranteRepository;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -57,7 +50,6 @@ class EnderecoIntegrationTest {
     void setUp() throws JsonProcessingException {
         RestAssured.port = port;
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
-        restauranteRepository.deleteAll();
         enderecoRepository.deleteAll();
         usuarioRepository.deleteAll();
 
@@ -67,84 +59,71 @@ class EnderecoIntegrationTest {
         usuario.setEmail("joao@email.com");
         usuario.setLogin("joao123");
         usuario.setSenha(passwordEncoder.encode("senha123"));
-        usuario.setTipo(TipoUsuario.ADMIN);
+        usuario.setTipo(TipoUsuario.CLIENTE);
         usuario = usuarioRepository.save(usuario);
 
         CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("joao123", "senha123");
         token = given()
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(credentials))
-                .when()
-                .post("/login")
-                .then()
-                .statusCode(200)
-                .extract()
-                .path("token");
+            .contentType(ContentType.JSON)
+            .body(objectMapper.writeValueAsString(credentials))
+        .when()
+            .post("/login")
+        .then()
+            .statusCode(200)
+            .extract()
+            .path("token");
     }
 
     @Test
     void deveCriarEnderecoComSucesso() throws Exception {
-        CriarEnderecoCommandDto dto = new CriarEnderecoCommandDto();
-
+        CriarEnderecoUsuarioCommandDto dto = new CriarEnderecoUsuarioCommandDto();
+        dto.setUsuarioId(usuario.getId());
         dto.setRua("Rua das Flores");
         dto.setNumero("123");
         dto.setCep("01234-567");
 
         given()
-                .header("Authorization", "Bearer " + token)
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(dto))
-                .when()
-                .post("/enderecos")
-                .then()
-                .statusCode(201);
+            .header("Authorization", "Bearer " + token)
+            .contentType(ContentType.JSON)
+            .body(objectMapper.writeValueAsString(dto))
+        .when()
+            .post("/enderecos")
+        .then()
+            .statusCode(201);
     }
 
     @Test
-    void deveCriarEnderecoDoRestauranteComSucesso() throws Exception {
-
-        Restaurante restaurante = new Restaurante();
-        restaurante.setNome("Restaurante Teste");
-        restaurante.setUsuario(usuario);
-        restaurante.setTipoCozinha("BRASILEIRA");
-        restaurante.setHorarioAbertura("08:00");
-        restaurante.setHorarioFechamento("22:00");
-        restaurante.setAtivo(true);
-        restaurante.setDataCriacao(LocalDateTime.now());
-
-        restaurante = restauranteRepository.save(restaurante);
-
-        CriarEnderecoCommandDto dto = new CriarEnderecoCommandDto();
-
-        dto.setRua("Rua do Restaurante");
-        dto.setNumero("789");
-        dto.setCep("99999-999");
-        dto.setRestauranteId(restaurante.getId());
+    void deveRetornarErroAoCriarEnderecoComUsuarioInexistente() throws Exception {
+        CriarEnderecoUsuarioCommandDto dto = new CriarEnderecoUsuarioCommandDto();
+        dto.setUsuarioId(999L);
+        dto.setRua("Rua das Flores");
+        dto.setNumero("123");
+        dto.setCep("01234-567");
 
         given()
-                .header("Authorization", "Bearer " + token)
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(dto))
-                .when()
-                .post("/enderecos")
-                .then()
-                .statusCode(201);
+            .header("Authorization", "Bearer " + token)
+            .contentType(ContentType.JSON)
+            .body(objectMapper.writeValueAsString(dto))
+        .when()
+            .post("/enderecos")
+        .then()
+            .statusCode(403);
     }
 
     @Test
     void deveRetornarErroAoCriarEnderecoComDadosInvalidos() throws Exception {
-        CriarEnderecoCommandDto dto = new CriarEnderecoCommandDto();
-
+        CriarEnderecoUsuarioCommandDto dto = new CriarEnderecoUsuarioCommandDto();
+        dto.setUsuarioId(usuario.getId());
         dto.setRua("Rua das Flores");
 
         given()
-                .header("Authorization", "Bearer " + token)
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(dto))
-                .when()
-                .post("/enderecos")
-                .then()
-                .statusCode(400);
+            .header("Authorization", "Bearer " + token)
+            .contentType(ContentType.JSON)
+            .body(objectMapper.writeValueAsString(dto))
+        .when()
+            .post("/enderecos")
+        .then()
+            .statusCode(400);
     }
 
     @Test
@@ -155,42 +134,42 @@ class EnderecoIntegrationTest {
         endereco.setNumero("123");
         endereco.setCep("01234-567");
         endereco = enderecoRepository.save(endereco);
-
+        
         assert endereco.getId() != null : "Endereço deve ter um ID após ser salvo";
         assert enderecoRepository.findById(endereco.getId()).isPresent() : "Endereço deve existir no banco";
 
-        AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
-
+        AtualizarEnderecoUsuarioComandoDto dto = new AtualizarEnderecoUsuarioComandoDto();
+        dto.setUsuarioId(usuario.getId());
         dto.setRua("Rua das Flores Atualizada");
         dto.setNumero("456");
         dto.setCep("04567-890");
 
         given()
-                .header("Authorization", "Bearer " + token)
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(dto))
-                .when()
-                .put("/enderecos/" + endereco.getId())
-                .then()
-                .statusCode(200);
+            .header("Authorization", "Bearer " + token)
+            .contentType(ContentType.JSON)
+            .body(objectMapper.writeValueAsString(dto))
+        .when()
+            .put("/enderecos/" + endereco.getId())
+        .then()
+            .statusCode(200);
     }
 
     @Test
     void deveRetornarErroAoAtualizarEnderecoInexistente() throws Exception {
-        AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
-
+        AtualizarEnderecoUsuarioComandoDto dto = new AtualizarEnderecoUsuarioComandoDto();
+        dto.setUsuarioId(usuario.getId());
         dto.setRua("Rua das Flores Atualizada");
         dto.setNumero("456");
         dto.setCep("04567-890");
 
         given()
-                .header("Authorization", "Bearer " + token)
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(dto))
-                .when()
-                .put("/enderecos/999")
-                .then()
-                .statusCode(400);
+            .header("Authorization", "Bearer " + token)
+            .contentType(ContentType.JSON)
+            .body(objectMapper.writeValueAsString(dto))
+        .when()
+            .put("/enderecos/999")
+        .then()
+            .statusCode(400);
     }
 
     @Test
@@ -204,26 +183,26 @@ class EnderecoIntegrationTest {
         outroUsuario = usuarioRepository.save(outroUsuario);
 
         Endereco endereco = new Endereco();
-        endereco.setUsuario(outroUsuario);
+        endereco.setUsuario(usuario);
         endereco.setRua("Rua das Flores");
         endereco.setNumero("123");
         endereco.setCep("01234-567");
         endereco = enderecoRepository.save(endereco);
 
-        AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
-
+        AtualizarEnderecoUsuarioComandoDto dto = new AtualizarEnderecoUsuarioComandoDto();
+        dto.setUsuarioId(outroUsuario.getId());
         dto.setRua("Rua das Flores Atualizada");
         dto.setNumero("456");
         dto.setCep("04567-890");
 
         given()
-                .header("Authorization", "Bearer " + token)
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(dto))
-                .when()
-                .put("/enderecos/" + endereco.getId())
-                .then()
-                .statusCode(400);
+            .header("Authorization", "Bearer " + token)
+            .contentType(ContentType.JSON)
+            .body(objectMapper.writeValueAsString(dto))
+        .when()
+            .put("/enderecos/" + endereco.getId())
+        .then()
+            .statusCode(403);
     }
 
     @Test
@@ -235,37 +214,38 @@ class EnderecoIntegrationTest {
         endereco.setCep("01234-567");
         endereco = enderecoRepository.save(endereco);
 
-        DeletarEnderecoComandoDto dto = new DeletarEnderecoComandoDto();
+        DeletarEnderecoUsuarioComandoDto dto = new DeletarEnderecoUsuarioComandoDto();
         dto.setEnderecoId(endereco.getId());
-        ;
+        dto.setUsuarioId(usuario.getId());
 
         given()
-                .header("Authorization", "Bearer " + token)
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(dto))
-                .when()
-                .delete("/enderecos")
-                .then()
-                .statusCode(200);
+            .header("Authorization", "Bearer " + token)
+            .contentType(ContentType.JSON)
+            .body(objectMapper.writeValueAsString(dto))
+        .when()
+            .delete("/enderecos")
+        .then()
+            .statusCode(200);
     }
 
     @Test
     void deveRetornarErroAoDeletarEnderecoInexistente() throws Exception {
-        DeletarEnderecoComandoDto dto = new DeletarEnderecoComandoDto();
+        DeletarEnderecoUsuarioComandoDto dto = new DeletarEnderecoUsuarioComandoDto();
         dto.setEnderecoId(999L);
+        dto.setUsuarioId(usuario.getId());
 
         given()
-                .header("Authorization", "Bearer " + token)
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(dto))
-                .when()
-                .delete("/enderecos")
-                .then()
-                .statusCode(400);
+            .header("Authorization", "Bearer " + token)
+            .contentType(ContentType.JSON)
+            .body(objectMapper.writeValueAsString(dto))
+        .when()
+            .delete("/enderecos")
+        .then()
+            .statusCode(400);
     }
 
     @Test
-    void deveListarEnderecosPorUsuarioComSucesso() throws Exception {
+    void deveListarEnderecosPorUsuarioComSucesso()   {
         Endereco endereco1 = new Endereco();
         endereco1.setUsuario(usuario);
         endereco1.setRua("Rua das Flores");
@@ -281,47 +261,50 @@ class EnderecoIntegrationTest {
         enderecoRepository.save(endereco2);
 
         given()
-                .header("Authorization", "Bearer " + token)
-                .when()
-                .get("/enderecos")
-                .then()
-                .statusCode(200)
-                .body("$", hasSize(2))
-                .body("[0].rua", equalTo("Rua das Flores"))
-                .body("[0].numero", equalTo("123"))
-                .body("[0].cep", equalTo("01234-567"))
-                .body("[1].rua", equalTo("Rua das Palmeiras"))
-                .body("[1].numero", equalTo("456"))
-                .body("[1].cep", equalTo("04567-890"));
+            .header("Authorization", "Bearer " + token)
+        .when()
+            .get("/enderecos/usuario/" + usuario.getId())
+        .then()
+            .statusCode(200)
+            .body("$", hasSize(2))
+            .body("[0].rua", equalTo("Rua das Flores"))
+            .body("[1].rua", equalTo("Rua das Palmeiras"));
+    }
+
+    @Test
+    void deveRetornarNoContentQuandoUsuarioNaoTemEnderecos()   {
+        given()
+            .header("Authorization", "Bearer " + token)
+        .when()
+            .get("/enderecos/usuario/" + usuario.getId())
+        .then()
+            .statusCode(204);
+    }
+
+    @Test
+    void deveRetornarErroAoListarEnderecosDeUsuarioInexistente()   {
+        given()
+            .header("Authorization", "Bearer " + token)
+        .when()
+            .get("/enderecos/usuario/999")
+        .then()
+            .statusCode(403);
     }
 
     @Test
     void deveRetornarErroSemAutenticacao() throws Exception {
-        CriarEnderecoCommandDto dto = new CriarEnderecoCommandDto();
-
+        CriarEnderecoUsuarioCommandDto dto = new CriarEnderecoUsuarioCommandDto();
+        dto.setUsuarioId(usuario.getId());
         dto.setRua("Rua das Flores");
         dto.setNumero("123");
         dto.setCep("01234-567");
 
         given()
-                .contentType(ContentType.JSON)
-                .body(objectMapper.writeValueAsString(dto))
-                .when()
-                .post("/enderecos")
-                .then()
-                .statusCode(401);
+            .contentType(ContentType.JSON)
+            .body(objectMapper.writeValueAsString(dto))
+        .when()
+            .post("/enderecos")
+        .then()
+            .statusCode(401);
     }
-
-    @Test
-    void deveRetornarNoContentQuandoUsuarioNaoTemEnderecos() throws Exception {
-        enderecoRepository.deleteAll();
-
-        given()
-                .header("Authorization", "Bearer " + token)
-                .when()
-                .get("/enderecos")
-                .then()
-                .statusCode(204);
-    }
-
-}
+} 

@@ -2,8 +2,7 @@
 	"info": {
 		"_postman_id": "4b83a298-7175-43ce-bc25-acf70fc96b00",
 		"name": "techchallenge.foodsys",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "23819278"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -13,69 +12,38 @@
 					"name": "Criar usuário",
 					"request": {
 						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"nome\": \"João Silva\",\n  \"email\": \"joao@example.com\",\n  \"login\": \"joao.silva\",\n  \"senha\": \"senha123\",\n  \"tipo\": \"ADMIN\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/usuarios",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"usuarios"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["usuarios"]
 						}
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Listar usuários",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
-						],
+						"header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
 						"url": {
 							"raw": "{{base_url}}/usuarios?ativo=true",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"usuarios"
-							],
-							"query": [
-								{
-									"key": "ativo",
-									"value": "true"
-								}
-							]
+							"host": ["{{base_url}}"],
+							"path": ["usuarios"],
+							"query": [{ "key": "ativo", "value": "true" }]
 						}
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Atualizar usuário",
 					"request": {
 						"method": "PUT",
 						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
+							{ "key": "Content-Type", "value": "application/json" },
+							{ "key": "Authorization", "value": "Bearer {{token}}" }
 						],
 						"body": {
 							"mode": "raw",
@@ -83,42 +51,24 @@
 						},
 						"url": {
 							"raw": "{{base_url}}/usuarios/1",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"usuarios",
-								"1"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["usuarios", "1"]
 						}
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Desativar usuário",
 					"request": {
 						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
-						],
+						"header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
 						"url": {
 							"raw": "{{base_url}}/usuarios/1",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"usuarios",
-								"1"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["usuarios", "1"]
 						}
-					},
-					"response": []
+					}
 				}
-			],
-			"description": "Criação e Manutenção de usuários."
+			]
 		},
 		{
 			"name": "login",
@@ -127,68 +77,36 @@
 					"name": "Login",
 					"request": {
 						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
+						"header": [{ "key": "Content-Type", "value": "application/json" }],
 						"body": {
 							"mode": "raw",
 							"raw": "{\n  \"login\": \"joao.silva\",\n  \"senha\": \"senha123\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/login",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"login"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["login"]
 						}
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Atualizar senha",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzQ4ODg3NjI1fQ.CGihhopWss2Y15HY8Uc_qYpot2nleVvHVDDZjuwmlYo",
-									"type": "string"
-								}
-							]
-						},
 						"method": "PUT",
 						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
+							{ "key": "Content-Type", "value": "application/json" },
+							{ "key": "Authorization", "value": "Bearer {{token}}" }
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"senha\": \"novaSenha123\",\n  \"confirmacaoSenha\": \"novaSenha123\"\n}"
+							"raw": "{\n  \"novaSenha\": \"novaSenha123\",\n  \"confirmacaoNovaSenha\": \"novaSenha123\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/login/atualiza-senha",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"login",
-								"atualiza-senha"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["login", "atualiza-senha"]
 						}
-					},
-					"response": []
+					}
 				}
 			]
 		},
@@ -198,161 +116,75 @@
 				{
 					"name": "Criar endereço",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzUxOTI0Nzk1fQ.fgxtvG0xzVZ8QwrlqdJt7balb12mSc_uqnSo-pKmkog",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
 						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
+							{ "key": "Content-Type", "value": "application/json" },
+							{ "key": "Authorization", "value": "Bearer {{token}}" }
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{ \n  \"restauranteId\": 1,  \n  \"rua\": \"Rua 1 do Restaurante 1\",\n  \"numero\": \"1234\",\n  \"cep\": \"01001003\"  \n}"
+							"raw": "{\n  \"usuarioId\": 1,\n  \"restauranteId\": 1,\n  \"rua\": \"Rua Exemplo b\",\n  \"numero\": \"1234\",\n  \"cep\": \"01001004\"  \n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/enderecos",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"enderecos"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["enderecos"]
 						}
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Atualizar endereço",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzUxOTE0MDUxfQ.0ir4MrJt7el2ng9gUTLReAPeZ4wd4Vx1MZuY5uHA1IM",
-									"type": "string"
-								}
-							]
-						},
 						"method": "PUT",
 						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
+							{ "key": "Content-Type", "value": "application/json" },
+							{ "key": "Authorization", "value": "Bearer {{token}}" }
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"rua\": \"Rua Atualizada 1 vez\",\n  \"numero\": \"456\"\n}"
+							"raw": "{\n  \"usuarioId\": 2, \n  \"rua\": \"Rua Atualizada 1 vez\",\n  \"numero\": \"455\"\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/enderecos/3",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"enderecos",
-								"3"
-							]
+							"raw": "{{base_url}}/enderecos/2",
+							"host": ["{{base_url}}"],
+							"path": ["enderecos", "2"]
 						}
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Listar endereços",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzUxOTIxNDMzfQ.HwKi0wkJONF2PRKB5HIcqjHTbmFfQR8wLlZ-cLMIF5Y",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
-						],
+						"header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
 						"url": {
-							"raw": "{{base_url}}/enderecos?restauranteId=",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"enderecos"
-							],
+							"raw": "{{base_url}}/enderecos?usuarioId=&restauranteId=1",
+							"host": ["{{base_url}}"],
+							"path": ["enderecos"],
 							"query": [
-								{
-									"key": "restauranteId",
-									"value": ""
-								}
+								{ "key": "usuarioId", "value": "" },
+								{ "key": "restauranteId", "value": "1" }
 							]
 						}
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Excluir endereço",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzUxOTI0Nzk1fQ.fgxtvG0xzVZ8QwrlqdJt7balb12mSc_uqnSo-pKmkog",
-									"type": "string"
-								}
-							]
-						},
 						"method": "DELETE",
 						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							},
-							{
-								"key": "Authorization",
-								"value": "Bearer {{token}}"
-							}
+							{ "key": "Content-Type", "value": "application/json" },
+							{ "key": "Authorization", "value": "Bearer {{token}}" }
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n \"enderecoId\": 1\n}"
+							"raw": "{\n \"enderecoId\": 1,\n \"usuarioId\": 1\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/enderecos",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"enderecos"
-							]
+							"host": ["{{base_url}}"],
+							"path": ["enderecos"]
 						}
-					},
-					"response": []
+					}
 				}
 			]
 		},
@@ -360,145 +192,128 @@
 			"name": "restaurante",
 			"item": [
 				{
-					"name": "Criar restaurante",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzUxOTI0Nzk1fQ.fgxtvG0xzVZ8QwrlqdJt7balb12mSc_uqnSo-pKmkog",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n      \"nome\": \"Choperia do João\",\r\n      \"tipoCozinha\": \"Choperia\",\r\n      \"horarioAbertura\": \"11:00\",\r\n      \"horarioFechamento\": \"23:00\"\r\n}\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{base_url}}/restaurante",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"restaurante"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Listar restaurantes",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzUxOTE3Njg0fQ.V5EW1F8e5utshS3dZJ1Kxo-hew1jSdfs9-LL2hPG5TQ",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
-						"header": [],
 						"url": {
 							"raw": "{{base_url}}/restaurante?ativo=&tipoCozinha=",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"restaurante"
-							],
+							"host": ["{{base_url}}"],
+							"path": ["restaurante"],
 							"query": [
-								{
-									"key": "ativo",
-									"value": ""
-								},
-								{
-									"key": "tipoCozinha",
-									"value": ""
-								}
+								{ "key": "ativo", "value": "" },
+								{ "key": "tipoCozinha", "value": "" }
 							]
 						}
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Desativar restaurante",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzUxOTE0MDUxfQ.0ir4MrJt7el2ng9gUTLReAPeZ4wd4Vx1MZuY5uHA1IM",
-									"type": "string"
-								}
-							]
-						},
 						"method": "DELETE",
-						"header": [],
 						"url": {
-							"raw": "{{base_url}}/restaurante/2",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"restaurante",
-								"2"
-							]
+							"raw": "{{base_url}}/restaurante/1",
+							"host": ["{{base_url}}"],
+							"path": ["restaurante", "1"]
 						}
-					},
-					"response": []
+					}
 				},
 				{
 					"name": "Atualizar Restaurante",
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzUxOTE3Njg0fQ.V5EW1F8e5utshS3dZJ1Kxo-hew1jSdfs9-LL2hPG5TQ",
-									"type": "string"
-								}
-							]
-						},
 						"method": "PUT",
-						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n      \"nome\": \"Choperia Atualizada\",\r\n      \"tipoCozinha\": \"Choperia\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
+							"raw": "{\r\n  \"usuarioDonoId\": 1,\r\n  \"nome\": \"Pizzaria da Ana\"\r\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/restaurante/2",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"restaurante",
-								"2"
-							]
+							"raw": "{{base_url}}/restaurante/1",
+							"host": ["{{base_url}}"],
+							"path": ["restaurante", "1"]
 						}
-					},
-					"response": []
+					}
+				}
+			]
+		},
+		{
+			"name": "itens-do-cardapio",
+			"item": [
+				{
+					"name": "Criar Item do Cardápio",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" },
+							{ "key": "Authorization", "value": "Bearer {{token}}" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Pizza Margherita\",\n  \"descricao\": \"Deliciosa pizza com tomate, mussarela e manjericão\",\n  \"preco\": 35.50,\n  \"disponivelSomenteNoLocal\": false\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/restaurantes/{{restauranteId}}/itens",
+							"host": ["{{base_url}}"],
+							"path": ["restaurantes", "{{restauranteId}}", "itens"]
+						}
+					}
+				},
+				{
+					"name": "Listar Itens do Cardápio",
+					"request": {
+						"method": "GET",
+						"header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+						"url": {
+							"raw": "{{base_url}}/restaurantes/{{restauranteId}}/itens",
+							"host": ["{{base_url}}"],
+							"path": ["restaurantes", "{{restauranteId}}", "itens"]
+						}
+					}
+				},
+				{
+					"name": "Buscar Item do Cardápio por ID",
+					"request": {
+						"method": "GET",
+						"header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+						"url": {
+							"raw": "{{base_url}}/restaurantes/{{restauranteId}}/itens/{{itemId}}",
+							"host": ["{{base_url}}"],
+							"path": ["restaurantes", "{{restauranteId}}", "itens", "{{itemId}}"]
+						}
+					}
+				},
+				{
+					"name": "Atualizar Item do Cardápio",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" },
+							{ "key": "Authorization", "value": "Bearer {{token}}" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Pizza Margherita Atualizada\",\n  \"descricao\": \"Descrição atualizada do prato\",\n  \"preco\": 38.00,\n  \"disponivelSomenteNoLocal\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/restaurantes/{{restauranteId}}/itens/{{itemId}}",
+							"host": ["{{base_url}}"],
+							"path": ["restaurantes", "{{restauranteId}}", "itens", "{{itemId}}"]
+						}
+					}
+				},
+				{
+					"name": "Excluir Item do Cardápio",
+					"request": {
+						"method": "DELETE",
+						"header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+						"url": {
+							"raw": "{{base_url}}/restaurantes/{{restauranteId}}/itens/{{itemId}}",
+							"host": ["{{base_url}}"],
+							"path": ["restaurantes", "{{restauranteId}}", "itens", "{{itemId}}"]
+						}
+					}
 				}
 			]
 		}
+
 	],
 	"variable": [
 		{

@@ -4,11 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-/**
- * DTO para criação do restaurante.
- * Contem informações as informações nome, endereço, tipo de cozinha e usuário
- * ID.
- */
+
 public class CriarRestauranteCommandDto {
 
     @NotBlank(message = "{nome.obrigatorio}")

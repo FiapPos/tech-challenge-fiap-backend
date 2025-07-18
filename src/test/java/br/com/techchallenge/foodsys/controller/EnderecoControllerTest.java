@@ -3,15 +3,15 @@ package br.com.techchallenge.foodsys.controller;
 import br.com.techchallenge.foodsys.comandos.endereco.AtualizarEnderecoComando;
 import br.com.techchallenge.foodsys.comandos.endereco.CriarEnderecoCommand;
 import br.com.techchallenge.foodsys.comandos.endereco.DeletarEnderecoComando;
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoComandoDto;
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoCommandDto;
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoComandoDto;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoUsuarioComandoDto;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoUsuarioCommandDto;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoUsuarioComandoDto;
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
-import br.com.techchallenge.foodsys.query.endereco.ListarEnderecosQuery;
-import br.com.techchallenge.foodsys.query.params.ListarEnderecosParams;
-import br.com.techchallenge.foodsys.query.resultadoItem.endereco.ListarEnderecoPorResultadoItem;
+import br.com.techchallenge.foodsys.excpetion.BadRequestException;
+import br.com.techchallenge.foodsys.query.endereco.ListarEnderecoPorIdUsuario;
+import br.com.techchallenge.foodsys.query.resultadoItem.endereco.ListarEnderecoPorIdUsuarioResultadoItem;
 import br.com.techchallenge.foodsys.utils.AutorizacaoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class EnderecoControllerTest {
@@ -36,7 +35,7 @@ class EnderecoControllerTest {
     @Mock
     private DeletarEnderecoComando deletarEnderecoComando;
     @Mock
-    private ListarEnderecosQuery listarEnderecosQuery;
+    private ListarEnderecoPorIdUsuario listarEnderecoPorIdUsuario;
     @Mock
     private AutorizacaoService autorizacaoService;
     @Mock
@@ -51,127 +50,77 @@ class EnderecoControllerTest {
 
     @Test
     void deveCriarEnderecoComSucesso() {
-        CriarEnderecoCommandDto dto = new CriarEnderecoCommandDto();
+        CriarEnderecoUsuarioCommandDto dto = new CriarEnderecoUsuarioCommandDto();
         dto.setRua("Rua Teste");
         dto.setCep("12345-678");
         dto.setNumero("100");
-        dto.setRestauranteId(1L);
-
-        Usuario usuario = new Usuario();
-        usuario.setId(1L);
-
-        when(autorizacaoService.getUsuarioLogado()).thenReturn(usuario);
-
-        doNothing().when(autorizacaoService).validarAcessoUsuario(usuario.getId());
-
+        dto.setUsuarioId(1L);
+        
+        doNothing().when(autorizacaoService).validarAcessoUsuario(dto.getUsuarioId());
         Endereco endereco = new Endereco();
         endereco.setId(1L);
-
-        when(criarEnderecoCommand.execute(dto, usuario)).thenReturn(endereco);
+        when(criarEnderecoCommand.execute(dto.getUsuarioId(), dto)).thenReturn(endereco);
 
         ResponseEntity<Void> response = enderecoController.criar(dto);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        verify(autorizacaoService).validarAcessoUsuario(usuario.getId());
-        verify(criarEnderecoCommand).execute(dto, usuario);
-    }
-
-    @Test
-    void deveAtualizarEnderecoComSucesso() {
-
-        Long enderecoId = 1L;
-        AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
-        dto.setRua("Rua Atualizada");
-        dto.setCep("98765-432");
-        dto.setNumero("200");
-
-        Usuario usuario = new Usuario();
-        usuario.setId(1L);
-
-        Endereco endereco = new Endereco();
-        endereco.setId(enderecoId);
-        endereco.setUsuario(usuario);
-
-        when(autorizacaoService.getUsuarioLogado()).thenReturn(usuario);
-        when(enderecoRepository.findById(enderecoId)).thenReturn(Optional.of(endereco));
-        doNothing().when(autorizacaoService).validarAcessoUsuario(usuario.getId());
-        when(atualizarEnderecoComando.execute(enderecoId, dto, usuario)).thenReturn(endereco);
-
-        ResponseEntity<Void> response = enderecoController.atualizar(enderecoId, dto);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        verify(autorizacaoService).validarAcessoUsuario(usuario.getId());
-        verify(atualizarEnderecoComando).execute(enderecoId, dto, usuario);
+        verify(autorizacaoService).validarAcessoUsuario(dto.getUsuarioId());
+        verify(criarEnderecoCommand).execute(dto.getUsuarioId(), dto);
     }
 
     @Test
     void deveDeletarEnderecoComSucesso() {
-        DeletarEnderecoComandoDto dto = new DeletarEnderecoComandoDto();
+        DeletarEnderecoUsuarioComandoDto dto = new DeletarEnderecoUsuarioComandoDto();
         dto.setEnderecoId(1L);
-
+        dto.setUsuarioId(1L);
+        
         Usuario usuario = new Usuario();
         usuario.setId(1L);
-
-        when(autorizacaoService.getUsuarioLogado()).thenReturn(usuario);
-
         Endereco endereco = new Endereco();
         endereco.setId(dto.getEnderecoId());
         endereco.setUsuario(usuario);
-
         when(enderecoRepository.findById(dto.getEnderecoId())).thenReturn(Optional.of(endereco));
-
+        
         doNothing().when(autorizacaoService).validarAcessoUsuario(usuario.getId());
-        doNothing().when(deletarEnderecoComando).execute(dto, usuario);
+        doNothing().when(deletarEnderecoComando).execute(usuario.getId(), dto);
 
         ResponseEntity<Void> response = enderecoController.deletar(dto);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         verify(autorizacaoService).validarAcessoUsuario(usuario.getId());
-        verify(deletarEnderecoComando).execute(dto, usuario);
+        verify(deletarEnderecoComando).execute(usuario.getId(), dto);
         verify(enderecoRepository).findById(dto.getEnderecoId());
     }
 
     @Test
     void deveListarEnderecosPorUsuarioComSucesso() {
-        Usuario usuario = new Usuario();
-        usuario.setId(1L);
-
-        doNothing().when(autorizacaoService).validarAcessoUsuario(usuario.getId());
-        when(autorizacaoService.getUsuarioLogado()).thenReturn(usuario);
-
-        ListarEnderecoPorResultadoItem item = ListarEnderecoPorResultadoItem.builder()
+        Long usuarioId = 1L;
+        ListarEnderecoPorIdUsuarioResultadoItem item = ListarEnderecoPorIdUsuarioResultadoItem.builder()
                 .id(1L)
                 .rua("Rua Teste")
                 .build();
-        List<ListarEnderecoPorResultadoItem> resultado = List.of(item);
+        List<ListarEnderecoPorIdUsuarioResultadoItem> resultado = List.of(item);
+        
+        doNothing().when(autorizacaoService).validarAcessoUsuario(usuarioId);
+        when(listarEnderecoPorIdUsuario.execute(usuarioId)).thenReturn(resultado);
 
-        when(listarEnderecosQuery.execute(any())).thenReturn(resultado);
-
-        ResponseEntity<List<ListarEnderecoPorResultadoItem>> response = enderecoController.listarEnderecos(null);
+        ResponseEntity<List<ListarEnderecoPorIdUsuarioResultadoItem>> response = enderecoController.listarPorUsuario(usuarioId);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(resultado, response.getBody());
-        verify(autorizacaoService).validarAcessoUsuario(usuario.getId());
-        verify(listarEnderecosQuery).execute(any());
     }
 
     @Test
     void deveRetornarNoContentQuandoListaVazia() {
-        Usuario usuario = new Usuario();
-        usuario.setId(1L);
+        Long usuarioId = 1L;
+        
+        doNothing().when(autorizacaoService).validarAcessoUsuario(usuarioId);
+        when(listarEnderecoPorIdUsuario.execute(usuarioId)).thenReturn(List.of());
 
-        doNothing().when(autorizacaoService).validarAcessoUsuario(usuario.getId());
-        when(autorizacaoService.getUsuarioLogado()).thenReturn(usuario);
-
-        ListarEnderecosParams params = new ListarEnderecosParams(usuario.getId(), null);
-        when(listarEnderecosQuery.execute(params)).thenReturn(List.of());
-
-        ResponseEntity<List<ListarEnderecoPorResultadoItem>> response = enderecoController.listarEnderecos(null);
+        ResponseEntity<List<ListarEnderecoPorIdUsuarioResultadoItem>> response = enderecoController.listarPorUsuario(usuarioId);
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         assertNull(response.getBody());
-        verify(autorizacaoService).validarAcessoUsuario(usuario.getId());
-        verify(listarEnderecosQuery).execute(params);
     }
 
-}
+} 

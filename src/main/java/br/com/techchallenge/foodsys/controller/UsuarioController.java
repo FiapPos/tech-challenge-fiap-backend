@@ -1,23 +1,14 @@
 package br.com.techchallenge.foodsys.controller;
 
-import br.com.techchallenge.foodsys.comandos.endereco.AtualizarEnderecoComando;
-import br.com.techchallenge.foodsys.comandos.endereco.DeletarEnderecoComando;
 import br.com.techchallenge.foodsys.comandos.usuario.AtualizarUsuarioComando;
 import br.com.techchallenge.foodsys.comandos.usuario.CriarUsuarioCommand;
 import br.com.techchallenge.foodsys.comandos.usuario.DesativarUsuarioComando;
 import br.com.techchallenge.foodsys.comandos.usuario.dtos.AtualizarUsuarioComandoDto;
 import br.com.techchallenge.foodsys.comandos.usuario.dtos.CriarUsuarioCommandDto;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
-import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import br.com.techchallenge.foodsys.query.ListarUsuariosQuery;
-import br.com.techchallenge.foodsys.query.endereco.ListarEnderecoPorIdUsuario;
 import br.com.techchallenge.foodsys.query.params.ListarUsuariosParams;
 import br.com.techchallenge.foodsys.query.resultadoItem.ListarUsuariosResultadoItem;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

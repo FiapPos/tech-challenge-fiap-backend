@@ -15,7 +15,7 @@ public interface EnderecoRepository extends JpaRepository<Endereco, Long> {
     List<Endereco> findByUsuarioId(@Param("usuarioId") Long usuarioId, Sort sort);
 
     @Query("SELECT e FROM Endereco e JOIN FETCH e.restaurante WHERE e.restaurante.id = :restauranteId")
-    List<Endereco> findByRestauranteId(@Param("restauranteId") Long restauranteId);
+    List<Endereco> findByRestauranteId(@Param("restauranteId") Long restauranteId, Sort sort);
 
     boolean existsByUsuarioIdAndCep(Long usuarioId, String cep);
 
