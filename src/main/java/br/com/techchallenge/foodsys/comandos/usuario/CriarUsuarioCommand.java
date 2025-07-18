@@ -3,7 +3,6 @@ package br.com.techchallenge.foodsys.comandos.usuario;
 import br.com.techchallenge.foodsys.comandos.usuario.dtos.CriarUsuarioCommandDto;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.dominio.usuario.UsuarioRepository;
-import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import br.com.techchallenge.foodsys.utils.ValidarEmailExistente;
 import br.com.techchallenge.foodsys.utils.ValidarLoginExistente;
 import br.com.techchallenge.foodsys.utils.usuario.CriarUsuarioBase;
