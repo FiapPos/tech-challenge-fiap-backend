@@ -1,6 +1,7 @@
 package br.com.techchallenge.foodsys.comandos.login;
 
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
+import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,9 +18,11 @@ public class AutenticaJwtComando {
     @Value("${jwt.expiration-time}")
     private long EXPIRATION_TIME;
 
-    public String createToken(Usuario user) {
+    public String createToken(Usuario user, TipoUsuario tipoUsuario) {
         return JWT.create()
                 .withSubject(user.getLogin())
+                .withClaim("tipoUsuario", tipoUsuario.name())
+                .withClaim("userId", user.getId())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .sign(Algorithm.HMAC256(SECRET));
     }
