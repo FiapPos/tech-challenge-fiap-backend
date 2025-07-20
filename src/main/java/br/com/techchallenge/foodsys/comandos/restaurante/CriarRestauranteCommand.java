@@ -40,7 +40,7 @@ public class CriarRestauranteCommand {
         restaurante.setHorarioFechamento(dto.getHorarioFechamento());
         restaurante.setUsuario(usuario);
         restaurante.setAtivo(true);
-        restaurante.setUsuarioDonoId(usuario.getId());
+        restaurante.setUsuarioId(usuario.getId());
         restaurante.setDataCriacao(sharedService.getCurrentDateTime());
         return restaurante;
     }

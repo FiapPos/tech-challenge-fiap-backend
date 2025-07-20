@@ -1,5 +1,6 @@
 package br.com.techchallenge.foodsys.controller;
 import br.com.techchallenge.foodsys.comandos.cardapio.FotoItemDoCardapioHandler;
+import br.com.techchallenge.foodsys.utils.usuario.ValidadorPermissoes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,19 +12,24 @@ import java.io.IOException;
 public class FotoItemDoCardapioController {
 
     private final FotoItemDoCardapioHandler fotoItemDoCardapioHandler;
+    private final ValidadorPermissoes validadorPermissoes;
 
-    public FotoItemDoCardapioController(FotoItemDoCardapioHandler fotoItemDoCardapioHandler) {
+    public FotoItemDoCardapioController(FotoItemDoCardapioHandler fotoItemDoCardapioHandler,
+                                      ValidadorPermissoes validadorPermissoes) {
         this.fotoItemDoCardapioHandler = fotoItemDoCardapioHandler;
+        this.validadorPermissoes = validadorPermissoes;
     }
 
     @PostMapping
     public ResponseEntity<String> uploadFotoPrato(
             @PathVariable Long restauranteId,
-            @PathVariable Long pratoId,
+            @PathVariable Long itemId,
             @RequestParam("arquivo") MultipartFile arquivo) {
 
+        validadorPermissoes.validarGerenciamentoCardapio(restauranteId);
+
         try {
-            fotoItemDoCardapioHandler.salvarFoto(restauranteId, pratoId, arquivo);
+            fotoItemDoCardapioHandler.salvarFoto(restauranteId, itemId, arquivo);
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body("Foto salva com sucesso!");
