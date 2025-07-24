@@ -19,11 +19,11 @@ public class FotoItemDoCardapioController {
     @PostMapping
     public ResponseEntity<String> uploadFotoPrato(
             @PathVariable Long restauranteId,
-            @PathVariable Long pratoId,
+            @PathVariable Long itemId,
             @RequestParam("arquivo") MultipartFile arquivo) {
 
         try {
-            fotoItemDoCardapioHandler.salvarFoto(restauranteId, pratoId, arquivo);
+            fotoItemDoCardapioHandler.salvarFoto(restauranteId, itemId, arquivo);
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body("Foto salva com sucesso!");
