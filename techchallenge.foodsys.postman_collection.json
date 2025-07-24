@@ -20,7 +20,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"nome\": \"João Silva\",\n  \"email\": \"joao@example.com\",\n  \"login\": \"joao.silva\",\n  \"senha\": \"senha123\",\n  \"tipo\": \"ADMIN\"\n}"
+							"raw": "{\n  \"nome\": \"João Silva\",\n  \"email\": \"joao@example.com\",\n  \"login\": \"joao.silva\",\n  \"senha\": \"senha123\",\n  \"tipos\": [\"ADMIN\", \"DONO_RESTAURANTE\"]\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/usuarios",
@@ -133,7 +133,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"login\": \"joao.silva\",\n  \"senha\": \"senha123\"\n}"
+							"raw": "{\n  \"login\": \"joao.silva\",\n  \"senha\": \"senha123\",\n  \"tipoUsuario\": \"DONO_RESTAURANTE\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/login",
@@ -199,7 +199,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"usuarioId\": 1,\n  \"restauranteId\": 1,\n  \"rua\": \"Rua Exemplo b\",\n  \"numero\": \"1234\",\n  \"cep\": \"01001004\"  \n}"
+							"raw": "{\n  \"usuarioId\": 1,\n  \"rua\": \"Rua Exemplo b\",\n  \"numero\": \"1234\",\n  \"cep\": \"01001004\"  \n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/enderecos",
@@ -551,7 +551,7 @@
 			"name": "enderecos-restaurante",
 			"item": [
 				{
-					"name": "Criar endereço",
+					"name": "Criar endereço de restaurante",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -577,7 +577,7 @@
 					"response": []
 				},
 				{
-					"name": "Atualizar endereço",
+					"name": "Atualizar endereço de restaurante",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -604,7 +604,7 @@
 					"response": []
 				},
 				{
-					"name": "Lista endereços",
+					"name": "Lista endereços de restaurante",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -623,7 +623,7 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "Excluir endereco de restaurante",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -656,7 +656,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwiZXhwIjoxNzUzMjEyMTA5fQ.JFMz0QuDtYkTaNynfrdbithLIWdOPQTCh2DFOneqRZ8",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwidGlwb1VzdWFyaW8iOiJET05PX1JFU1RBVVJBTlRFIiwidXNlcklkIjoxLCJleHAiOjE3NTM0ODEyMjd9.2mfpph7mMoQs29CKtT0Oln94Ac2Jr--1BDNJb_hKMZU",
 				"type": "string"
 			}
 		]

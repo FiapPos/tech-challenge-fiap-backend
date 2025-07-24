@@ -2,9 +2,9 @@ package br.com.techchallenge.foodsys.controller;
 import br.com.techchallenge.foodsys.comandos.endereco.AtualizarEnderecoComando;
 import br.com.techchallenge.foodsys.comandos.endereco.CriarEnderecoCommand;
 import br.com.techchallenge.foodsys.comandos.endereco.DeletarEnderecoComando;
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoUsuarioComandoDto;
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoUsuarioCommandDto;
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoUsuarioComandoDto;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoComandoDto;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoComandoDto;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoComandoDto;
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
@@ -48,7 +48,7 @@ public class EnderecoController {
             responses = {
                     @ApiResponse(responseCode = "201", description = "Recurso criado com sucesso.",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = CriarEnderecoUsuarioCommandDto.class))),
+                                    schema = @Schema(implementation = CriarEnderecoComandoDto.class))),
 
 
                     @ApiResponse(responseCode = "409", description = "Endereço já existente.",
@@ -61,7 +61,7 @@ public class EnderecoController {
             })
 
     @PostMapping
-    public ResponseEntity<Void> criar(@RequestBody @Valid CriarEnderecoUsuarioCommandDto dto) {
+    public ResponseEntity<Void> criar(@RequestBody @Valid CriarEnderecoComandoDto dto) {
         validadorPermissoes.validarGerenciamentoDadosProprios(dto.getUsuarioId());
 
         criarEnderecoCommand.execute(dto.getUsuarioId(), dto);
@@ -75,7 +75,7 @@ public class EnderecoController {
                     @ApiResponse(
                             responseCode = "200", description = "Recurso atualizado com sucesso.",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = AtualizarEnderecoUsuarioComandoDto.class))),
+                                    schema = @Schema(implementation = AtualizarEnderecoComandoDto.class))),
 
                     @ApiResponse(responseCode = "422", description = "Recurso não atualizado por dados de entrada inválidos.",
                             content = @Content(mediaType = "application/json",
@@ -83,7 +83,7 @@ public class EnderecoController {
             })
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizarEnderecoUsuarioComandoDto dto) {
+    public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizarEnderecoComandoDto dto) {
         Long usuarioId = dto.getUsuarioId();
         validadorPermissoes.validarGerenciamentoDadosProprios(usuarioId);
 
@@ -97,14 +97,14 @@ public class EnderecoController {
             responses = {
             @ApiResponse(responseCode = "200", description = "Recurso deleteado com sucesso.",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema (implementation = DeletarEnderecoUsuarioComandoDto.class))),
+                            schema = @Schema (implementation = DeletarEnderecoComandoDto.class))),
 
             @ApiResponse(responseCode = "422", description = "Recurso não pode ser deletado por dadados de entradas inválidos.",
                     content = @Content(mediaType = "application/json",
                     schema = @Schema(implementation = BadRequestException.class)))
             })
     @DeleteMapping
-    public ResponseEntity<Void> deletar(@RequestBody DeletarEnderecoUsuarioComandoDto dto) {
+    public ResponseEntity<Void> deletar(@RequestBody DeletarEnderecoComandoDto dto) {
         Endereco endereco = enderecoRepository.findById(dto.getEnderecoId())
                 .orElseThrow(() -> new BadRequestException("endereco.nao.encontrado"));
         validadorPermissoes.validarGerenciamentoDadosProprios(endereco.getUsuario().getId());
