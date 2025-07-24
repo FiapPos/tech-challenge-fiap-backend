@@ -7,6 +7,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -30,8 +32,8 @@ public class Usuario {
     @Column(name = "login", nullable = false)
     private String login;
 
-    @Enumerated(EnumType.STRING)
-    private TipoUsuario tipo;
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Set<UsuarioTipo> usuarioTipos = new HashSet<>();
 
     @Column(name = "ativo", nullable = false)
     private boolean ativo = true;

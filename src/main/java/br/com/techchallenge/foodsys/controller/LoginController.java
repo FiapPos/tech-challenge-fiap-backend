@@ -63,7 +63,7 @@ public class LoginController {
 
     @Transactional
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody @Valid CredenciaisUsuarioDto credentials, BindingResult bindingResult) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody @Valid CredenciaisUsuarioDto credentials, BindingResult bindingResult) throws Exception {
 
         if(bindingResult.hasErrors()) {
             Map<String, String> erros = new HashMap<>();
@@ -76,7 +76,7 @@ public class LoginController {
         }
 
         Usuario user = autenticaLoginComando.login(credentials);
-        String token = autenticaJwtComando.createToken(user);
+        String token = autenticaJwtComando.createToken(user, credentials.tipoUsuario());
 
         return ResponseEntity.ok(Map.of("token", token));
     }

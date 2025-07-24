@@ -24,6 +24,7 @@ import br.com.techchallenge.foodsys.query.params.ListarRestaurantesParams;
 import br.com.techchallenge.foodsys.query.restaurante.ListarRestaurantesQuery;
 import br.com.techchallenge.foodsys.query.resultadoItem.restaurante.ListarRestaurantesResultadoItem;
 import br.com.techchallenge.foodsys.utils.AutorizacaoService;
+import br.com.techchallenge.foodsys.utils.usuario.ValidadorPermissoes;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -40,7 +41,6 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/restaurante")
 @RequiredArgsConstructor
-
 public class RestauranteController {
 
         private final CriarRestauranteCommand criarRestauranteCommand;
@@ -48,6 +48,7 @@ public class RestauranteController {
         private final AtualizarRestauranteComando atualizarRestauranteComando;
         private final AutorizacaoService autorizacaoService;
         private final ListarRestaurantesQuery listarRestaurantesQuery;
+        private final ValidadorPermissoes validadorPermissoes;
 
         @PostMapping
         @Operation(summary = "Criar um novo restaurante.", description = "Endpoint de criação um novo restaurante.", responses = {
@@ -57,8 +58,8 @@ public class RestauranteController {
         })
 
         public ResponseEntity<Void> criar(@RequestBody @Valid CriarRestauranteCommandDto dto) {
+                validadorPermissoes.validarGerenciamentoRestaurante(); // Criação não precisa de ID específico
                 Usuario usuario = autorizacaoService.getUsuarioLogado();
-                autorizacaoService.validarAcessoUsuario(usuario.getId());
                 criarRestauranteCommand.execute(dto, usuario);
                 return ResponseEntity.status(HttpStatus.CREATED).build();
         }
@@ -74,6 +75,7 @@ public class RestauranteController {
 
         public ResponseEntity<List<ListarRestaurantesResultadoItem>> listarRestaurantes(
                         @ModelAttribute ListarRestaurantesParams params) {
+                validadorPermissoes.validarVisualizacao(); // Listagem geral não precisa validação específica
                 List<ListarRestaurantesResultadoItem> resultado = listarRestaurantesQuery.execute(params);
                 if (resultado.isEmpty()) {
                         return ResponseEntity.noContent().build();
@@ -88,8 +90,8 @@ public class RestauranteController {
         })
 
         public ResponseEntity<Void> desativarRestaurante(@PathVariable Long id) {
+                validadorPermissoes.validarGerenciamentoRestaurante(id); // Validar acesso ao restaurante específico
                 Usuario usuario = autorizacaoService.getUsuarioLogado();
-                autorizacaoService.validarAcessoUsuario(usuario.getId());
                 desativarRestauranteComando.execute(id);
                 return ResponseEntity.ok().build();
         }
@@ -103,8 +105,8 @@ public class RestauranteController {
 
         public ResponseEntity<Void> atualizar(@PathVariable Long id,
                         @RequestBody @Valid AtualizarRestauranteComandoDto dto) {
+                validadorPermissoes.validarGerenciamentoRestaurante(id); // Validar acesso ao restaurante específico
                 Usuario usuario = autorizacaoService.getUsuarioLogado();
-                autorizacaoService.validarAcessoUsuario(usuario.getId());
                 atualizarRestauranteComando.execute(id, dto, usuario);
                 return ResponseEntity.ok().build();
         }

@@ -7,11 +7,11 @@ import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoUsuarioC
 import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoUsuarioComandoDto;
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import br.com.techchallenge.foodsys.query.endereco.ListarEnderecoPorIdUsuario;
 import br.com.techchallenge.foodsys.query.resultadoItem.endereco.ListarEnderecoPorIdUsuarioResultadoItem;
 import br.com.techchallenge.foodsys.utils.AutorizacaoService;
+import br.com.techchallenge.foodsys.utils.usuario.ValidadorPermissoes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -40,6 +40,7 @@ public class EnderecoController {
     private final ListarEnderecoPorIdUsuario listarEnderecoPorIdUsuario;
     private final AutorizacaoService autorizacaoService;
     private final EnderecoRepository enderecoRepository;
+    private final ValidadorPermissoes validadorPermissoes;
 
     @Operation(summary = "Criar um novo endereço.",
             description = "Recurso para criar um novo endereço.",
@@ -61,7 +62,7 @@ public class EnderecoController {
 
     @PostMapping
     public ResponseEntity<Void> criar(@RequestBody @Valid CriarEnderecoUsuarioCommandDto dto) {
-        autorizacaoService.validarAcessoUsuario(dto.getUsuarioId());
+        validadorPermissoes.validarGerenciamentoDadosProprios(dto.getUsuarioId());
 
         criarEnderecoCommand.execute(dto.getUsuarioId(), dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -84,7 +85,7 @@ public class EnderecoController {
     @PutMapping("/{id}")
     public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizarEnderecoUsuarioComandoDto dto) {
         Long usuarioId = dto.getUsuarioId();
-        autorizacaoService.validarAcessoUsuario(usuarioId);
+        validadorPermissoes.validarGerenciamentoDadosProprios(usuarioId);
 
         atualizarEnderecoComando.execute(id, dto, usuarioId);
         return ResponseEntity.ok().build();
@@ -106,7 +107,7 @@ public class EnderecoController {
     public ResponseEntity<Void> deletar(@RequestBody DeletarEnderecoUsuarioComandoDto dto) {
         Endereco endereco = enderecoRepository.findById(dto.getEnderecoId())
                 .orElseThrow(() -> new BadRequestException("endereco.nao.encontrado"));
-        autorizacaoService.validarAcessoUsuario(endereco.getUsuario().getId());
+        validadorPermissoes.validarGerenciamentoDadosProprios(endereco.getUsuario().getId());
 
         deletarEnderecoComando.execute(dto.getUsuarioId(), dto);
         return ResponseEntity.ok().build();
@@ -127,7 +128,7 @@ public class EnderecoController {
 
     @GetMapping("/usuario/{id}")
     public ResponseEntity<List<ListarEnderecoPorIdUsuarioResultadoItem>> listarPorUsuario(@PathVariable Long id) {
-        autorizacaoService.validarAcessoUsuario(id);
+        validadorPermissoes.validarGerenciamentoDadosProprios(id);
 
         List<ListarEnderecoPorIdUsuarioResultadoItem> listarEnderecoPorIdUsuarioResultadoItem =
                 listarEnderecoPorIdUsuario.execute(id);
