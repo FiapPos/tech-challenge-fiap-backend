@@ -1,8 +1,6 @@
 package br.com.techchallenge.foodsys.integration;
 
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoUsuarioCommandDto;
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoUsuarioComandoDto;
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoUsuarioComandoDto;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoComandoDto;
 import br.com.techchallenge.foodsys.comandos.login.dto.CredenciaisUsuarioDto;
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
@@ -76,7 +74,7 @@ class EnderecoIntegrationTest {
 
     @Test
     void deveCriarEnderecoComSucesso() throws Exception {
-        CriarEnderecoUsuarioCommandDto dto = new CriarEnderecoUsuarioCommandDto();
+        CriarEnderecoComandoDto dto = new CriarEnderecoComandoDto();
         dto.setUsuarioId(usuario.getId());
         dto.setRua("Rua das Flores");
         dto.setNumero("123");
@@ -94,7 +92,7 @@ class EnderecoIntegrationTest {
 
     @Test
     void deveRetornarErroAoCriarEnderecoComUsuarioInexistente() throws Exception {
-        CriarEnderecoUsuarioCommandDto dto = new CriarEnderecoUsuarioCommandDto();
+        CriarEnderecoComandoDto dto = new CriarEnderecoComandoDto();
         dto.setUsuarioId(999L);
         dto.setRua("Rua das Flores");
         dto.setNumero("123");
@@ -112,7 +110,7 @@ class EnderecoIntegrationTest {
 
     @Test
     void deveRetornarErroAoCriarEnderecoComDadosInvalidos() throws Exception {
-        CriarEnderecoUsuarioCommandDto dto = new CriarEnderecoUsuarioCommandDto();
+        CriarEnderecoComandoDto dto = new CriarEnderecoComandoDto();
         dto.setUsuarioId(usuario.getId());
         dto.setRua("Rua das Flores");
 

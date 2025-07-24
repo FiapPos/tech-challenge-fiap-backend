@@ -3,13 +3,11 @@ package br.com.techchallenge.foodsys.controller;
 import br.com.techchallenge.foodsys.comandos.endereco.AtualizarEnderecoComando;
 import br.com.techchallenge.foodsys.comandos.endereco.CriarEnderecoCommand;
 import br.com.techchallenge.foodsys.comandos.endereco.DeletarEnderecoComando;
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoUsuarioComandoDto;
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoUsuarioCommandDto;
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoUsuarioComandoDto;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoComandoDto;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoComandoDto;
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
-import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import br.com.techchallenge.foodsys.query.endereco.ListarEnderecoPorIdUsuario;
 import br.com.techchallenge.foodsys.query.resultadoItem.endereco.ListarEnderecoPorIdUsuarioResultadoItem;
 import br.com.techchallenge.foodsys.utils.AutorizacaoService;
@@ -50,7 +48,7 @@ class EnderecoControllerTest {
 
     @Test
     void deveCriarEnderecoComSucesso() {
-        CriarEnderecoUsuarioCommandDto dto = new CriarEnderecoUsuarioCommandDto();
+        CriarEnderecoComandoDto dto = new CriarEnderecoComandoDto();
         dto.setRua("Rua Teste");
         dto.setCep("12345-678");
         dto.setNumero("100");
@@ -70,7 +68,7 @@ class EnderecoControllerTest {
 
     @Test
     void deveDeletarEnderecoComSucesso() {
-        DeletarEnderecoUsuarioComandoDto dto = new DeletarEnderecoUsuarioComandoDto();
+        DeletarEnderecoComandoDto dto = new DeletarEnderecoComandoDto();
         dto.setEnderecoId(1L);
         dto.setUsuarioId(1L);
         

@@ -1,6 +1,6 @@
 package br.com.techchallenge.foodsys.utils;
 
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoRestauranteComandoDto;
+import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dto.AtualizarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import lombok.RequiredArgsConstructor;

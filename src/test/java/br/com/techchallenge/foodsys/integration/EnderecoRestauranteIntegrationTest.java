@@ -1,8 +1,8 @@
 package br.com.techchallenge.foodsys.integration;
 
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoRestauranteComandoDto;
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoRestauranteComandoDto;
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoRestauranteComandoDto;
+import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dto.AtualizarEnderecoRestauranteComandoDto;
+import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dto.CriarEnderecoRestauranteComandoDto;
+import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dto.DeletarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.comandos.login.dto.CredenciaisUsuarioDto;
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
@@ -67,10 +67,9 @@ class EnderecoRestauranteIntegrationTest {
         usuario.setEmail("joao@email.com");
         usuario.setLogin("joao123");
         usuario.setSenha(passwordEncoder.encode("senha123"));
-        usuario.setTipo(TipoUsuario.ADMIN);
         usuario = usuarioRepository.save(usuario);
 
-        CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("joao123", "senha123");
+        CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("joao123", "senha123", TipoUsuario.ADMIN);
         token = given()
                 .contentType(ContentType.JSON)
                 .body(objectMapper.writeValueAsString(credentials))
