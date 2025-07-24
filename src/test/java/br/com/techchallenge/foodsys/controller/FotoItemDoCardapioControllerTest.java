@@ -9,10 +9,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.io.IOException;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class FotoItemDoCardapioControllerTest {
 
@@ -20,7 +21,7 @@ class FotoItemDoCardapioControllerTest {
     private FotoItemDoCardapioHandler fotoItemDoCardapioHandler;
 
     @BeforeEach
-    void setUp() {
+    void setUp( ) {
         fotoItemDoCardapioHandler = Mockito.mock(FotoItemDoCardapioHandler.class);
         FotoItemDoCardapioController controller = new FotoItemDoCardapioController(fotoItemDoCardapioHandler);
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
@@ -37,7 +38,7 @@ class FotoItemDoCardapioControllerTest {
 
         doNothing().when(fotoItemDoCardapioHandler).salvarFoto(anyLong(), anyLong(), any());
 
-        mockMvc.perform(multipart("/restaurantes/1/pratos/1/foto")
+        mockMvc.perform(multipart("/restaurantes/1/itens/1/foto")
                         .file(arquivo))
                 .andExpect(status().isCreated())
                 .andExpect(content().string("Foto salva com sucesso!"));
@@ -54,7 +55,7 @@ class FotoItemDoCardapioControllerTest {
 
         doThrow(IOException.class).when(fotoItemDoCardapioHandler).salvarFoto(anyLong(), anyLong(), any());
 
-        mockMvc.perform(multipart("/restaurantes/1/pratos/1/foto")
+        mockMvc.perform(multipart("/restaurantes/1/itens/1/foto")
                         .file(arquivo))
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().string("Erro ao salvar a foto."));
@@ -71,7 +72,7 @@ class FotoItemDoCardapioControllerTest {
 
         doThrow(new RuntimeException("Prato não encontrado")).when(fotoItemDoCardapioHandler).salvarFoto(anyLong(), anyLong(), any());
 
-        mockMvc.perform(multipart("/restaurantes/1/pratos/1/foto")
+        mockMvc.perform(multipart("/restaurantes/1/itens/1/foto")
                         .file(arquivo))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("Prato não encontrado"));
