@@ -1,6 +1,6 @@
 package br.com.techchallenge.foodsys.dominio.endereco;
 
-import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
+import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import jakarta.persistence.*;
 import lombok.Data;

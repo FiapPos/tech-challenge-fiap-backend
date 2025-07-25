@@ -17,11 +17,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import br.com.techchallenge.foodsys.comandos.restaurante.dtos.CriarRestauranteCommandDto;
+import br.com.techchallenge.foodsys.core.dtos.restaurante.CriarRestauranteCommandDto;
 import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
 import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
-import br.com.techchallenge.foodsys.dominio.restaurante.RestauranteRepository;
+import br.com.techchallenge.foodsys.core.gateways.RestauranteRepository;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import br.com.techchallenge.foodsys.utils.ValidarRestauranteExistente;

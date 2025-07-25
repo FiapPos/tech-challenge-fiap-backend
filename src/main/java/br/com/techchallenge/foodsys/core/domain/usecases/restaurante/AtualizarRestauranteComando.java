@@ -1,15 +1,15 @@
-package br.com.techchallenge.foodsys.comandos.restaurante;
-
-import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
-import org.springframework.stereotype.Service;
+package br.com.techchallenge.foodsys.core.domain.usecases.restaurante;
 
 import br.com.techchallenge.foodsys.comandos.restaurante.dtos.AtualizarRestauranteComandoDto;
-import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
-import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
-import br.com.techchallenge.foodsys.dominio.restaurante.RestauranteRepository;
-import br.com.techchallenge.foodsys.excpetion.BadRequestException;
+import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
 import br.com.techchallenge.foodsys.utils.ValidarProprietarioRestaurante;
 import br.com.techchallenge.foodsys.utils.ValidarRestauranteExistente;
+import org.springframework.stereotype.Service;
+
+import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.gateways.RestauranteRepository;
+import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import lombok.RequiredArgsConstructor;
 
 @Service

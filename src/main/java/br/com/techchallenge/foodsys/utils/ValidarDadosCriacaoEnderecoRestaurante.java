@@ -2,7 +2,7 @@ package br.com.techchallenge.foodsys.utils;
 
 import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dto.CriarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
-import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
+import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

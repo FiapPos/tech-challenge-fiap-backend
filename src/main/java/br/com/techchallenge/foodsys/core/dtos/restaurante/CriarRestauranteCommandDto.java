@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.comandos.restaurante.dtos;
+package br.com.techchallenge.foodsys.core.dtos.restaurante;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

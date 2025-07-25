@@ -2,10 +2,10 @@ package br.com.techchallenge.foodsys.utils;
 
 import org.springframework.stereotype.Service;
 
-import br.com.techchallenge.foodsys.dominio.restaurante.RestauranteRepository;
+import br.com.techchallenge.foodsys.core.gateways.RestauranteRepository;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import lombok.RequiredArgsConstructor;
-import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
+import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
 
 @RequiredArgsConstructor
 @Service

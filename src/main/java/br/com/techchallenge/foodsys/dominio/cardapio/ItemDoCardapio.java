@@ -1,5 +1,5 @@
 package br.com.techchallenge.foodsys.dominio.cardapio;
-import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
+import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 

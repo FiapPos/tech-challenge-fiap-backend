@@ -1,7 +1,8 @@
-package br.com.techchallenge.foodsys.dominio.restaurante;
+package br.com.techchallenge.foodsys.core.gateways;
 
 import java.util.List;
 
+import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

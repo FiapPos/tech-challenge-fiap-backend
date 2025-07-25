@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.dominio.restaurante;
+package br.com.techchallenge.foodsys.core.domain.entities;
 
 import java.time.LocalDateTime;
 
