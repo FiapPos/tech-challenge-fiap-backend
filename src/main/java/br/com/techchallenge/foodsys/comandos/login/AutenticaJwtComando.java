@@ -1,6 +1,6 @@
 package br.com.techchallenge.foodsys.comandos.login;
 
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.beans.factory.annotation.Value;

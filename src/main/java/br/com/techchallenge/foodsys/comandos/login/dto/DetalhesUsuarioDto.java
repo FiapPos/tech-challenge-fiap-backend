@@ -1,12 +1,11 @@
 package br.com.techchallenge.foodsys.comandos.login.dto;
 
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
 
 public record DetalhesUsuarioDto(Usuario usuario) implements UserDetails {
 

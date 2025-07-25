@@ -7,14 +7,14 @@ import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dto.AtualizarEn
 import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.CriarEnderecoRestauranteComando;
 import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dto.CriarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dto.DeletarEnderecoRestauranteComandoDto;
+import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import br.com.techchallenge.foodsys.query.enderecoRestaurante.ListarEnderecoPorIdRestaurante;
 import br.com.techchallenge.foodsys.query.params.ListarEnderecosParams;
 import br.com.techchallenge.foodsys.query.resultadoItem.enderecoRestaurante.ListarEnderecoPorRestauranteResultadoItem;
 import br.com.techchallenge.foodsys.utils.AutorizacaoService;
-import br.com.techchallenge.foodsys.utils.usuario.ValidadorPermissoes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

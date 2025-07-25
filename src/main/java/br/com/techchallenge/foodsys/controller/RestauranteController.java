@@ -2,6 +2,7 @@ package br.com.techchallenge.foodsys.controller;
 
 import java.util.List;
 
+import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,8 +25,7 @@ import br.com.techchallenge.foodsys.query.params.ListarRestaurantesParams;
 import br.com.techchallenge.foodsys.query.restaurante.ListarRestaurantesQuery;
 import br.com.techchallenge.foodsys.query.resultadoItem.restaurante.ListarRestaurantesResultadoItem;
 import br.com.techchallenge.foodsys.utils.AutorizacaoService;
-import br.com.techchallenge.foodsys.utils.usuario.ValidadorPermissoes;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;

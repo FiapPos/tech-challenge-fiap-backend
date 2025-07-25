@@ -1,5 +1,6 @@
-package br.com.techchallenge.foodsys.dominio.usuario;
+package br.com.techchallenge.foodsys.core.gateways;
 
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

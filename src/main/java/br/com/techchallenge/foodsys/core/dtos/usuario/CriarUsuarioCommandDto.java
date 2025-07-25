@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.comandos.usuario.dtos;
+package br.com.techchallenge.foodsys.core.dtos.usuario;
 
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import jakarta.validation.constraints.Email;

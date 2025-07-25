@@ -4,7 +4,7 @@ import br.com.techchallenge.foodsys.comandos.login.AutenticaJwtComando;
 import br.com.techchallenge.foodsys.comandos.login.AutenticaLoginComando;
 import br.com.techchallenge.foodsys.comandos.login.dto.AtualizaCredenciaisComandoDto;
 import br.com.techchallenge.foodsys.comandos.login.dto.CredenciaisUsuarioDto;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import br.com.techchallenge.foodsys.utils.ValidaConfirmacaoDeSenha;
 import io.swagger.v3.oas.annotations.Operation;

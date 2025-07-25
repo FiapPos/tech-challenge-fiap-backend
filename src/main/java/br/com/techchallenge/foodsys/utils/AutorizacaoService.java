@@ -1,7 +1,8 @@
 package br.com.techchallenge.foodsys.utils;
 
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
-import br.com.techchallenge.foodsys.dominio.usuario.UsuarioRepository;
+
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.gateways.UsuarioRepository;
 import br.com.techchallenge.foodsys.excpetion.ForbiddenException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;

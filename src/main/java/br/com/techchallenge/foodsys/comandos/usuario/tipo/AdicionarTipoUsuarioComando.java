@@ -1,6 +1,6 @@
 package br.com.techchallenge.foodsys.comandos.usuario.tipo;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
-import br.com.techchallenge.foodsys.dominio.usuario.UsuarioTipo;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.domain.entities.UsuarioTipo;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import br.com.techchallenge.foodsys.utils.usuario.tipo.VerificarTipoUsuarioExistente;
 import lombok.RequiredArgsConstructor;

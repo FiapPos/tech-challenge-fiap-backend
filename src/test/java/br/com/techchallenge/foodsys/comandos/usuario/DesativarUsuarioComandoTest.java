@@ -1,8 +1,8 @@
 package br.com.techchallenge.foodsys.comandos.usuario;
 
 import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
-import br.com.techchallenge.foodsys.dominio.usuario.UsuarioRepository;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.gateways.UsuarioRepository;
 import br.com.techchallenge.foodsys.utils.ValidarUsuarioExistente;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,6 @@
 package br.com.techchallenge.foodsys.controller;
 import br.com.techchallenge.foodsys.comandos.cardapio.FotoItemDoCardapioHandler;
-import br.com.techchallenge.foodsys.utils.usuario.ValidadorPermissoes;
+import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

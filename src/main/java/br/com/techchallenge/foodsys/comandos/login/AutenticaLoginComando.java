@@ -2,7 +2,7 @@ package br.com.techchallenge.foodsys.comandos.login;
 
 import br.com.techchallenge.foodsys.comandos.login.dto.CredenciaisUsuarioDto;
 import br.com.techchallenge.foodsys.comandos.login.dto.DetalhesUsuarioDto;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.excpetion.CredenciaisInvalidasException;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import org.springframework.security.authentication.AuthenticationManager;

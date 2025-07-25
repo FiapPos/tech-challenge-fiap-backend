@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import br.com.techchallenge.foodsys.comandos.restaurante.dtos.CriarRestauranteCommandDto;
 import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
 import br.com.techchallenge.foodsys.dominio.restaurante.RestauranteRepository;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
 import br.com.techchallenge.foodsys.utils.ValidarUsuarioExistente;
 import br.com.techchallenge.foodsys.utils.ValidarRestauranteExistente;

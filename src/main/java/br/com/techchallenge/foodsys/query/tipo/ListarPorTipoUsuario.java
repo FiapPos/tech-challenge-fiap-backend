@@ -1,6 +1,6 @@
 package br.com.techchallenge.foodsys.query.tipo;
 
-import br.com.techchallenge.foodsys.dominio.usuario.UsuarioTipo;
+import br.com.techchallenge.foodsys.core.domain.entities.UsuarioTipo;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import br.com.techchallenge.foodsys.query.tipo.TipoUsuarioResultItem;
 import org.springframework.stereotype.Service;

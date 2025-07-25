@@ -1,6 +1,6 @@
 package br.com.techchallenge.foodsys.utils.usuario;
 
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import br.com.techchallenge.foodsys.excpetion.ForbiddenException;
 import br.com.techchallenge.foodsys.utils.AutorizacaoService;

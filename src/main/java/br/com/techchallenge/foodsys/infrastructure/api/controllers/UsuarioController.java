@@ -1,15 +1,15 @@
-package br.com.techchallenge.foodsys.controller;
+package br.com.techchallenge.foodsys.infrastructure.api.controllers;
 
-import br.com.techchallenge.foodsys.comandos.usuario.AtualizarUsuarioComando;
-import br.com.techchallenge.foodsys.comandos.usuario.CriarUsuarioCommand;
-import br.com.techchallenge.foodsys.comandos.usuario.DesativarUsuarioComando;
-import br.com.techchallenge.foodsys.comandos.usuario.dtos.AtualizarUsuarioComandoDto;
-import br.com.techchallenge.foodsys.comandos.usuario.dtos.CriarUsuarioCommandDto;
+import br.com.techchallenge.foodsys.core.domain.usecases.usuario.AtualizarUsuarioComando;
+import br.com.techchallenge.foodsys.core.domain.usecases.usuario.CriarUsuarioCommand;
+import br.com.techchallenge.foodsys.core.domain.usecases.usuario.DesativarUsuarioComando;
+import br.com.techchallenge.foodsys.core.dtos.usuario.AtualizarUsuarioComandoDto;
+import br.com.techchallenge.foodsys.core.dtos.usuario.CriarUsuarioCommandDto;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import br.com.techchallenge.foodsys.query.ListarUsuariosQuery;
 import br.com.techchallenge.foodsys.query.params.ListarUsuariosParams;
 import br.com.techchallenge.foodsys.query.resultadoItem.ListarUsuariosResultadoItem;
-import br.com.techchallenge.foodsys.utils.usuario.ValidadorPermissoes;
+import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

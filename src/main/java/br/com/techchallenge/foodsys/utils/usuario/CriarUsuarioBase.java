@@ -1,7 +1,7 @@
 package br.com.techchallenge.foodsys.utils.usuario;
-import br.com.techchallenge.foodsys.comandos.usuario.dtos.CriarUsuarioCommandDto;
+import br.com.techchallenge.foodsys.core.dtos.usuario.CriarUsuarioCommandDto;
 import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

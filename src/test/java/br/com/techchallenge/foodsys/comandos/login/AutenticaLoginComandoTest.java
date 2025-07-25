@@ -2,7 +2,7 @@ package br.com.techchallenge.foodsys.comandos.login;
 
 import br.com.techchallenge.foodsys.comandos.login.dto.CredenciaisUsuarioDto;
 import br.com.techchallenge.foodsys.comandos.login.dto.DetalhesUsuarioDto;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.excpetion.CredenciaisInvalidasException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

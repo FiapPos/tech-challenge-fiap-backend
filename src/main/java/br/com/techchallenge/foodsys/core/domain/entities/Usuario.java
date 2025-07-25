@@ -1,6 +1,5 @@
-package br.com.techchallenge.foodsys.dominio.usuario;
+package br.com.techchallenge.foodsys.core.domain.entities;
 
-import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;

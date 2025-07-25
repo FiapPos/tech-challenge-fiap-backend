@@ -2,9 +2,9 @@ package br.com.techchallenge.foodsys.comandos.endereco;
 
 import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoComandoDto;
 import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import br.com.techchallenge.foodsys.utils.AutorizacaoService;
 import br.com.techchallenge.foodsys.utils.ValidarCepDoUsuario;

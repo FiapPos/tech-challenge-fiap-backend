@@ -1,9 +1,9 @@
 package br.com.techchallenge.foodsys.integration;
 
-import br.com.techchallenge.foodsys.comandos.usuario.dtos.CriarUsuarioCommandDto;
-import br.com.techchallenge.foodsys.comandos.usuario.dtos.AtualizarUsuarioComandoDto;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
-import br.com.techchallenge.foodsys.dominio.usuario.UsuarioRepository;
+import br.com.techchallenge.foodsys.core.dtos.usuario.CriarUsuarioCommandDto;
+import br.com.techchallenge.foodsys.core.dtos.usuario.AtualizarUsuarioComandoDto;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.gateways.UsuarioRepository;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import com.fasterxml.jackson.databind.ObjectMapper;

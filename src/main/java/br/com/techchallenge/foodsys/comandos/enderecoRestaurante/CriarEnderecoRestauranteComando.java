@@ -1,12 +1,11 @@
 package br.com.techchallenge.foodsys.comandos.enderecoRestaurante;
 
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoComandoDto;
 import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dto.CriarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
 import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.utils.ValidarCepDoUsuario;
 import br.com.techchallenge.foodsys.utils.ValidarRestauranteExistente;
 import br.com.techchallenge.foodsys.utils.ValidarUsuarioExistente;

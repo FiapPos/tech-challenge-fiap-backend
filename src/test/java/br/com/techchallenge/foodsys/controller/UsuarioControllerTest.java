@@ -1,15 +1,15 @@
 package br.com.techchallenge.foodsys.controller;
 
-import br.com.techchallenge.foodsys.comandos.usuario.AtualizarUsuarioComando;
-import br.com.techchallenge.foodsys.comandos.usuario.CriarUsuarioCommand;
-import br.com.techchallenge.foodsys.comandos.usuario.DesativarUsuarioComando;
-import br.com.techchallenge.foodsys.comandos.usuario.dtos.AtualizarUsuarioComandoDto;
-import br.com.techchallenge.foodsys.comandos.usuario.dtos.CriarUsuarioCommandDto;
+import br.com.techchallenge.foodsys.core.domain.usecases.usuario.CriarUsuarioCommand;
+import br.com.techchallenge.foodsys.core.domain.usecases.usuario.AtualizarUsuarioComando;
+import br.com.techchallenge.foodsys.core.domain.usecases.usuario.DesativarUsuarioComando;
+import br.com.techchallenge.foodsys.core.dtos.usuario.AtualizarUsuarioComandoDto;
+import br.com.techchallenge.foodsys.core.dtos.usuario.CriarUsuarioCommandDto;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import br.com.techchallenge.foodsys.query.ListarUsuariosQuery;
 import br.com.techchallenge.foodsys.query.params.ListarUsuariosParams;
 import br.com.techchallenge.foodsys.query.resultadoItem.ListarUsuariosResultadoItem;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

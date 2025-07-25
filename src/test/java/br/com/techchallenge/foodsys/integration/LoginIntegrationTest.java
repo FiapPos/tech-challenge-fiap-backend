@@ -1,8 +1,8 @@
 package br.com.techchallenge.foodsys.integration;
 
 import br.com.techchallenge.foodsys.comandos.login.dto.CredenciaisUsuarioDto;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
-import br.com.techchallenge.foodsys.dominio.usuario.UsuarioRepository;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.gateways.UsuarioRepository;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;

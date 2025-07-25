@@ -1,6 +1,5 @@
 package br.com.techchallenge.foodsys.query.resultadoItem;
 
-import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import br.com.techchallenge.foodsys.query.tipo.TipoUsuarioResultItem;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
