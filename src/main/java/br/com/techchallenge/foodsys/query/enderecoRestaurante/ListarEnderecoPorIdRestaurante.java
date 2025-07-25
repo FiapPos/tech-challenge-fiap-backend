@@ -2,12 +2,12 @@ package br.com.techchallenge.foodsys.query.enderecoRestaurante;
 
 import java.util.List;
 
-import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
+import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
+import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
 import br.com.techchallenge.foodsys.utils.ValidarRestauranteExistente;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
 import br.com.techchallenge.foodsys.query.params.ListarEnderecosParams;
 import br.com.techchallenge.foodsys.query.resultadoItem.enderecoRestaurante.ListarEnderecoPorRestauranteResultadoItem;
 import lombok.RequiredArgsConstructor;

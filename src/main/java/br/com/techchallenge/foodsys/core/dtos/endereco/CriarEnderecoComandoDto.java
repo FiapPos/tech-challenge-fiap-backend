@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.comandos.endereco.dtos;
+package br.com.techchallenge.foodsys.core.dtos.endereco;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

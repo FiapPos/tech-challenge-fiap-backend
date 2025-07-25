@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.dominio.endereco;
+package br.com.techchallenge.foodsys.core.domain.entities;
 
 import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;

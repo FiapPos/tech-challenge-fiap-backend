@@ -1,9 +1,9 @@
 package br.com.techchallenge.foodsys.integration;
 
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoComandoDto;
+import br.com.techchallenge.foodsys.core.dtos.endereco.CriarEnderecoComandoDto;
 import br.com.techchallenge.foodsys.comandos.login.dto.CredenciaisUsuarioDto;
-import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
-import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
+import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
+import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.core.gateways.UsuarioRepository;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;

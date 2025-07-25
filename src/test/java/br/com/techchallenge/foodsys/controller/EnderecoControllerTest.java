@@ -1,13 +1,14 @@
 package br.com.techchallenge.foodsys.controller;
 
-import br.com.techchallenge.foodsys.comandos.endereco.AtualizarEnderecoComando;
-import br.com.techchallenge.foodsys.comandos.endereco.CriarEnderecoCommand;
-import br.com.techchallenge.foodsys.comandos.endereco.DeletarEnderecoComando;
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoComandoDto;
 import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoComandoDto;
-import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
-import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.domain.usecases.endereco.AtualizarEnderecoComando;
+import br.com.techchallenge.foodsys.core.domain.usecases.endereco.CriarEnderecoCommand;
+import br.com.techchallenge.foodsys.core.domain.usecases.endereco.DeletarEnderecoComando;
+import br.com.techchallenge.foodsys.core.dtos.endereco.CriarEnderecoComandoDto;
+import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
+import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
+import br.com.techchallenge.foodsys.infrastructure.api.controllers.EnderecoController;
 import br.com.techchallenge.foodsys.query.endereco.ListarEnderecoPorIdUsuario;
 import br.com.techchallenge.foodsys.query.resultadoItem.endereco.ListarEnderecoPorIdUsuarioResultadoItem;
 import br.com.techchallenge.foodsys.utils.AutorizacaoService;

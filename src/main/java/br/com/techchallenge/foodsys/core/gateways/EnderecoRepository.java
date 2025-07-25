@@ -1,5 +1,6 @@
-package br.com.techchallenge.foodsys.dominio.endereco;
+package br.com.techchallenge.foodsys.core.gateways;
 
+import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

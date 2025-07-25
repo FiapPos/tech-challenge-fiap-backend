@@ -1,6 +1,6 @@
 package br.com.techchallenge.foodsys.utils;
 
-import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
+import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

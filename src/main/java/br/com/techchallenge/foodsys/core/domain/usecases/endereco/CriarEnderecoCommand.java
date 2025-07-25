@@ -1,10 +1,10 @@
-package br.com.techchallenge.foodsys.comandos.endereco;
+package br.com.techchallenge.foodsys.core.domain.usecases.endereco;
 
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoComandoDto;
+import br.com.techchallenge.foodsys.core.dtos.endereco.CriarEnderecoComandoDto;
 import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
-import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
-import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
+import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
+import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
 import br.com.techchallenge.foodsys.utils.ValidarCepDoUsuario;
 import br.com.techchallenge.foodsys.utils.ValidarUsuarioExistente;
 import lombok.RequiredArgsConstructor;

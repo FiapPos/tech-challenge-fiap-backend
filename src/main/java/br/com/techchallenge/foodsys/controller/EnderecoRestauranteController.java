@@ -1,14 +1,13 @@
 package br.com.techchallenge.foodsys.controller;
 
-import br.com.techchallenge.foodsys.comandos.endereco.DeletarEnderecoComando;
 import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.AtualizarEnderecoRestauranteComando;
 import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.DeletarEnderecoRestauranteComando;
 import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dto.AtualizarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.CriarEnderecoRestauranteComando;
 import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dto.CriarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dto.DeletarEnderecoRestauranteComandoDto;
+import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
 import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
-import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import br.com.techchallenge.foodsys.query.enderecoRestaurante.ListarEnderecoPorIdRestaurante;

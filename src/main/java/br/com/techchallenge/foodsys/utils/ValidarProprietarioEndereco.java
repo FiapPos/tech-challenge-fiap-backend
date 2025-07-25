@@ -1,7 +1,7 @@
 package br.com.techchallenge.foodsys.utils;
 
-import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
-import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
+import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
+import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
