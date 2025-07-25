@@ -1,12 +1,12 @@
 package br.com.techchallenge.foodsys.integration;
 
 import br.com.techchallenge.foodsys.core.dtos.endereco.CriarEnderecoComandoDto;
-import br.com.techchallenge.foodsys.comandos.login.dto.CredenciaisUsuarioDto;
 import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
+import br.com.techchallenge.foodsys.core.dtos.login.CredenciaisUsuarioDto;
+import br.com.techchallenge.foodsys.core.enums.TipoUsuario;
 import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.core.gateways.UsuarioRepository;
-import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;

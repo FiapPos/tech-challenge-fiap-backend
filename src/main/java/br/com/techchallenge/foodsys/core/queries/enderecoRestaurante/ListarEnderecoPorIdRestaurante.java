@@ -1,15 +1,15 @@
-package br.com.techchallenge.foodsys.query.enderecoRestaurante;
+package br.com.techchallenge.foodsys.core.queries.enderecoRestaurante;
 
 import java.util.List;
 
 import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
 import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
+import br.com.techchallenge.foodsys.core.queries.params.ListarEnderecosParams;
+import br.com.techchallenge.foodsys.core.queries.resultadoItem.enderecoRestaurante.ListarEnderecoPorRestauranteResultadoItem;
 import br.com.techchallenge.foodsys.core.utils.restaurante.ValidarRestauranteExistente;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import br.com.techchallenge.foodsys.query.params.ListarEnderecosParams;
-import br.com.techchallenge.foodsys.query.resultadoItem.enderecoRestaurante.ListarEnderecoPorRestauranteResultadoItem;
 import lombok.RequiredArgsConstructor;
 
 @Service

@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.query.resultadoItem.restaurante;
+package br.com.techchallenge.foodsys.core.queries.resultadoItem.restaurante;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -5,12 +5,11 @@ import br.com.techchallenge.foodsys.core.domain.usecases.usuario.AtualizarUsuari
 import br.com.techchallenge.foodsys.core.domain.usecases.usuario.DesativarUsuarioComando;
 import br.com.techchallenge.foodsys.core.dtos.usuario.AtualizarUsuarioComandoDto;
 import br.com.techchallenge.foodsys.core.dtos.usuario.CriarUsuarioCommandDto;
-import br.com.techchallenge.foodsys.enums.TipoUsuario;
-import br.com.techchallenge.foodsys.infrastructure.api.controllers.UsuarioController;
-import br.com.techchallenge.foodsys.query.ListarUsuariosQuery;
-import br.com.techchallenge.foodsys.query.params.ListarUsuariosParams;
-import br.com.techchallenge.foodsys.query.resultadoItem.ListarUsuariosResultadoItem;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.enums.TipoUsuario;
+import br.com.techchallenge.foodsys.core.queries.ListarUsuariosQuery;
+import br.com.techchallenge.foodsys.core.queries.params.ListarUsuariosParams;
+import br.com.techchallenge.foodsys.core.queries.resultadoItem.ListarUsuariosResultadoItem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

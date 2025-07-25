@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.query.resultadoItem.enderecoRestaurante;
+package br.com.techchallenge.foodsys.core.queries.resultadoItem.enderecoRestaurante;
 
 import lombok.Builder;
 import lombok.Data;

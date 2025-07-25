@@ -2,9 +2,9 @@ package br.com.techchallenge.foodsys.core.queries.restaurante;
 
 import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
 import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
-import br.com.techchallenge.foodsys.query.params.ListarRestaurantesParams;
-import br.com.techchallenge.foodsys.query.resultadoItem.restaurante.ListarRestaurantesResultadoItem;
-import br.com.techchallenge.foodsys.utils.ValidarParametroConsultaRestaurante;
+import br.com.techchallenge.foodsys.core.queries.params.ListarRestaurantesParams;
+import br.com.techchallenge.foodsys.core.queries.resultadoItem.restaurante.ListarRestaurantesResultadoItem;
+import br.com.techchallenge.foodsys.core.utils.ValidarParametroConsultaRestaurante;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

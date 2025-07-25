@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.query.params;
+package br.com.techchallenge.foodsys.core.queries.params;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

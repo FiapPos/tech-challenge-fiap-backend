@@ -9,9 +9,9 @@ import br.com.techchallenge.foodsys.core.dtos.endereco.DeletarEnderecoComandoDto
 import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
 import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
 import br.com.techchallenge.foodsys.core.queries.endereco.ListarEnderecoPorIdUsuario;
+import br.com.techchallenge.foodsys.core.queries.resultadoItem.endereco.ListarEnderecoPorIdUsuarioResultadoItem;
 import br.com.techchallenge.foodsys.core.utils.AutorizacaoService;
 import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
-import br.com.techchallenge.foodsys.query.resultadoItem.endereco.ListarEnderecoPorIdUsuarioResultadoItem;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

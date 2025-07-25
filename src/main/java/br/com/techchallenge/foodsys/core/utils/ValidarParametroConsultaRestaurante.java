@@ -1,13 +1,13 @@
-package br.com.techchallenge.foodsys.utils;
+package br.com.techchallenge.foodsys.core.utils;
 
 import java.util.List;
 
+import br.com.techchallenge.foodsys.core.queries.params.ListarRestaurantesParams;
 import org.springframework.data.domain.Sort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import br.com.techchallenge.foodsys.core.gateways.RestauranteRepository;
-import br.com.techchallenge.foodsys.query.params.ListarRestaurantesParams;
 import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
 
 @Service

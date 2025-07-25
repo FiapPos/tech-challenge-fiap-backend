@@ -1,6 +1,6 @@
 package br.com.techchallenge.foodsys.core.domain.usecases.cardapio;
+import br.com.techchallenge.foodsys.core.exceptions.ItemDoCardapioNaoEncontradoException;
 import br.com.techchallenge.foodsys.core.gateways.ItemDoCardapioRepository;
-import br.com.techchallenge.foodsys.excpetion.ItemDoCardapioNaoEncontradoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

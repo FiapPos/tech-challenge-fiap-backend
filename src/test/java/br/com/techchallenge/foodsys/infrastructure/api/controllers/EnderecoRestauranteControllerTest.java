@@ -9,11 +9,8 @@ import br.com.techchallenge.foodsys.core.dtos.enderecoRestaurante.AtualizarEnder
 import br.com.techchallenge.foodsys.core.dtos.enderecoRestaurante.CriarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.core.dtos.enderecoRestaurante.DeletarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
-import br.com.techchallenge.foodsys.infrastructure.api.controllers.EnderecoRestauranteController;
-import br.com.techchallenge.foodsys.query.enderecoRestaurante.ListarEnderecoPorIdRestaurante;
-import br.com.techchallenge.foodsys.query.params.ListarEnderecosParams;
-import br.com.techchallenge.foodsys.query.resultadoItem.enderecoRestaurante.ListarEnderecoPorRestauranteResultadoItem;
-import br.com.techchallenge.foodsys.utils.AutorizacaoService;
+import br.com.techchallenge.foodsys.core.queries.enderecoRestaurante.ListarEnderecoPorIdRestaurante;
+import br.com.techchallenge.foodsys.core.utils.AutorizacaoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

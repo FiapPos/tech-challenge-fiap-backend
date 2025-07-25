@@ -14,7 +14,10 @@ import br.com.techchallenge.foodsys.core.domain.usecases.restaurante.DesativarRe
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
 import br.com.techchallenge.foodsys.core.dtos.restaurante.CriarRestauranteCommandDto;
-import br.com.techchallenge.foodsys.infrastructure.api.controllers.RestauranteController;
+import br.com.techchallenge.foodsys.core.queries.params.ListarRestaurantesParams;
+import br.com.techchallenge.foodsys.core.queries.restaurante.ListarRestaurantesQuery;
+import br.com.techchallenge.foodsys.core.queries.resultadoItem.restaurante.ListarRestaurantesResultadoItem;
+import br.com.techchallenge.foodsys.core.utils.AutorizacaoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -24,10 +27,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import br.com.techchallenge.foodsys.core.dtos.restaurante.AtualizarRestauranteComandoDto;
-import br.com.techchallenge.foodsys.query.params.ListarRestaurantesParams;
-import br.com.techchallenge.foodsys.query.restaurante.ListarRestaurantesQuery;
-import br.com.techchallenge.foodsys.query.resultadoItem.restaurante.ListarRestaurantesResultadoItem;
-import br.com.techchallenge.foodsys.utils.AutorizacaoService;
 
 public class RestauranteControllerTest {
 

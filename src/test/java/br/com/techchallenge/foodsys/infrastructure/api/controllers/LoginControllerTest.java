@@ -6,8 +6,7 @@ import br.com.techchallenge.foodsys.core.domain.usecases.login.AutenticaLoginCom
 import br.com.techchallenge.foodsys.core.dtos.login.AtualizaCredenciaisComandoDto;
 import br.com.techchallenge.foodsys.core.dtos.login.CredenciaisUsuarioDto;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
-import br.com.techchallenge.foodsys.infrastructure.api.controllers.LoginController;
-import br.com.techchallenge.foodsys.utils.ValidaConfirmacaoDeSenha;
+import br.com.techchallenge.foodsys.core.utils.ValidaConfirmacaoDeSenha;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

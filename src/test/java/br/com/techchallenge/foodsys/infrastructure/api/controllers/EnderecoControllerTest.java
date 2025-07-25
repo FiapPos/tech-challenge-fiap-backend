@@ -8,10 +8,8 @@ import br.com.techchallenge.foodsys.core.domain.usecases.endereco.DeletarEnderec
 import br.com.techchallenge.foodsys.core.dtos.endereco.CriarEnderecoComandoDto;
 import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
 import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
-import br.com.techchallenge.foodsys.infrastructure.api.controllers.EnderecoController;
-import br.com.techchallenge.foodsys.query.endereco.ListarEnderecoPorIdUsuario;
-import br.com.techchallenge.foodsys.query.resultadoItem.endereco.ListarEnderecoPorIdUsuarioResultadoItem;
-import br.com.techchallenge.foodsys.utils.AutorizacaoService;
+import br.com.techchallenge.foodsys.core.queries.endereco.ListarEnderecoPorIdUsuario;
+import br.com.techchallenge.foodsys.core.utils.AutorizacaoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

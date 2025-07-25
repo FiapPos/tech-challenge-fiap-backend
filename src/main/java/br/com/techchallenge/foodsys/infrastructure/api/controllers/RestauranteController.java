@@ -4,7 +4,9 @@ import java.util.List;
 
 import br.com.techchallenge.foodsys.core.dtos.restaurante.AtualizarRestauranteComandoDto;
 import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
+import br.com.techchallenge.foodsys.core.queries.params.ListarRestaurantesParams;
 import br.com.techchallenge.foodsys.core.queries.restaurante.ListarRestaurantesQuery;
+import br.com.techchallenge.foodsys.core.queries.resultadoItem.restaurante.ListarRestaurantesResultadoItem;
 import br.com.techchallenge.foodsys.core.utils.AutorizacaoService;
 import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
 import org.springframework.http.HttpStatus;
@@ -23,8 +25,6 @@ import br.com.techchallenge.foodsys.core.domain.usecases.restaurante.AtualizarRe
 import br.com.techchallenge.foodsys.core.domain.usecases.restaurante.CriarRestauranteCommand;
 import br.com.techchallenge.foodsys.core.domain.usecases.restaurante.DesativarRestauranteComando;
 import br.com.techchallenge.foodsys.core.dtos.restaurante.CriarRestauranteCommandDto;
-import br.com.techchallenge.foodsys.query.params.ListarRestaurantesParams;
-import br.com.techchallenge.foodsys.query.resultadoItem.restaurante.ListarRestaurantesResultadoItem;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
