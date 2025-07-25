@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dto;
+package br.com.techchallenge.foodsys.core.dtos.enderecoRestaurante;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

@@ -1,8 +1,8 @@
 package br.com.techchallenge.foodsys.core.utils.endereco;
 
-import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dto.AtualizarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.dtos.enderecoRestaurante.AtualizarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.utils.ValidarCamposEndereco;
 import br.com.techchallenge.foodsys.utils.ValidarCepRestauranteDuplicado;
 import br.com.techchallenge.foodsys.utils.ValidarEnderecoExistente;

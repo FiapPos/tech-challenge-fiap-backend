@@ -1,14 +1,14 @@
-package br.com.techchallenge.foodsys.controller;
+package br.com.techchallenge.foodsys.infrastructure.api.controllers;
 
-import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.AtualizarEnderecoRestauranteComando;
-import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.DeletarEnderecoRestauranteComando;
-import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dto.AtualizarEnderecoRestauranteComandoDto;
-import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.CriarEnderecoRestauranteComando;
-import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dto.CriarEnderecoRestauranteComandoDto;
-import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dto.DeletarEnderecoRestauranteComandoDto;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.domain.usecases.enderecoRestaurante.AtualizarEnderecoRestauranteComando;
+import br.com.techchallenge.foodsys.core.domain.usecases.enderecoRestaurante.CriarEnderecoRestauranteComando;
+import br.com.techchallenge.foodsys.core.domain.usecases.enderecoRestaurante.DeletarEnderecoRestauranteComando;
+import br.com.techchallenge.foodsys.core.dtos.enderecoRestaurante.AtualizarEnderecoRestauranteComandoDto;
+import br.com.techchallenge.foodsys.core.dtos.enderecoRestaurante.CriarEnderecoRestauranteComandoDto;
+import br.com.techchallenge.foodsys.core.dtos.enderecoRestaurante.DeletarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
 import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
-import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import br.com.techchallenge.foodsys.query.enderecoRestaurante.ListarEnderecoPorIdRestaurante;
 import br.com.techchallenge.foodsys.query.params.ListarEnderecosParams;
@@ -24,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @Tag(name = "Endereços", description = "Contém todas as operações relativas aos recursos para cadastro, edição e leitura de um endereço")

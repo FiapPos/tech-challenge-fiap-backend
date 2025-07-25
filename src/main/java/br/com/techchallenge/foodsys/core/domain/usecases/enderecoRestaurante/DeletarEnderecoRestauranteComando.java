@@ -1,7 +1,7 @@
-package br.com.techchallenge.foodsys.comandos.enderecoRestaurante;
+package br.com.techchallenge.foodsys.core.domain.usecases.enderecoRestaurante;
 
-import br.com.techchallenge.foodsys.comandos.enderecoRestaurante.dto.DeletarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
+import br.com.techchallenge.foodsys.core.dtos.enderecoRestaurante.DeletarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
 import br.com.techchallenge.foodsys.utils.ValidarEnderecoExistente;
 import br.com.techchallenge.foodsys.utils.ValidarProprietarioEndereco;
