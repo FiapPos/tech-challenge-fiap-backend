@@ -3,8 +3,9 @@ package br.com.techchallenge.foodsys.core.domain.usecases.login;
 import br.com.techchallenge.foodsys.core.dtos.login.CredenciaisUsuarioDto;
 import br.com.techchallenge.foodsys.core.dtos.login.DetalhesUsuarioDto;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
-import br.com.techchallenge.foodsys.excpetion.CredenciaisInvalidasException;
-import br.com.techchallenge.foodsys.excpetion.BadRequestException;
+import br.com.techchallenge.foodsys.core.enums.TipoUsuario;
+import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
+import br.com.techchallenge.foodsys.core.exceptions.CredenciaisInvalidasException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -42,7 +43,7 @@ public class AutenticaLoginComando {
         return detalhes.usuario();
     }
 
-    private void validarTipoUsuario(Usuario usuario, br.com.techchallenge.foodsys.enums.TipoUsuario tipoSolicitado) {
+    private void validarTipoUsuario(Usuario usuario, TipoUsuario tipoSolicitado) {
         boolean temTipo = usuario.getUsuarioTipos().stream()
                 .anyMatch(ut -> ut.getTipo() == tipoSolicitado);
 

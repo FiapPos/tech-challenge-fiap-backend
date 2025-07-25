@@ -1,13 +1,13 @@
 package br.com.techchallenge.foodsys.core.domain.usecases.usuario;
 
 import br.com.techchallenge.foodsys.core.dtos.usuario.AtualizarUsuarioComandoDto;
-import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
 import br.com.techchallenge.foodsys.core.gateways.UsuarioRepository;
-import br.com.techchallenge.foodsys.excpetion.BadRequestException;
-import br.com.techchallenge.foodsys.utils.ValidarEmailExistente;
-import br.com.techchallenge.foodsys.utils.ValidarLoginExistente;
-import br.com.techchallenge.foodsys.utils.ValidarUsuarioExistente;
+import br.com.techchallenge.foodsys.core.shared.CompartilhadoService;
+import br.com.techchallenge.foodsys.core.utils.ValidarEmailExistente;
+import br.com.techchallenge.foodsys.core.utils.ValidarLoginExistente;
+import br.com.techchallenge.foodsys.core.utils.ValidarUsuarioExistente;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

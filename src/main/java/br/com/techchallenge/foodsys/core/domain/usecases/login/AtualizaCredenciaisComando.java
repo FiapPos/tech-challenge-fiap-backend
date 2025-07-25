@@ -1,7 +1,7 @@
 package br.com.techchallenge.foodsys.core.domain.usecases.login;
 
 import br.com.techchallenge.foodsys.core.dtos.login.AtualizaCredenciaisComandoDto;
-import br.com.techchallenge.foodsys.compartilhado.UsuarioLogado;
+import br.com.techchallenge.foodsys.core.shared.UsuarioLogado;
 import br.com.techchallenge.foodsys.core.gateways.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

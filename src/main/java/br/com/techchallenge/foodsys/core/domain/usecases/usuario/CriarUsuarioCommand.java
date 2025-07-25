@@ -3,9 +3,9 @@ package br.com.techchallenge.foodsys.core.domain.usecases.usuario;
 import br.com.techchallenge.foodsys.core.dtos.usuario.CriarUsuarioCommandDto;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.core.gateways.UsuarioRepository;
-import br.com.techchallenge.foodsys.utils.ValidarEmailExistente;
-import br.com.techchallenge.foodsys.utils.ValidarLoginExistente;
-import br.com.techchallenge.foodsys.utils.usuario.CriarUsuarioBase;
+import br.com.techchallenge.foodsys.core.utils.ValidarEmailExistente;
+import br.com.techchallenge.foodsys.core.utils.ValidarLoginExistente;
+import br.com.techchallenge.foodsys.core.utils.usuario.CriarUsuarioBase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class CriarUsuarioCommand {
     private final ValidarEmailExistente validarEmailExistente;
     private final ValidarLoginExistente validarLoginExistente;
     private final CriarUsuarioBase criarUsuarioBase;
-    private final br.com.techchallenge.foodsys.comandos.usuario.tipo.AdicionarTipoUsuarioComando adicionarTipoUsuarioComando;
+    private final AdicionarTipoUsuarioComando adicionarTipoUsuarioComando;
 
     public Usuario execute(CriarUsuarioCommandDto dto) {
         validarDadosUsuario(dto);

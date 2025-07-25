@@ -1,9 +1,9 @@
 package br.com.techchallenge.foodsys.core.utils.restaurante;
 
+import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import br.com.techchallenge.foodsys.core.gateways.RestauranteRepository;
-import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
 

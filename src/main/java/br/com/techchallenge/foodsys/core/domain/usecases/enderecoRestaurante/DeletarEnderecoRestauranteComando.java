@@ -3,9 +3,9 @@ package br.com.techchallenge.foodsys.core.domain.usecases.enderecoRestaurante;
 import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
 import br.com.techchallenge.foodsys.core.dtos.enderecoRestaurante.DeletarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
-import br.com.techchallenge.foodsys.utils.ValidarEnderecoExistente;
-import br.com.techchallenge.foodsys.utils.ValidarProprietarioEndereco;
-import br.com.techchallenge.foodsys.utils.ValidarUsuarioExistente;
+import br.com.techchallenge.foodsys.core.utils.ValidarEnderecoExistente;
+import br.com.techchallenge.foodsys.core.utils.ValidarProprietarioEndereco;
+import br.com.techchallenge.foodsys.core.utils.ValidarUsuarioExistente;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

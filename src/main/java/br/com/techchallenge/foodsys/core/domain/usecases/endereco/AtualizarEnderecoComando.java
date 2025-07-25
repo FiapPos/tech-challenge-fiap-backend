@@ -1,15 +1,15 @@
 package br.com.techchallenge.foodsys.core.domain.usecases.endereco;
 
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoComandoDto;
-import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
+import br.com.techchallenge.foodsys.core.dtos.endereco.AtualizarEnderecoComandoDto;
+import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
 import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
-import br.com.techchallenge.foodsys.excpetion.BadRequestException;
-import br.com.techchallenge.foodsys.utils.AutorizacaoService;
-import br.com.techchallenge.foodsys.utils.ValidarCepDoUsuario;
-import br.com.techchallenge.foodsys.utils.ValidarEnderecoExistente;
-import br.com.techchallenge.foodsys.utils.ValidarProprietarioEndereco;
+import br.com.techchallenge.foodsys.core.shared.CompartilhadoService;
+import br.com.techchallenge.foodsys.core.utils.AutorizacaoService;
+import br.com.techchallenge.foodsys.core.utils.ValidarCepDoUsuario;
+import br.com.techchallenge.foodsys.core.utils.ValidarEnderecoExistente;
+import br.com.techchallenge.foodsys.core.utils.ValidarProprietarioEndereco;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

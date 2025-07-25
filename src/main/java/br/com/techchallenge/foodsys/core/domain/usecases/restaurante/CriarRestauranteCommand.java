@@ -1,15 +1,14 @@
 package br.com.techchallenge.foodsys.core.domain.usecases.restaurante;
 
+import br.com.techchallenge.foodsys.core.shared.CompartilhadoService;
+import br.com.techchallenge.foodsys.core.utils.ValidarUsuarioDono;
+import br.com.techchallenge.foodsys.core.utils.ValidarUsuarioExistente;
 import br.com.techchallenge.foodsys.core.utils.restaurante.ValidarRestauranteExistente;
-import br.com.techchallenge.foodsys.utils.ValidarUsuarioExistente;
 import org.springframework.stereotype.Service;
-
 import br.com.techchallenge.foodsys.core.dtos.restaurante.CriarRestauranteCommandDto;
-import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
 import br.com.techchallenge.foodsys.core.gateways.RestauranteRepository;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
-import br.com.techchallenge.foodsys.utils.ValidarUsuarioDono;
 import lombok.AllArgsConstructor;
 
 @Service

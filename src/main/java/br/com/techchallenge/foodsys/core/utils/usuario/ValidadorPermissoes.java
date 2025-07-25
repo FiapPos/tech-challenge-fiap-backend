@@ -2,15 +2,11 @@ package br.com.techchallenge.foodsys.core.utils.usuario;
 
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
+import br.com.techchallenge.foodsys.core.enums.TipoUsuario;
+import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
+import br.com.techchallenge.foodsys.core.exceptions.ForbiddenException;
 import br.com.techchallenge.foodsys.core.gateways.RestauranteRepository;
-import br.com.techchallenge.foodsys.enums.TipoUsuario;
-import br.com.techchallenge.foodsys.excpetion.ForbiddenException;
-import br.com.techchallenge.foodsys.excpetion.BadRequestException;
-import br.com.techchallenge.foodsys.utils.AutorizacaoService;
-import br.com.techchallenge.foodsys.utils.usuario.ValidarAcessoAdmin;
-import br.com.techchallenge.foodsys.utils.usuario.ValidarAcessoCliente;
-import br.com.techchallenge.foodsys.utils.usuario.ValidarAcessoDonoRestaurante;
-import br.com.techchallenge.foodsys.utils.usuario.ValidarAcessoFuncionario;
+import br.com.techchallenge.foodsys.core.utils.AutorizacaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,11 +1,10 @@
-package br.com.techchallenge.foodsys.utils;
+package br.com.techchallenge.foodsys.core.utils.endereco;
 
+import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
 import org.springframework.stereotype.Component;
 
-import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 
 @Component
-
 public class ValidarCamposEndereco {
     public void validar(String rua, String cep, String numero) {
         if (rua == null && cep == null && numero == null) {
