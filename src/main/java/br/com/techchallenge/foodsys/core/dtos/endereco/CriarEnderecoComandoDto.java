@@ -1,0 +1,20 @@
+package br.com.techchallenge.foodsys.core.dtos.endereco;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
+@Data
+public class CriarEnderecoComandoDto {
+    @NotBlank(message = "{rua.obrigatoria}")
+    private String rua;
+
+    @NotBlank(message = "{cep.obrigatorio}")
+    private String cep;
+
+    @NotBlank(message = "{numero.obrigatorio}")
+    private String numero;
+
+    @NotNull(message = "{usuario.id.obrigatorio}")
+    private Long usuarioId;
+}
