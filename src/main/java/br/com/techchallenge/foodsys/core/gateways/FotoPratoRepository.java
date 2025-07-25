@@ -1,4 +1,5 @@
-package br.com.techchallenge.foodsys.dominio.foto;
+package br.com.techchallenge.foodsys.core.gateways;
+import br.com.techchallenge.foodsys.core.domain.entities.FotoPratoDocumento;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;

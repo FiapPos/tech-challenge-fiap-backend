@@ -1,10 +1,10 @@
-package br.com.techchallenge.foodsys.controller;
+package br.com.techchallenge.foodsys.infrastructure.api.controllers;
 
 import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
-import br.com.techchallenge.foodsys.core.domain.usecases.endereco.AtualizarEnderecoComando;
-import br.com.techchallenge.foodsys.core.domain.usecases.endereco.CriarEnderecoCommand;
-import br.com.techchallenge.foodsys.core.domain.usecases.endereco.DeletarEnderecoComando;
+import br.com.techchallenge.foodsys.core.domain.usecases.enderecoRestaurante.AtualizarEnderecoRestauranteComando;
+import br.com.techchallenge.foodsys.core.domain.usecases.enderecoRestaurante.CriarEnderecoRestauranteComando;
+import br.com.techchallenge.foodsys.core.domain.usecases.enderecoRestaurante.DeletarEnderecoRestauranteComando;
 import br.com.techchallenge.foodsys.core.dtos.enderecoRestaurante.AtualizarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.core.dtos.enderecoRestaurante.CriarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.core.dtos.enderecoRestaurante.DeletarEnderecoRestauranteComandoDto;
@@ -31,13 +31,13 @@ import static org.mockito.Mockito.*;
 
 class EnderecoRestauranteControllerTest {
     @Mock
-    private CriarEnderecoCommand criarEnderecoCommand;
+    private CriarEnderecoRestauranteComando criarEnderecoCommand;
 
     @Mock
-    private AtualizarEnderecoComando atualizarEnderecoComando;
+    private AtualizarEnderecoRestauranteComando atualizarEnderecoComando;
 
     @Mock
-    private DeletarEnderecoComando deletarEnderecoComando;
+    private DeletarEnderecoRestauranteComando deletarEnderecoComando;
 
     @Mock
     private ListarEnderecoPorIdRestaurante listarEnderecosQuery;

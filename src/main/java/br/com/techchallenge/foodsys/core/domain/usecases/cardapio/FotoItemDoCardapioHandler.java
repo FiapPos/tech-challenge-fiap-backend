@@ -1,8 +1,8 @@
 package br.com.techchallenge.foodsys.core.domain.usecases.cardapio;
 import br.com.techchallenge.foodsys.core.domain.entities.ItemDoCardapio;
 import br.com.techchallenge.foodsys.core.gateways.ItemDoCardapioRepository;
-import br.com.techchallenge.foodsys.dominio.foto.FotoPratoDocumento;
-import br.com.techchallenge.foodsys.dominio.foto.FotoPratoRepository;
+import br.com.techchallenge.foodsys.core.domain.entities.FotoPratoDocumento;
+import br.com.techchallenge.foodsys.core.gateways.FotoPratoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;

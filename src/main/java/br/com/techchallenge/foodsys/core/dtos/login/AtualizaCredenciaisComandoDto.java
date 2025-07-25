@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.comandos.login.dto;
+package br.com.techchallenge.foodsys.core.dtos.login;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;

@@ -1,6 +1,6 @@
 package br.com.techchallenge.foodsys.config;
 
-import br.com.techchallenge.foodsys.comandos.login.FiltroAutenticacaoJwt;
+import br.com.techchallenge.foodsys.core.domain.usecases.login.FiltroAutenticacaoJwt;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;

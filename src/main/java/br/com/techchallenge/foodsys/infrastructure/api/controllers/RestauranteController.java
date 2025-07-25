@@ -2,7 +2,7 @@ package br.com.techchallenge.foodsys.infrastructure.api.controllers;
 
 import java.util.List;
 
-import br.com.techchallenge.foodsys.comandos.restaurante.dtos.AtualizarRestauranteComandoDto;
+import br.com.techchallenge.foodsys.core.dtos.restaurante.AtualizarRestauranteComandoDto;
 import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

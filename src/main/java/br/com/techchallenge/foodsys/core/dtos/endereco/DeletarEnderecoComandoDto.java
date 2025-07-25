@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.comandos.endereco.dtos;
+package br.com.techchallenge.foodsys.core.dtos.endereco;
 
 import lombok.Data;
 

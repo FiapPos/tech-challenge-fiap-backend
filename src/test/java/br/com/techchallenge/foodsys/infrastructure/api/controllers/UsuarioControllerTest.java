@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.controller;
+package br.com.techchallenge.foodsys.infrastructure.api.controllers;
 
 import br.com.techchallenge.foodsys.core.domain.usecases.usuario.CriarUsuarioCommand;
 import br.com.techchallenge.foodsys.core.domain.usecases.usuario.AtualizarUsuarioComando;
@@ -48,7 +48,7 @@ class UsuarioControllerTest {
         usuarioDto.setEmail("teste@exemplo.com");
         usuarioDto.setSenha("senha123");
         usuarioDto.setLogin("loginTeste");
-        usuarioDto.setTipo(TipoUsuario.CLIENTE);
+        usuarioDto.setTipos(List.of(TipoUsuario.CLIENTE));
         
         Usuario usuario = new Usuario();
         usuario.setId(1L);

@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.controller;
+package br.com.techchallenge.foodsys.infrastructure.api.controllers;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,6 +11,9 @@ import java.util.List;
 import br.com.techchallenge.foodsys.core.domain.usecases.restaurante.AtualizarRestauranteComando;
 import br.com.techchallenge.foodsys.core.domain.usecases.restaurante.CriarRestauranteCommand;
 import br.com.techchallenge.foodsys.core.domain.usecases.restaurante.DesativarRestauranteComando;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
+import br.com.techchallenge.foodsys.core.dtos.restaurante.CriarRestauranteCommandDto;
 import br.com.techchallenge.foodsys.infrastructure.api.controllers.RestauranteController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +23,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import br.com.techchallenge.foodsys.comandos.restaurante.dtos.AtualizarRestauranteComandoDto;
+import br.com.techchallenge.foodsys.core.dtos.restaurante.AtualizarRestauranteComandoDto;
 import br.com.techchallenge.foodsys.query.params.ListarRestaurantesParams;
 import br.com.techchallenge.foodsys.query.restaurante.ListarRestaurantesQuery;
 import br.com.techchallenge.foodsys.query.resultadoItem.restaurante.ListarRestaurantesResultadoItem;

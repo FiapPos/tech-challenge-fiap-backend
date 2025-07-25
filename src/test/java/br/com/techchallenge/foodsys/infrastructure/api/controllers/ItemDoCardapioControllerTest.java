@@ -1,6 +1,9 @@
-package br.com.techchallenge.foodsys.controller;
+package br.com.techchallenge.foodsys.infrastructure.api.controllers;
 
 import br.com.techchallenge.foodsys.core.domain.usecases.cardapio.*;
+import br.com.techchallenge.foodsys.core.dtos.cardapio.ItemDoCardapioRequestDTO;
+import br.com.techchallenge.foodsys.core.dtos.cardapio.ItemDoCardapioResponseDTO;
+import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,6 +27,7 @@ class ItemDoCardapioControllerTest {
     private BuscarItemDoCardapioPorIdHandler buscarItemDoCardapioPorIdHandler;
     private AtualizarItemDoCardapioHandler atualizarItemDoCardapioHandler;
     private ExcluirItemDoCardapioHandler excluirItemDoCardapioHandler;
+    private ValidadorPermissoes validadorPermissoes;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -34,13 +38,15 @@ class ItemDoCardapioControllerTest {
         buscarItemDoCardapioPorIdHandler = mock(BuscarItemDoCardapioPorIdHandler.class);
         atualizarItemDoCardapioHandler = mock(AtualizarItemDoCardapioHandler.class);
         excluirItemDoCardapioHandler = mock(ExcluirItemDoCardapioHandler.class);
+        validadorPermissoes = mock(ValidadorPermissoes.class);
 
         ItemDoCardapioController controller = new ItemDoCardapioController(
                 criarItemDoCardapioHandler,
                 listarItemDoCardapioHandler,
                 buscarItemDoCardapioPorIdHandler,
                 atualizarItemDoCardapioHandler,
-                excluirItemDoCardapioHandler
+                excluirItemDoCardapioHandler,
+                validadorPermissoes
         );
 
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();

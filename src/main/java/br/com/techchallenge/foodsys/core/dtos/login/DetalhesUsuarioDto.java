@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.comandos.login.dto;
+package br.com.techchallenge.foodsys.core.dtos.login;
 
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import org.springframework.security.core.GrantedAuthority;

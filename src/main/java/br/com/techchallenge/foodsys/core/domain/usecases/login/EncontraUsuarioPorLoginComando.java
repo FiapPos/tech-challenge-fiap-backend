@@ -1,6 +1,6 @@
-package br.com.techchallenge.foodsys.comandos.login;
+package br.com.techchallenge.foodsys.core.domain.usecases.login;
 
-import br.com.techchallenge.foodsys.comandos.login.dto.DetalhesUsuarioDto;
+import br.com.techchallenge.foodsys.core.dtos.login.DetalhesUsuarioDto;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

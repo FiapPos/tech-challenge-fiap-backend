@@ -1,5 +1,6 @@
-package br.com.techchallenge.foodsys.controller;
+package br.com.techchallenge.foodsys.infrastructure.api.controllers;
 import br.com.techchallenge.foodsys.core.domain.usecases.cardapio.FotoItemDoCardapioHandler;
+import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -18,11 +19,13 @@ class FotoItemDoCardapioControllerTest {
 
     private MockMvc mockMvc;
     private FotoItemDoCardapioHandler fotoItemDoCardapioHandler;
+    private ValidadorPermissoes validadorPermissoes;
 
     @BeforeEach
     void setUp() {
         fotoItemDoCardapioHandler = Mockito.mock(FotoItemDoCardapioHandler.class);
-        FotoItemDoCardapioController controller = new FotoItemDoCardapioController(fotoItemDoCardapioHandler);
+        validadorPermissoes = Mockito.mock(ValidadorPermissoes.class);
+        FotoItemDoCardapioController controller = new FotoItemDoCardapioController(fotoItemDoCardapioHandler, validadorPermissoes);
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 

@@ -1,6 +1,6 @@
-package br.com.techchallenge.foodsys.controller;
+package br.com.techchallenge.foodsys.infrastructure.api.controllers;
 
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoComandoDto;
+import br.com.techchallenge.foodsys.core.dtos.endereco.DeletarEnderecoComandoDto;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.core.domain.usecases.endereco.AtualizarEnderecoComando;
 import br.com.techchallenge.foodsys.core.domain.usecases.endereco.CriarEnderecoCommand;

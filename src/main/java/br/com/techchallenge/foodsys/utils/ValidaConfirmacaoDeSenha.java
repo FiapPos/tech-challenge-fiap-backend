@@ -1,6 +1,6 @@
 package br.com.techchallenge.foodsys.utils;
 
-import br.com.techchallenge.foodsys.comandos.login.dto.AtualizaCredenciaisComandoDto;
+import br.com.techchallenge.foodsys.core.dtos.login.AtualizaCredenciaisComandoDto;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
@@ -23,10 +23,10 @@ public class ValidaConfirmacaoDeSenha implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        if (!(target instanceof AtualizaCredenciaisComandoDto dto))
+        if (!(target instanceof AtualizaCredenciaisComandoDto(String senha, String confirmacaoSenha)))
             return;
 
-        if (!dto.senha().equals(dto.confirmacaoSenha())) {
+        if (!senha.equals(confirmacaoSenha)) {
             String message = messageSource.getMessage("senha.e.confirmacao.nao.sao.iguais", null,
                     LocaleContextHolder.getLocale());
 

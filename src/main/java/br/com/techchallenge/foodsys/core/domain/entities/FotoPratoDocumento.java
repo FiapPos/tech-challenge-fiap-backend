@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.dominio.foto;
+package br.com.techchallenge.foodsys.core.domain.entities;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 

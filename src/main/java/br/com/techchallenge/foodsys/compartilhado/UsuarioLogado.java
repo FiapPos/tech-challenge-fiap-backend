@@ -1,7 +1,7 @@
 package br.com.techchallenge.foodsys.compartilhado;
 
-import br.com.techchallenge.foodsys.comandos.login.dto.DetalhesUsuarioDto;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.dtos.login.DetalhesUsuarioDto;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;

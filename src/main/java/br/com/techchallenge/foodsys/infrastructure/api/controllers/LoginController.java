@@ -1,9 +1,9 @@
-package br.com.techchallenge.foodsys.controller;
-import br.com.techchallenge.foodsys.comandos.login.AtualizaCredenciaisComando;
-import br.com.techchallenge.foodsys.comandos.login.AutenticaJwtComando;
-import br.com.techchallenge.foodsys.comandos.login.AutenticaLoginComando;
-import br.com.techchallenge.foodsys.comandos.login.dto.AtualizaCredenciaisComandoDto;
-import br.com.techchallenge.foodsys.comandos.login.dto.CredenciaisUsuarioDto;
+package br.com.techchallenge.foodsys.infrastructure.api.controllers;
+import br.com.techchallenge.foodsys.core.domain.usecases.login.AtualizaCredenciaisComando;
+import br.com.techchallenge.foodsys.core.domain.usecases.login.AutenticaJwtComando;
+import br.com.techchallenge.foodsys.core.domain.usecases.login.AutenticaLoginComando;
+import br.com.techchallenge.foodsys.core.dtos.login.AtualizaCredenciaisComandoDto;
+import br.com.techchallenge.foodsys.core.dtos.login.CredenciaisUsuarioDto;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import br.com.techchallenge.foodsys.utils.ValidaConfirmacaoDeSenha;
