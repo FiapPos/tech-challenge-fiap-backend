@@ -4,7 +4,7 @@ import java.util.List;
 
 import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
 import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
-import br.com.techchallenge.foodsys.utils.ValidarRestauranteExistente;
+import br.com.techchallenge.foodsys.core.utils.restaurante.ValidarRestauranteExistente;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 

@@ -9,14 +9,14 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
+import br.com.techchallenge.foodsys.core.utils.endereco.ValidarDadosCriacaoEnderecoRestaurante;
+import br.com.techchallenge.foodsys.core.utils.restaurante.ValidarRestauranteExistente;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import br.com.techchallenge.foodsys.core.dtos.enderecoRestaurante.CriarEnderecoRestauranteComandoDto;
-import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 
 class ValidarDadosCriacaoEnderecoRestauranteTest {

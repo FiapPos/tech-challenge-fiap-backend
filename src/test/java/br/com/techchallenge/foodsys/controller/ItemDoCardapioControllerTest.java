@@ -1,8 +1,6 @@
 package br.com.techchallenge.foodsys.controller;
 
-import br.com.techchallenge.foodsys.comandos.cardapio.*;
-import br.com.techchallenge.foodsys.comandos.cardapio.dtos.ItemDoCardapioRequestDTO;
-import br.com.techchallenge.foodsys.comandos.cardapio.dtos.ItemDoCardapioResponseDTO;
+import br.com.techchallenge.foodsys.core.domain.usecases.cardapio.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

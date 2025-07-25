@@ -12,6 +12,7 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import br.com.techchallenge.foodsys.infrastructure.api.controllers.RestauranteController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,7 +21,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import br.com.techchallenge.foodsys.controller.RestauranteController;
 import br.com.techchallenge.foodsys.query.params.ListarRestaurantesParams;
 import br.com.techchallenge.foodsys.query.resultadoItem.restaurante.ListarRestaurantesResultadoItem;
 

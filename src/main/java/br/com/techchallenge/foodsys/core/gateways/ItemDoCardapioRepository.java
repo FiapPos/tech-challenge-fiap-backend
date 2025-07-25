@@ -1,4 +1,5 @@
-package br.com.techchallenge.foodsys.dominio.cardapio;
+package br.com.techchallenge.foodsys.core.gateways;
+import br.com.techchallenge.foodsys.core.domain.entities.ItemDoCardapio;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;

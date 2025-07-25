@@ -1,7 +1,7 @@
-package br.com.techchallenge.foodsys.controller;
-import br.com.techchallenge.foodsys.comandos.cardapio.*;
-import br.com.techchallenge.foodsys.comandos.cardapio.dtos.ItemDoCardapioRequestDTO;
-import br.com.techchallenge.foodsys.comandos.cardapio.dtos.ItemDoCardapioResponseDTO;
+package br.com.techchallenge.foodsys.infrastructure.api.controllers;
+import br.com.techchallenge.foodsys.core.domain.usecases.cardapio.*;
+import br.com.techchallenge.foodsys.core.dtos.cardapio.ItemDoCardapioRequestDTO;
+import br.com.techchallenge.foodsys.core.dtos.cardapio.ItemDoCardapioResponseDTO;
 import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

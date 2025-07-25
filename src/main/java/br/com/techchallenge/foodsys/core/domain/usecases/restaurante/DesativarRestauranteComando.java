@@ -1,6 +1,6 @@
 package br.com.techchallenge.foodsys.core.domain.usecases.restaurante;
 
-import br.com.techchallenge.foodsys.utils.ValidarRestauranteExistente;
+import br.com.techchallenge.foodsys.core.utils.restaurante.ValidarRestauranteExistente;
 import org.springframework.stereotype.Service;
 
 import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;

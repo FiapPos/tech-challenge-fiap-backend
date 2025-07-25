@@ -1,31 +1,48 @@
-package br.com.techchallenge.foodsys.comandos.cardapio.dtos;
-
+package br.com.techchallenge.foodsys.core.domain.entities;
+import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+
 import java.math.BigDecimal;
 
-public class ItemDoCardapioRequestDTO {
+@Entity
+@Table(name = "item_do_cardapio")
+public class ItemDoCardapio {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @NotBlank(message = "O nome não pode estar em branco")
     private String nome;
 
     private String descricao;
 
-    @NotNull(message = "O preço é obrigatório")
     private BigDecimal preco;
+
 
     private Boolean disponivelSomenteNoLocal;
 
-    public ItemDoCardapioRequestDTO() {
+    private String caminhoFoto;
+
+    @ManyToOne
+    @JoinColumn(name = "restaurante_id", nullable = false)
+    private Restaurante restaurante;
+
+    public Restaurante getRestaurante() {
+        return restaurante;
     }
 
-    public ItemDoCardapioRequestDTO(String nome, String descricao, BigDecimal preco,
-                                    Boolean disponivelSomenteNoLocal) {
-        this.nome = nome;
-        this.descricao = descricao;
-        this.preco = preco;
-        this.disponivelSomenteNoLocal = disponivelSomenteNoLocal;
+    public void setRestaurante(Restaurante restaurante) {
+        this.restaurante = restaurante;
+    }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -60,4 +77,11 @@ public class ItemDoCardapioRequestDTO {
         this.disponivelSomenteNoLocal = disponivelSomenteNoLocal;
     }
 
+    public String getCaminhoFoto() {
+        return caminhoFoto;
+    }
+
+    public void setCaminhoFoto(String caminhoFoto) {
+        this.caminhoFoto = caminhoFoto;
+    }
 }

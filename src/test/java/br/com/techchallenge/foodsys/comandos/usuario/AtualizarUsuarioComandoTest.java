@@ -1,5 +1,6 @@
 package br.com.techchallenge.foodsys.comandos.usuario;
 
+import br.com.techchallenge.foodsys.core.domain.usecases.usuario.AtualizarUsuarioComando;
 import br.com.techchallenge.foodsys.core.dtos.usuario.AtualizarUsuarioComandoDto;
 import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;

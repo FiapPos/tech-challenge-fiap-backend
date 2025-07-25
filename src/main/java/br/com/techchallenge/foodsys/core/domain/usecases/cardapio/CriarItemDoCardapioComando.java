@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.comandos.cardapio;
+package br.com.techchallenge.foodsys.core.domain.usecases.cardapio;
 import java.math.BigDecimal;
 
 public class CriarItemDoCardapioComando {

@@ -1,6 +1,6 @@
-package br.com.techchallenge.foodsys.comandos.cardapio;
-import br.com.techchallenge.foodsys.comandos.cardapio.dtos.ItemDoCardapioResponseDTO;
-import br.com.techchallenge.foodsys.dominio.cardapio.ItemDoCardapioRepository;
+package br.com.techchallenge.foodsys.core.domain.usecases.cardapio;
+import br.com.techchallenge.foodsys.core.dtos.cardapio.ItemDoCardapioResponseDTO;
+import br.com.techchallenge.foodsys.core.gateways.ItemDoCardapioRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;

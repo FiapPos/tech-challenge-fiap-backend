@@ -8,6 +8,10 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 
+import br.com.techchallenge.foodsys.core.domain.usecases.restaurante.AtualizarRestauranteComando;
+import br.com.techchallenge.foodsys.core.domain.usecases.restaurante.CriarRestauranteCommand;
+import br.com.techchallenge.foodsys.core.domain.usecases.restaurante.DesativarRestauranteComando;
+import br.com.techchallenge.foodsys.infrastructure.api.controllers.RestauranteController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,13 +20,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import br.com.techchallenge.foodsys.comandos.restaurante.AtualizarRestauranteComando;
-import br.com.techchallenge.foodsys.comandos.restaurante.CriarRestauranteCommand;
-import br.com.techchallenge.foodsys.comandos.restaurante.DesativarRestauranteComando;
 import br.com.techchallenge.foodsys.comandos.restaurante.dtos.AtualizarRestauranteComandoDto;
-import br.com.techchallenge.foodsys.comandos.restaurante.dtos.CriarRestauranteCommandDto;
-import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.query.params.ListarRestaurantesParams;
 import br.com.techchallenge.foodsys.query.restaurante.ListarRestaurantesQuery;
 import br.com.techchallenge.foodsys.query.resultadoItem.restaurante.ListarRestaurantesResultadoItem;

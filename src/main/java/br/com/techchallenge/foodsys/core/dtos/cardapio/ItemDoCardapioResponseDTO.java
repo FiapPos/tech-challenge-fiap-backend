@@ -1,5 +1,5 @@
-package br.com.techchallenge.foodsys.comandos.cardapio.dtos;
-import br.com.techchallenge.foodsys.dominio.cardapio.ItemDoCardapio;
+package br.com.techchallenge.foodsys.core.dtos.cardapio;
+import br.com.techchallenge.foodsys.core.domain.entities.ItemDoCardapio;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;

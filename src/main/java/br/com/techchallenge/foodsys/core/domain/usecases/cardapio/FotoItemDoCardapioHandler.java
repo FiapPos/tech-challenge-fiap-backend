@@ -1,6 +1,6 @@
-package br.com.techchallenge.foodsys.comandos.cardapio;
-import br.com.techchallenge.foodsys.dominio.cardapio.ItemDoCardapio;
-import br.com.techchallenge.foodsys.dominio.cardapio.ItemDoCardapioRepository;
+package br.com.techchallenge.foodsys.core.domain.usecases.cardapio;
+import br.com.techchallenge.foodsys.core.domain.entities.ItemDoCardapio;
+import br.com.techchallenge.foodsys.core.gateways.ItemDoCardapioRepository;
 import br.com.techchallenge.foodsys.dominio.foto.FotoPratoDocumento;
 import br.com.techchallenge.foodsys.dominio.foto.FotoPratoRepository;
 import org.springframework.stereotype.Service;

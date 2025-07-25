@@ -1,14 +1,14 @@
 package br.com.techchallenge.foodsys.integration;
 
+import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
+import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
 import br.com.techchallenge.foodsys.core.dtos.enderecoRestaurante.AtualizarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.core.dtos.enderecoRestaurante.CriarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.core.dtos.enderecoRestaurante.DeletarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.comandos.login.dto.CredenciaisUsuarioDto;
-import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
-import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
-import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
-import br.com.techchallenge.foodsys.dominio.restaurante.RestauranteRepository;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
+import br.com.techchallenge.foodsys.core.gateways.RestauranteRepository;
 import br.com.techchallenge.foodsys.core.gateways.UsuarioRepository;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import com.fasterxml.jackson.core.JsonProcessingException;

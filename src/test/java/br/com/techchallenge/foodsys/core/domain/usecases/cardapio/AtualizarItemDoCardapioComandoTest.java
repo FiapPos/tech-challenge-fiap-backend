@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.comandos.cardapio;
+package br.com.techchallenge.foodsys.core.domain.usecases.cardapio;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 

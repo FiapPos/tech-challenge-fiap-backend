@@ -1,8 +1,8 @@
 package br.com.techchallenge.foodsys.query.endereco;
 
 import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.query.resultadoItem.endereco.ListarEnderecoPorIdUsuarioResultadoItem;
 import br.com.techchallenge.foodsys.utils.ValidarUsuarioExistente;
 import org.junit.jupiter.api.BeforeEach;

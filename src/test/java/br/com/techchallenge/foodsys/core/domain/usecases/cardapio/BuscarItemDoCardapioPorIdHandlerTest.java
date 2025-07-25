@@ -1,9 +1,9 @@
-package br.com.techchallenge.foodsys.comandos.cardapio;
+package br.com.techchallenge.foodsys.core.domain.usecases.cardapio;
 
-import br.com.techchallenge.foodsys.comandos.cardapio.dtos.ItemDoCardapioResponseDTO;
-import br.com.techchallenge.foodsys.dominio.cardapio.ItemDoCardapio;
-import br.com.techchallenge.foodsys.dominio.cardapio.ItemDoCardapioRepository;
-import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
+import br.com.techchallenge.foodsys.core.dtos.cardapio.ItemDoCardapioResponseDTO;
+import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
+import br.com.techchallenge.foodsys.core.domain.entities.ItemDoCardapio;
+import br.com.techchallenge.foodsys.core.gateways.ItemDoCardapioRepository;
 import br.com.techchallenge.foodsys.excpetion.ItemDoCardapioNaoEncontradoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

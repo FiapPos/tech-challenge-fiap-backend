@@ -1,5 +1,5 @@
 package br.com.techchallenge.foodsys.controller;
-import br.com.techchallenge.foodsys.comandos.cardapio.FotoItemDoCardapioHandler;
+import br.com.techchallenge.foodsys.core.domain.usecases.cardapio.FotoItemDoCardapioHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

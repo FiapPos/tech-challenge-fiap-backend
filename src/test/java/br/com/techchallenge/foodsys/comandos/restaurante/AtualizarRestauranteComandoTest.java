@@ -9,6 +9,9 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 
+import br.com.techchallenge.foodsys.core.domain.usecases.restaurante.AtualizarRestauranteComando;
+import br.com.techchallenge.foodsys.core.gateways.RestauranteRepository;
+import br.com.techchallenge.foodsys.core.utils.restaurante.ValidarRestauranteExistente;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,13 +20,10 @@ import org.mockito.MockitoAnnotations;
 
 import br.com.techchallenge.foodsys.comandos.restaurante.dtos.AtualizarRestauranteComandoDto;
 import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
-import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
-import br.com.techchallenge.foodsys.dominio.restaurante.RestauranteRepository;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import br.com.techchallenge.foodsys.utils.ValidarProprietarioRestaurante;
-import br.com.techchallenge.foodsys.utils.ValidarRestauranteExistente;
 
 public class AtualizarRestauranteComandoTest {
 

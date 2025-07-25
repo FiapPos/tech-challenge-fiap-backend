@@ -2,8 +2,8 @@ package br.com.techchallenge.foodsys.core.domain.usecases.restaurante;
 
 import br.com.techchallenge.foodsys.comandos.restaurante.dtos.AtualizarRestauranteComandoDto;
 import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
+import br.com.techchallenge.foodsys.core.utils.restaurante.ValidarRestauranteExistente;
 import br.com.techchallenge.foodsys.utils.ValidarProprietarioRestaurante;
-import br.com.techchallenge.foodsys.utils.ValidarRestauranteExistente;
 import org.springframework.stereotype.Service;
 
 import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;

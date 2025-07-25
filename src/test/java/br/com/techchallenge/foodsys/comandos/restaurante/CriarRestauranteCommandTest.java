@@ -11,6 +11,8 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 
+import br.com.techchallenge.foodsys.core.domain.usecases.restaurante.CriarRestauranteCommand;
+import br.com.techchallenge.foodsys.core.utils.restaurante.ValidarRestauranteExistente;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -24,7 +26,6 @@ import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.core.gateways.RestauranteRepository;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
-import br.com.techchallenge.foodsys.utils.ValidarRestauranteExistente;
 import br.com.techchallenge.foodsys.utils.ValidarUsuarioDono;
 import br.com.techchallenge.foodsys.utils.ValidarUsuarioExistente;
 

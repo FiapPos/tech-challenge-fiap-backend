@@ -5,11 +5,9 @@ import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.core.dtos.enderecoRestaurante.AtualizarEnderecoRestauranteComandoDto;
 import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
+import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
-import br.com.techchallenge.foodsys.utils.AutorizacaoService;
-import br.com.techchallenge.foodsys.utils.ValidarCepDoUsuario;
-import br.com.techchallenge.foodsys.utils.ValidarEnderecoExistente;
-import br.com.techchallenge.foodsys.utils.ValidarProprietarioEndereco;
+import br.com.techchallenge.foodsys.utils.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,11 +21,13 @@ public class AtualizarEnderecoRestauranteComando {
     private final ValidarCepDoUsuario validarCepDoUsuario;
     private final AutorizacaoService autorizacaoService;
     private final ValidarProprietarioEndereco validarProprietarioEndereco;
+    private final ValidadorPermissoes validadorPermissoes;
 
     public Endereco execute(Long id, AtualizarEnderecoRestauranteComandoDto dto, Long usuarioId) {
         validarDto(dto);
         Usuario usuarioLogado = autorizacaoService.getUsuarioLogado();
         validarProprietarioEndereco.execute(id, usuarioId);
+        validadorPermissoes.validarGerenciamentoRestaurante(dto.getRestauranteId());
         Endereco endereco = validarEnderecoExistente.execute(id);
 
         validarCepDoUsuario.validarCepDuplicado(usuarioLogado.getId(), dto.getCep());

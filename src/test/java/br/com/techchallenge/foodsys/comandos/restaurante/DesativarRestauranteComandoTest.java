@@ -11,6 +11,10 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 
+import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
+import br.com.techchallenge.foodsys.core.domain.usecases.restaurante.DesativarRestauranteComando;
+import br.com.techchallenge.foodsys.core.gateways.RestauranteRepository;
+import br.com.techchallenge.foodsys.core.utils.restaurante.ValidarRestauranteExistente;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -18,10 +22,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
-import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
-import br.com.techchallenge.foodsys.dominio.restaurante.RestauranteRepository;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
-import br.com.techchallenge.foodsys.utils.ValidarRestauranteExistente;
 
 public class DesativarRestauranteComandoTest {
 

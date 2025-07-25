@@ -1,7 +1,8 @@
 package br.com.techchallenge.foodsys.utils;
 
-import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
-import br.com.techchallenge.foodsys.dominio.restaurante.RestauranteRepository;
+import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
+import br.com.techchallenge.foodsys.core.gateways.RestauranteRepository;
+import br.com.techchallenge.foodsys.core.utils.restaurante.ValidarRestauranteExistente;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

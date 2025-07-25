@@ -1,7 +1,7 @@
 package br.com.techchallenge.foodsys.utils;
 
-import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
+import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import org.junit.jupiter.api.Test;
 

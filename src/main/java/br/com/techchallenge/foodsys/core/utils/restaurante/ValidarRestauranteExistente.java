@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.utils;
+package br.com.techchallenge.foodsys.core.utils.restaurante;
 
 import org.springframework.stereotype.Service;
 

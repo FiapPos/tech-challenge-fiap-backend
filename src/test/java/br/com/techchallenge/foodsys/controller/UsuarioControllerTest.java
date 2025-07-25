@@ -6,6 +6,7 @@ import br.com.techchallenge.foodsys.core.domain.usecases.usuario.DesativarUsuari
 import br.com.techchallenge.foodsys.core.dtos.usuario.AtualizarUsuarioComandoDto;
 import br.com.techchallenge.foodsys.core.dtos.usuario.CriarUsuarioCommandDto;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
+import br.com.techchallenge.foodsys.infrastructure.api.controllers.UsuarioController;
 import br.com.techchallenge.foodsys.query.ListarUsuariosQuery;
 import br.com.techchallenge.foodsys.query.params.ListarUsuariosParams;
 import br.com.techchallenge.foodsys.query.resultadoItem.ListarUsuariosResultadoItem;

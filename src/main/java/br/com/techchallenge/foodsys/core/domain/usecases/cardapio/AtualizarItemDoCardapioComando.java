@@ -1,5 +1,5 @@
-package br.com.techchallenge.foodsys.comandos.cardapio;
-import br.com.techchallenge.foodsys.dominio.cardapio.ItemDoCardapio;
+package br.com.techchallenge.foodsys.core.domain.usecases.cardapio;
+import br.com.techchallenge.foodsys.core.domain.entities.ItemDoCardapio;
 
 import java.math.BigDecimal;
 
