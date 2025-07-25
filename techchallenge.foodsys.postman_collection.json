@@ -583,7 +583,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"rua\": \"Rua Atualizada 1 vez\",\n    \"numero\": \"456\",\n    \"restauranteId\": 1\n}",
+							"raw": "{\n    \"rua\": \"Rua do Restaurante Atualizada 1 vez\",\n    \"numero\": \"456\",\n    \"restauranteId\": 1\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -656,7 +656,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqb2FvLnNpbHZhIiwidGlwb1VzdWFyaW8iOiJET05PX1JFU1RBVVJBTlRFIiwidXNlcklkIjoxLCJleHAiOjE3NTM0ODEyMjd9.2mfpph7mMoQs29CKtT0Oln94Ac2Jr--1BDNJb_hKMZU",
+				"value": "",
 				"type": "string"
 			}
 		]
