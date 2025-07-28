@@ -1,12 +1,15 @@
 package br.com.techchallenge.foodsys.comandos.login.dto;
 
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
+import br.com.techchallenge.foodsys.dominio.usuario.UsuarioTipo;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -23,7 +26,15 @@ class DetalhesUsuarioDtoTest {
         usuario.setEmail("joao@email.com");
         usuario.setLogin("joao123");
         usuario.setSenha("senha123");
-        usuario.setTipo(TipoUsuario.CLIENTE);
+
+        UsuarioTipo usuarioTipo = new UsuarioTipo();
+        usuarioTipo.setTipo(TipoUsuario.CLIENTE);
+        usuarioTipo.setUsuario(usuario);
+
+        Set<UsuarioTipo> usuarioTipos = new HashSet<>();
+        usuarioTipos.add(usuarioTipo);
+        usuario.setUsuarioTipos(usuarioTipos);
+
         usuario.setAtivo(true);
         
         detalhesUsuarioDto = new DetalhesUsuarioDto(usuario);
@@ -99,13 +110,27 @@ class DetalhesUsuarioDtoTest {
 
     @Test
     void deveRetornarAuthoritiesParaDiferentesTiposDeUsuario() {
-        usuario.setTipo(TipoUsuario.ADMIN);
+        UsuarioTipo usuarioTipoAdmin = new UsuarioTipo();
+        usuarioTipoAdmin.setTipo(TipoUsuario.ADMIN);
+        usuarioTipoAdmin.setUsuario(usuario);
+
+        Set<UsuarioTipo> usuarioTiposAdmin = new HashSet<>();
+        usuarioTiposAdmin.add(usuarioTipoAdmin);
+        usuario.setUsuarioTipos(usuarioTiposAdmin);
+
         DetalhesUsuarioDto dtoAdmin = new DetalhesUsuarioDto(usuario);
         Collection<? extends GrantedAuthority> authoritiesAdmin = dtoAdmin.getAuthorities();
         
         assertTrue(authoritiesAdmin.stream().anyMatch(auth -> auth.getAuthority().equals("ADMIN")));
-        
-        usuario.setTipo(TipoUsuario.CLIENTE);
+
+        UsuarioTipo usuarioTipoCliente = new UsuarioTipo();
+        usuarioTipoCliente.setTipo(TipoUsuario.CLIENTE);
+        usuarioTipoCliente.setUsuario(usuario);
+
+        Set<UsuarioTipo> usuarioTiposCliente = new HashSet<>();
+        usuarioTiposCliente.add(usuarioTipoCliente);
+        usuario.setUsuarioTipos(usuarioTiposCliente);
+
         DetalhesUsuarioDto dtoCliente = new DetalhesUsuarioDto(usuario);
         Collection<? extends GrantedAuthority> authoritiesCliente = dtoCliente.getAuthorities();
         
@@ -116,12 +141,19 @@ class DetalhesUsuarioDtoTest {
     void deveRetornarDadosCorretosQuandoUsuarioAtualizado() {
         usuario.setLogin("novoLogin");
         usuario.setSenha("novaSenha");
-        usuario.setTipo(TipoUsuario.ADMIN);
-        
+
+        UsuarioTipo usuarioTipoAdmin = new UsuarioTipo();
+        usuarioTipoAdmin.setTipo(TipoUsuario.ADMIN);
+        usuarioTipoAdmin.setUsuario(usuario);
+
+        Set<UsuarioTipo> usuarioTiposAdmin = new HashSet<>();
+        usuarioTiposAdmin.add(usuarioTipoAdmin);
+        usuario.setUsuarioTipos(usuarioTiposAdmin);
+
         DetalhesUsuarioDto novoDto = new DetalhesUsuarioDto(usuario);
         
         assertEquals("novoLogin", novoDto.getUsername());
         assertEquals("novaSenha", novoDto.getPassword());
         assertTrue(novoDto.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("ADMIN")));
     }
-} 
+}

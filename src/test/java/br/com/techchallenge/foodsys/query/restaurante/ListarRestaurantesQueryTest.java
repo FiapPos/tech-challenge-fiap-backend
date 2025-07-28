@@ -21,6 +21,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import br.com.techchallenge.foodsys.controller.RestauranteController;
+import br.com.techchallenge.foodsys.comandos.restaurante.AtualizarRestauranteComando;
+import br.com.techchallenge.foodsys.comandos.restaurante.CriarRestauranteCommand;
+import br.com.techchallenge.foodsys.comandos.restaurante.DesativarRestauranteComando;
+import br.com.techchallenge.foodsys.utils.AutorizacaoService;
+import br.com.techchallenge.foodsys.utils.usuario.ValidadorPermissoes;
 import br.com.techchallenge.foodsys.query.params.ListarRestaurantesParams;
 import br.com.techchallenge.foodsys.query.resultadoItem.restaurante.ListarRestaurantesResultadoItem;
 
@@ -28,6 +33,21 @@ public class ListarRestaurantesQueryTest {
 
     @Mock
     private ListarRestaurantesQuery listarRestaurantesQuery;
+
+    @Mock
+    private CriarRestauranteCommand criarRestauranteCommand;
+
+    @Mock
+    private DesativarRestauranteComando desativarRestauranteComando;
+
+    @Mock
+    private AtualizarRestauranteComando atualizarRestauranteComando;
+
+    @Mock
+    private AutorizacaoService autorizacaoService;
+
+    @Mock
+    private ValidadorPermissoes validadorPermissoes;
 
     @InjectMocks
     private RestauranteController restauranteController;
