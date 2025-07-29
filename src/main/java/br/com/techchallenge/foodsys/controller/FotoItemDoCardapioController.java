@@ -1,5 +1,6 @@
 package br.com.techchallenge.foodsys.controller;
 import br.com.techchallenge.foodsys.comandos.cardapio.FotoItemDoCardapioHandler;
+import br.com.techchallenge.foodsys.utils.doc.FotoItemDoCardapioControllerDoc;
 import br.com.techchallenge.foodsys.utils.usuario.ValidadorPermissoes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +10,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/itens/{itemId}/foto")
-public class FotoItemDoCardapioController {
+public class FotoItemDoCardapioController implements FotoItemDoCardapioControllerDoc {
 
     private final FotoItemDoCardapioHandler fotoItemDoCardapioHandler;
     private final ValidadorPermissoes validadorPermissoes;

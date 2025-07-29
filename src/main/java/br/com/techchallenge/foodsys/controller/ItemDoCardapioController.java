@@ -2,6 +2,7 @@ package br.com.techchallenge.foodsys.controller;
 import br.com.techchallenge.foodsys.comandos.cardapio.*;
 import br.com.techchallenge.foodsys.comandos.cardapio.dtos.ItemDoCardapioRequestDTO;
 import br.com.techchallenge.foodsys.comandos.cardapio.dtos.ItemDoCardapioResponseDTO;
+import br.com.techchallenge.foodsys.utils.doc.ItemDoCardapioControllerDoc;
 import br.com.techchallenge.foodsys.utils.usuario.ValidadorPermissoes;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/itens")
-public class ItemDoCardapioController {
+public class ItemDoCardapioController implements ItemDoCardapioControllerDoc {
 
     private final CriarItemDoCardapioHandler criarItemDoCardapioHandler;
     private final ListarItemDoCardapioHandler listarItemDoCardapioHandler;
