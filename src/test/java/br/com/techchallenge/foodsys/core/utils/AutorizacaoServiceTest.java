@@ -1,6 +1,7 @@
 package br.com.techchallenge.foodsys.core.utils;
 
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.exceptions.ForbiddenException;
 import br.com.techchallenge.foodsys.core.gateways.UsuarioRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

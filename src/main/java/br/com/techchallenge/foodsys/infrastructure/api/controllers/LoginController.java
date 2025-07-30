@@ -1,23 +1,20 @@
 package br.com.techchallenge.foodsys.infrastructure.api.controllers;
+
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.core.domain.usecases.login.AtualizaCredenciaisComando;
 import br.com.techchallenge.foodsys.core.domain.usecases.login.AutenticaJwtComando;
 import br.com.techchallenge.foodsys.core.domain.usecases.login.AutenticaLoginComando;
 import br.com.techchallenge.foodsys.core.dtos.login.AtualizaCredenciaisComandoDto;
 import br.com.techchallenge.foodsys.core.dtos.login.CredenciaisUsuarioDto;
-import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
-import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
 import br.com.techchallenge.foodsys.core.utils.ValidaConfirmacaoDeSenha;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import br.com.techchallenge.foodsys.core.utils.doc.LoginControllerDoc;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,5 +1,7 @@
 package br.com.techchallenge.foodsys.infrastructure.api.controllers;
+
 import br.com.techchallenge.foodsys.core.domain.usecases.cardapio.FotoItemDoCardapioHandler;
+import br.com.techchallenge.foodsys.core.utils.doc.FotoItemDoCardapioControllerDoc;
 import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

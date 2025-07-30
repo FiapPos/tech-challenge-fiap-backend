@@ -1,11 +1,11 @@
-package br.com.techchallenge.foodsys.utils.doc;
+package br.com.techchallenge.foodsys.core.utils.doc;
 
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoUsuarioComandoDto;
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoUsuarioCommandDto;
-import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoUsuarioComandoDto;
-import br.com.techchallenge.foodsys.excpetion.BadRequestException;
-import br.com.techchallenge.foodsys.query.endereco.ListarEnderecoPorIdUsuario;
-import br.com.techchallenge.foodsys.query.resultadoItem.endereco.ListarEnderecoPorIdUsuarioResultadoItem;
+import br.com.techchallenge.foodsys.core.dtos.endereco.AtualizarEnderecoComandoDto;
+import br.com.techchallenge.foodsys.core.dtos.endereco.CriarEnderecoComandoDto;
+import br.com.techchallenge.foodsys.core.dtos.endereco.DeletarEnderecoComandoDto;
+import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
+import br.com.techchallenge.foodsys.core.queries.endereco.ListarEnderecoPorIdUsuario;
+import br.com.techchallenge.foodsys.core.queries.resultadoItem.endereco.ListarEnderecoPorIdUsuarioResultadoItem;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -27,7 +27,7 @@ public interface EnderecoControllerDoc {
             responses = {
                     @ApiResponse(responseCode = "201", description = "Recurso criado com sucesso.",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = CriarEnderecoUsuarioCommandDto.class))),
+                                    schema = @Schema(implementation = CriarEnderecoComandoDto.class))),
                     @ApiResponse(responseCode = "409", description = "Endereço já existente.",
                             content = @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = BadRequestException.class))),
@@ -35,7 +35,7 @@ public interface EnderecoControllerDoc {
                             content = @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = BadRequestException.class)))
             })
-    ResponseEntity<Void> criar(@RequestBody @Valid CriarEnderecoUsuarioCommandDto dto);
+    ResponseEntity<Void> criar(@RequestBody @Valid CriarEnderecoComandoDto dto);
 
     @Operation(
             summary = "Atualizar endereço do Usuário.",
@@ -44,24 +44,24 @@ public interface EnderecoControllerDoc {
                     @ApiResponse(
                             responseCode = "200", description = "Recurso atualizado com sucesso.",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = AtualizarEnderecoUsuarioComandoDto.class))),
+                                    schema = @Schema(implementation = AtualizarEnderecoComandoDto.class))),
                     @ApiResponse(responseCode = "422", description = "Recurso não atualizado por dados de entrada inválidos.",
                             content = @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = BadRequestException.class)))
             })
-    ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizarEnderecoUsuarioComandoDto dto);
+    ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizarEnderecoComandoDto dto);
 
     @Operation(summary = "Deletar um endereço.",
             description = "Recurso para deletar um endereço.",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Recurso deletado com sucesso.",
                             content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = DeletarEnderecoUsuarioComandoDto.class))),
+                                    schema = @Schema(implementation = DeletarEnderecoComandoDto.class))),
                     @ApiResponse(responseCode = "422", description = "Recurso não pode ser deletado por dados de entradas inválidos.",
                             content = @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = BadRequestException.class)))
             })
-    ResponseEntity<Void> deletar(@RequestBody DeletarEnderecoUsuarioComandoDto dto);
+    ResponseEntity<Void> deletar(@RequestBody DeletarEnderecoComandoDto dto);
 
     @Operation(summary = "Listar endereço por ID.",
             description = "Recurso para listar endereço do usuário por ID.",

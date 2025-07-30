@@ -1,6 +1,7 @@
 package br.com.techchallenge.foodsys.core.utils;
 
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.domain.entities.UsuarioTipo;
 import br.com.techchallenge.foodsys.core.enums.TipoUsuario;
 import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
 import org.junit.jupiter.api.Test;

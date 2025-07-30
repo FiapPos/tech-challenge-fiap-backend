@@ -1,8 +1,10 @@
 package br.com.techchallenge.foodsys.core.domain.usecases.usuario;
 
+import br.com.techchallenge.foodsys.core.domain.entities.UsuarioTipo;
 import br.com.techchallenge.foodsys.core.dtos.usuario.AtualizarUsuarioComandoDto;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.core.enums.TipoUsuario;
+import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
 import br.com.techchallenge.foodsys.core.gateways.UsuarioRepository;
 import br.com.techchallenge.foodsys.core.shared.CompartilhadoService;
 import br.com.techchallenge.foodsys.core.utils.ValidarEmailExistente;

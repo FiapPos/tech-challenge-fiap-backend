@@ -10,6 +10,7 @@ import br.com.techchallenge.foodsys.core.enums.TipoUsuario;
 import br.com.techchallenge.foodsys.core.queries.ListarUsuariosQuery;
 import br.com.techchallenge.foodsys.core.queries.params.ListarUsuariosParams;
 import br.com.techchallenge.foodsys.core.queries.resultadoItem.ListarUsuariosResultadoItem;
+import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

@@ -5,21 +5,17 @@ import br.com.techchallenge.foodsys.core.domain.usecases.usuario.CriarUsuarioCom
 import br.com.techchallenge.foodsys.core.domain.usecases.usuario.DesativarUsuarioComando;
 import br.com.techchallenge.foodsys.core.dtos.usuario.AtualizarUsuarioComandoDto;
 import br.com.techchallenge.foodsys.core.dtos.usuario.CriarUsuarioCommandDto;
-import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
 import br.com.techchallenge.foodsys.core.queries.ListarUsuariosQuery;
 import br.com.techchallenge.foodsys.core.queries.params.ListarUsuariosParams;
 import br.com.techchallenge.foodsys.core.queries.resultadoItem.ListarUsuariosResultadoItem;
+import br.com.techchallenge.foodsys.core.utils.doc.UsuarioControllerDoc;
 import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController

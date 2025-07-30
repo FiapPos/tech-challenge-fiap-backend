@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
+import br.com.techchallenge.foodsys.core.domain.entities.UsuarioTipo;
 import br.com.techchallenge.foodsys.core.dtos.restaurante.AtualizarRestauranteComandoDto;
 import br.com.techchallenge.foodsys.core.enums.TipoUsuario;
 import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;

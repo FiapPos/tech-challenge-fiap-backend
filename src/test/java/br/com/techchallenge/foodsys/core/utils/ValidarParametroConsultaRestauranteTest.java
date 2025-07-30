@@ -12,7 +12,9 @@ import java.util.List;
 
 import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
 import br.com.techchallenge.foodsys.core.gateways.RestauranteRepository;
+import br.com.techchallenge.foodsys.core.queries.params.ListarRestaurantesParams;
 import br.com.techchallenge.foodsys.core.queries.restaurante.ListarRestaurantesQuery;
+import br.com.techchallenge.foodsys.core.utils.ValidarParametroConsultaRestaurante;
 import br.com.techchallenge.foodsys.infrastructure.api.controllers.RestauranteController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

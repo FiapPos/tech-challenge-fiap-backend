@@ -1,6 +1,7 @@
 package br.com.techchallenge.foodsys.core.domain.usecases.login;
 
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.domain.entities.UsuarioTipo;
 import br.com.techchallenge.foodsys.core.dtos.login.DetalhesUsuarioDto;
 import br.com.techchallenge.foodsys.core.enums.TipoUsuario;
 import org.junit.jupiter.api.BeforeEach;

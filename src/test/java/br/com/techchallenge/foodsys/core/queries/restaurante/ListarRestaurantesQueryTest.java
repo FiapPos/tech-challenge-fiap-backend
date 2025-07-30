@@ -12,8 +12,13 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import br.com.techchallenge.foodsys.core.domain.usecases.restaurante.AtualizarRestauranteComando;
+import br.com.techchallenge.foodsys.core.domain.usecases.restaurante.CriarRestauranteCommand;
+import br.com.techchallenge.foodsys.core.domain.usecases.restaurante.DesativarRestauranteComando;
 import br.com.techchallenge.foodsys.core.queries.params.ListarRestaurantesParams;
 import br.com.techchallenge.foodsys.core.queries.resultadoItem.restaurante.ListarRestaurantesResultadoItem;
+import br.com.techchallenge.foodsys.core.utils.AutorizacaoService;
+import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
 import br.com.techchallenge.foodsys.infrastructure.api.controllers.RestauranteController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -67,7 +72,7 @@ public class ListarRestaurantesQueryTest {
         item.setUsuarioDonoId(10L);
         item.setDataCriacao(null);
         item.setDataAtualizacao(null);
-        item.setDataDesativacao(null); // Incluindo a data de desativação como null
+        item.setDataDesativacao(null);
 
         List<ListarRestaurantesResultadoItem> resultado = List.of(item);
 
@@ -151,7 +156,6 @@ public class ListarRestaurantesQueryTest {
         item.setUsuarioDonoId(30L);
         item.setDataCriacao(null);
         item.setDataAtualizacao(null);
-        // Incluindo a data de desativação
         LocalDateTime dataDesativacao = LocalDateTime.of(2024, 7, 10, 12, 0);
         item.setDataDesativacao(dataDesativacao);
 

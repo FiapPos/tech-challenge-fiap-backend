@@ -1,10 +1,13 @@
 package br.com.techchallenge.foodsys.core.queries;
 
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.domain.entities.UsuarioTipo;
 import br.com.techchallenge.foodsys.core.gateways.UsuarioRepository;
 import br.com.techchallenge.foodsys.core.enums.TipoUsuario;
 import br.com.techchallenge.foodsys.core.queries.params.ListarUsuariosParams;
 import br.com.techchallenge.foodsys.core.queries.resultadoItem.ListarUsuariosResultadoItem;
+import br.com.techchallenge.foodsys.core.queries.tipo.ListarPorTipoUsuario;
+import br.com.techchallenge.foodsys.core.queries.tipo.TipoUsuarioResultItem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

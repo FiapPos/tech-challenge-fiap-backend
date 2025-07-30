@@ -1,11 +1,11 @@
-package br.com.techchallenge.foodsys.utils.doc;
+package br.com.techchallenge.foodsys.core.utils.doc;
 
-import br.com.techchallenge.foodsys.comandos.restaurante.DesativarRestauranteComando;
-import br.com.techchallenge.foodsys.comandos.restaurante.dtos.AtualizarRestauranteComandoDto;
-import br.com.techchallenge.foodsys.comandos.restaurante.dtos.CriarRestauranteCommandDto;
-import br.com.techchallenge.foodsys.excpetion.BadRequestException;
-import br.com.techchallenge.foodsys.query.params.ListarRestaurantesParams;
-import br.com.techchallenge.foodsys.query.resultadoItem.restaurante.ListarRestaurantesResultadoItem;
+import br.com.techchallenge.foodsys.core.domain.usecases.restaurante.DesativarRestauranteComando;
+import br.com.techchallenge.foodsys.core.dtos.restaurante.AtualizarRestauranteComandoDto;
+import br.com.techchallenge.foodsys.core.dtos.restaurante.CriarRestauranteCommandDto;
+import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
+import br.com.techchallenge.foodsys.core.queries.params.ListarRestaurantesParams;
+import br.com.techchallenge.foodsys.core.queries.resultadoItem.restaurante.ListarRestaurantesResultadoItem;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;

@@ -13,6 +13,9 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import br.com.techchallenge.foodsys.core.domain.entities.UsuarioTipo;
+import br.com.techchallenge.foodsys.core.enums.TipoUsuario;
+import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
 import br.com.techchallenge.foodsys.core.shared.CompartilhadoService;
 import br.com.techchallenge.foodsys.core.utils.ValidarUsuarioDono;
 import br.com.techchallenge.foodsys.core.utils.ValidarUsuarioExistente;

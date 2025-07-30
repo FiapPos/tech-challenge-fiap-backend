@@ -1,8 +1,8 @@
-package br.com.techchallenge.foodsys.utils.doc;
+package br.com.techchallenge.foodsys.core.utils.doc;
 
-import br.com.techchallenge.foodsys.comandos.login.dto.AtualizaCredenciaisComandoDto;
-import br.com.techchallenge.foodsys.comandos.login.dto.CredenciaisUsuarioDto;
-import br.com.techchallenge.foodsys.excpetion.BadRequestException;
+import br.com.techchallenge.foodsys.core.dtos.login.AtualizaCredenciaisComandoDto;
+import br.com.techchallenge.foodsys.core.dtos.login.CredenciaisUsuarioDto;
+import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

@@ -1,15 +1,15 @@
 package br.com.techchallenge.foodsys.infrastructure.api.controllers;
 
-import br.com.techchallenge.foodsys.core.dtos.endereco.DeletarEnderecoComandoDto;
+import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
-import br.com.techchallenge.foodsys.core.domain.usecases.endereco.AtualizarEnderecoComando;
 import br.com.techchallenge.foodsys.core.domain.usecases.endereco.CriarEnderecoCommand;
 import br.com.techchallenge.foodsys.core.domain.usecases.endereco.DeletarEnderecoComando;
 import br.com.techchallenge.foodsys.core.dtos.endereco.CriarEnderecoComandoDto;
-import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
+import br.com.techchallenge.foodsys.core.dtos.endereco.DeletarEnderecoComandoDto;
 import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
 import br.com.techchallenge.foodsys.core.queries.endereco.ListarEnderecoPorIdUsuario;
-import br.com.techchallenge.foodsys.core.utils.AutorizacaoService;
+import br.com.techchallenge.foodsys.core.queries.resultadoItem.endereco.ListarEnderecoPorIdUsuarioResultadoItem;
+import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -21,20 +21,17 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
 class EnderecoControllerTest {
     @Mock
     private CriarEnderecoCommand criarEnderecoCommand;
     @Mock
-    private AtualizarEnderecoComando atualizarEnderecoComando;
-    @Mock
     private DeletarEnderecoComando deletarEnderecoComando;
     @Mock
     private ListarEnderecoPorIdUsuario listarEnderecoPorIdUsuario;
-    @Mock
-    private AutorizacaoService autorizacaoService;
     @Mock
     private EnderecoRepository enderecoRepository;
     @Mock

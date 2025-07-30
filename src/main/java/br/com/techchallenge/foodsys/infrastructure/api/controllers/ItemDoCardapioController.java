@@ -1,7 +1,9 @@
 package br.com.techchallenge.foodsys.infrastructure.api.controllers;
+
 import br.com.techchallenge.foodsys.core.domain.usecases.cardapio.*;
 import br.com.techchallenge.foodsys.core.dtos.cardapio.ItemDoCardapioRequestDTO;
 import br.com.techchallenge.foodsys.core.dtos.cardapio.ItemDoCardapioResponseDTO;
+import br.com.techchallenge.foodsys.core.utils.doc.ItemDoCardapioControllerDoc;
 import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -58,7 +60,7 @@ public class ItemDoCardapioController implements ItemDoCardapioControllerDoc {
 
     @GetMapping
     public ResponseEntity<List<ItemDoCardapioResponseDTO>> listarTodos(@PathVariable Long restauranteId) {
-        validadorPermissoes.validarVisualizacao(); // Listagem não precisa validação específica
+        validadorPermissoes.validarVisualizacao();
         List<ItemDoCardapioResponseDTO> itens = listarItemDoCardapioHandler.executarPorRestaurante(restauranteId);
         return ResponseEntity.ok(itens);
     }
@@ -68,7 +70,7 @@ public class ItemDoCardapioController implements ItemDoCardapioControllerDoc {
             @PathVariable Long restauranteId,
             @PathVariable Long itemId) {
 
-        validadorPermissoes.validarVisualizacao(); // Visualização não precisa validação específica
+        validadorPermissoes.validarVisualizacao();
         ItemDoCardapioResponseDTO item = buscarItemDoCardapioPorIdHandler.executar(restauranteId, itemId);
         return ResponseEntity.ok(item);
     }

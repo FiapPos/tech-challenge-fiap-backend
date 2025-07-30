@@ -1,6 +1,7 @@
 package br.com.techchallenge.foodsys.core.domain.usecases.login;
 
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.dtos.login.AtualizaCredenciaisComandoDto;
 import br.com.techchallenge.foodsys.core.gateways.UsuarioRepository;
 import br.com.techchallenge.foodsys.core.shared.UsuarioLogado;
 import org.junit.jupiter.api.BeforeEach;

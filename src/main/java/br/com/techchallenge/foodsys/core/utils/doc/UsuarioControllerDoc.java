@@ -1,11 +1,11 @@
-package br.com.techchallenge.foodsys.utils.doc;
+package br.com.techchallenge.foodsys.core.utils.doc;
 
-import br.com.techchallenge.foodsys.comandos.usuario.DesativarUsuarioComando;
-import br.com.techchallenge.foodsys.comandos.usuario.dtos.AtualizarUsuarioComandoDto;
-import br.com.techchallenge.foodsys.comandos.usuario.dtos.CriarUsuarioCommandDto;
-import br.com.techchallenge.foodsys.excpetion.BadRequestException;
-import br.com.techchallenge.foodsys.query.params.ListarUsuariosParams;
-import br.com.techchallenge.foodsys.query.resultadoItem.ListarUsuariosResultadoItem;
+import br.com.techchallenge.foodsys.core.domain.usecases.usuario.DesativarUsuarioComando;
+import br.com.techchallenge.foodsys.core.dtos.usuario.AtualizarUsuarioComandoDto;
+import br.com.techchallenge.foodsys.core.dtos.usuario.CriarUsuarioCommandDto;
+import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
+import br.com.techchallenge.foodsys.core.queries.params.ListarUsuariosParams;
+import br.com.techchallenge.foodsys.core.queries.resultadoItem.ListarUsuariosResultadoItem;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

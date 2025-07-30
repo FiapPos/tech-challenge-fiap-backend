@@ -9,6 +9,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
+import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
 import br.com.techchallenge.foodsys.core.utils.ValidarCepRestauranteDuplicado;
 import br.com.techchallenge.foodsys.core.utils.ValidarEnderecoExistente;
 import br.com.techchallenge.foodsys.core.utils.ValidarProprietarioRestaurante;

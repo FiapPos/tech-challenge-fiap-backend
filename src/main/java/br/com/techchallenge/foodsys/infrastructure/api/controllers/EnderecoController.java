@@ -1,27 +1,25 @@
 package br.com.techchallenge.foodsys.infrastructure.api.controllers;
+
+import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
 import br.com.techchallenge.foodsys.core.domain.usecases.endereco.AtualizarEnderecoComando;
 import br.com.techchallenge.foodsys.core.domain.usecases.endereco.CriarEnderecoCommand;
 import br.com.techchallenge.foodsys.core.domain.usecases.endereco.DeletarEnderecoComando;
 import br.com.techchallenge.foodsys.core.dtos.endereco.AtualizarEnderecoComandoDto;
 import br.com.techchallenge.foodsys.core.dtos.endereco.CriarEnderecoComandoDto;
-import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
 import br.com.techchallenge.foodsys.core.dtos.endereco.DeletarEnderecoComandoDto;
 import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
 import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
 import br.com.techchallenge.foodsys.core.queries.endereco.ListarEnderecoPorIdUsuario;
 import br.com.techchallenge.foodsys.core.queries.resultadoItem.endereco.ListarEnderecoPorIdUsuarioResultadoItem;
 import br.com.techchallenge.foodsys.core.utils.AutorizacaoService;
+import br.com.techchallenge.foodsys.core.utils.doc.EnderecoControllerDoc;
 import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
