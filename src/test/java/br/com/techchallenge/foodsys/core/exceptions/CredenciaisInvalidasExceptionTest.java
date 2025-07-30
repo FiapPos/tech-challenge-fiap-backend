@@ -8,6 +8,6 @@ class CredenciaisInvalidasExceptionTest {
     @Test
     void deveRetornarMensagemPadrao() {
         CredenciaisInvalidasException exception = new CredenciaisInvalidasException();
-        assertEquals("Usuário ou senha inválidos.", exception.getMessage());
+        assertEquals("Usuário, senha ou tipo inválidos.", exception.getMessage());
     }
 } 

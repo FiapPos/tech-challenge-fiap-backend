@@ -46,10 +46,15 @@ class LoginIntegrationTest {
         usuario.setEmail("joao@email.com");
         usuario.setLogin("joao123");
         usuario.setSenha(passwordEncoder.encode("senha123"));
-        usuario.setTipo(TipoUsuario.CLIENTE);
+
+        UsuarioTipo usuarioTipo = new UsuarioTipo();
+        usuarioTipo.setUsuario(usuario);
+        usuarioTipo.setTipo(TipoUsuario.CLIENTE);
+        usuario.getUsuarioTipos().add(usuarioTipo);
+
         usuarioRepository.save(usuario);
 
-        CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("joao123", "senha123");
+        CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("joao123", "senha123", TipoUsuario.CLIENTE);
 
         given()
             .contentType(ContentType.JSON)
@@ -63,7 +68,7 @@ class LoginIntegrationTest {
 
     @Test
     void deveRetornarErroComCredenciaisInvalidas() throws Exception {
-        CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("usuario_inexistente", "senha_incorreta");
+        CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("usuario_inexistente", "senha_incorreta", TipoUsuario.CLIENTE);
 
         given()
             .contentType(ContentType.JSON)
@@ -81,10 +86,15 @@ class LoginIntegrationTest {
         usuario.setEmail("joao@email.com");
         usuario.setLogin("joao123");
         usuario.setSenha(passwordEncoder.encode("senha123"));
-        usuario.setTipo(TipoUsuario.CLIENTE);
+
+        UsuarioTipo usuarioTipo = new UsuarioTipo();
+        usuarioTipo.setUsuario(usuario);
+        usuarioTipo.setTipo(TipoUsuario.CLIENTE);
+        usuario.getUsuarioTipos().add(usuarioTipo);
+
         usuarioRepository.save(usuario);
 
-        CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("joao123", "senha_incorreta");
+        CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("joao123", "senha_incorreta", TipoUsuario.CLIENTE);
 
         given()
             .contentType(ContentType.JSON)
@@ -97,7 +107,7 @@ class LoginIntegrationTest {
 
     @Test
     void deveRetornarErroComDadosInvalidos() throws Exception {
-        CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("joao123", "");
+        CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("joao123", "", TipoUsuario.CLIENTE);
 
         given()
             .contentType(ContentType.JSON)
@@ -110,17 +120,21 @@ class LoginIntegrationTest {
 
     @Test
     void deveAtualizarSenhaComSucesso() throws Exception {
-        // Criar usuário
         Usuario usuario = new Usuario();
         usuario.setId(1L);
         usuario.setNome("João Silva");
         usuario.setEmail("joao@email.com");
         usuario.setLogin("joao123");
         usuario.setSenha(passwordEncoder.encode("senha123"));
-        usuario.setTipo(TipoUsuario.CLIENTE);
+
+        UsuarioTipo usuarioTipo = new UsuarioTipo();
+        usuarioTipo.setUsuario(usuario);
+        usuarioTipo.setTipo(TipoUsuario.CLIENTE);
+        usuario.getUsuarioTipos().add(usuarioTipo);
+
         usuarioRepository.save(usuario);
 
-        CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("joao123", "senha123");
+        CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("joao123", "senha123", TipoUsuario.CLIENTE);
         String token = given()
             .contentType(ContentType.JSON)
             .body(objectMapper.writeValueAsString(credentials))
@@ -149,10 +163,15 @@ class LoginIntegrationTest {
         usuario.setEmail("joao@email.com");
         usuario.setLogin("joao123");
         usuario.setSenha(passwordEncoder.encode("senha123"));
-        usuario.setTipo(TipoUsuario.CLIENTE);
+
+        UsuarioTipo usuarioTipo = new UsuarioTipo();
+        usuarioTipo.setUsuario(usuario);
+        usuarioTipo.setTipo(TipoUsuario.CLIENTE);
+        usuario.getUsuarioTipos().add(usuarioTipo);
+
         usuarioRepository.save(usuario);
 
-        CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("joao123", "senha123");
+        CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("joao123", "senha123", TipoUsuario.CLIENTE);
         String token = given()
             .contentType(ContentType.JSON)
             .body(objectMapper.writeValueAsString(credentials))
@@ -183,4 +202,4 @@ class LoginIntegrationTest {
         .then()
             .statusCode(401);
     }
-} 
+}

@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -42,25 +43,26 @@ class LoginControllerTest {
     }
 
     @Test
-    void deveFazerLoginComSucesso() {
-        CredenciaisUsuarioDto credenciais = new CredenciaisUsuarioDto("usuario1", "senha123");
+    void deveFazerLoginComSucesso() throws Exception {
+        CredenciaisUsuarioDto credenciais = new CredenciaisUsuarioDto("usuario1", "senha123", null);
         Usuario usuario = new Usuario();
         usuario.setLogin("usuario1");
         String token = "jwtToken";
 
         when(bindingResult.hasErrors()).thenReturn(false);
         when(autenticaLoginComando.login(credenciais)).thenReturn(usuario);
-        when(autenticaJwtComando.createToken(usuario)).thenReturn(token);
+        when(autenticaJwtComando.createToken(usuario, null)).thenReturn(token);
 
         ResponseEntity<Map<String, String>> response = loginController.login(credenciais, bindingResult);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
         assertEquals(token, response.getBody().get("token"));
     }
 
     @Test
-    void deveRetornarErroQuandoCredenciaisInvalidas() {
-        CredenciaisUsuarioDto credenciais = new CredenciaisUsuarioDto("usuario1", "senha123");
+    void deveRetornarErroQuandoCredenciaisInvalidas() throws Exception {
+        CredenciaisUsuarioDto credenciais = new CredenciaisUsuarioDto("usuario1", "senha123", null);
 
         when(bindingResult.hasErrors()).thenReturn(true);
         when(bindingResult.getFieldErrors()).thenReturn(java.util.List.of(
@@ -68,7 +70,8 @@ class LoginControllerTest {
 
         ResponseEntity<Map<String, String>> response = loginController.login(credenciais, bindingResult);
 
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertNotNull(response.getBody());
         assertEquals("Login é obrigatório", response.getBody().get("login"));
     }
 
@@ -81,7 +84,7 @@ class LoginControllerTest {
 
         ResponseEntity<Map<String, String>> response = loginController.atualizaSenha(dto, bindingResult);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         verify(atualizaCredenciaisComando).execute(dto);
     }
 
@@ -95,7 +98,8 @@ class LoginControllerTest {
 
         ResponseEntity<Map<String, String>> response = loginController.atualizaSenha(dto, bindingResult);
 
-        assertEquals(400, response.getStatusCodeValue());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertNotNull(response.getBody());
         assertEquals("Senhas não conferem", response.getBody().get("confirmacaoSenha"));
     }
 
@@ -109,22 +113,23 @@ class LoginControllerTest {
     }
 
     @Test
-    void deveRetornarTokenQuandoLoginBemSucedido() {
-        CredenciaisUsuarioDto credenciais = new CredenciaisUsuarioDto("usuario1", "senha123");
+    void deveRetornarTokenQuandoLoginBemSucedido() throws Exception {
+        CredenciaisUsuarioDto credenciais = new CredenciaisUsuarioDto("usuario1", "senha123", null);
         Usuario usuario = new Usuario();
         usuario.setLogin("usuario1");
         String token = "jwtToken";
 
         when(bindingResult.hasErrors()).thenReturn(false);
         when(autenticaLoginComando.login(credenciais)).thenReturn(usuario);
-        when(autenticaJwtComando.createToken(usuario)).thenReturn(token);
+        when(autenticaJwtComando.createToken(usuario, null)).thenReturn(token);
 
         ResponseEntity<Map<String, String>> response = loginController.login(credenciais, bindingResult);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
         assertEquals(token, response.getBody().get("token"));
         verify(autenticaLoginComando).login(credenciais);
-        verify(autenticaJwtComando).createToken(usuario);
+        verify(autenticaJwtComando).createToken(usuario, null);
     }
 
     @Test
@@ -136,8 +141,7 @@ class LoginControllerTest {
 
         ResponseEntity<Map<String, String>> response = loginController.atualizaSenha(dto, bindingResult);
 
-        assertEquals(200, response.getStatusCodeValue());
-        assertNull(response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         verify(atualizaCredenciaisComando).execute(dto);
     }
 }

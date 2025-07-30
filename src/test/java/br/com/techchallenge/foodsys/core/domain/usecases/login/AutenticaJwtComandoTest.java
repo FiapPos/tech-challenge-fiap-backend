@@ -27,7 +27,7 @@ class AutenticaJwtComandoTest {
         Usuario usuario = new Usuario();
         usuario.setLogin("usuario1");
 
-        String token = autenticaJwtComando.createToken(usuario);
+        String token = autenticaJwtComando.createToken(usuario, TipoUsuario.CLIENTE);
         assertNotNull(token);
         assertFalse(token.isEmpty());
     }
@@ -37,7 +37,7 @@ class AutenticaJwtComandoTest {
         String login = "usuario1";
         Usuario usuario = new Usuario();
         usuario.setLogin(login);
-        String token = autenticaJwtComando.createToken(usuario);
+        String token = autenticaJwtComando.createToken(usuario, TipoUsuario.CLIENTE);
 
         String loginExtraido = autenticaJwtComando.getLogin(token);
         assertEquals(login, loginExtraido);
@@ -50,11 +50,11 @@ class AutenticaJwtComandoTest {
         Usuario usuario2 = new Usuario();
         usuario2.setLogin("usuario2");
 
-        String token1 = autenticaJwtComando.createToken(usuario1);
-        String token2 = autenticaJwtComando.createToken(usuario2);
+        String token1 = autenticaJwtComando.createToken(usuario1, TipoUsuario.CLIENTE);
+        String token2 = autenticaJwtComando.createToken(usuario2, TipoUsuario.FUNCIONARIO);
 
         assertNotEquals(token1, token2);
         assertEquals("usuario1", autenticaJwtComando.getLogin(token1));
         assertEquals("usuario2", autenticaJwtComando.getLogin(token2));
     }
-} 
+}

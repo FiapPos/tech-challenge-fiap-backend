@@ -52,7 +52,7 @@ class GlobalExceptionHandlerTest {
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
         assertInstanceOf(Map.class, response.getBody());
         Map<?,?> body = (Map<?,?>) response.getBody();
-        assertEquals("Usuário ou senha inválidos.", body.get("erro"));
+        assertEquals("Usuário, senha ou tipo inválidos.", body.get("erro"));
     }
 
     @Test

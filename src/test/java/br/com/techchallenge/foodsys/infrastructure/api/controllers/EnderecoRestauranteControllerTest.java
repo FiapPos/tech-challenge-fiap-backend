@@ -42,6 +42,8 @@ class EnderecoRestauranteControllerTest {
     private AutorizacaoService autorizacaoService;
     @Mock
     private EnderecoRepository enderecoRepository;
+    @Mock
+    private ValidadorPermissoes validadorPermissoes;
     @InjectMocks
     private EnderecoRestauranteController enderecoController;
 
@@ -63,8 +65,6 @@ class EnderecoRestauranteControllerTest {
 
         when(autorizacaoService.getUsuarioLogado()).thenReturn(usuario);
 
-        doNothing().when(autorizacaoService).validarAcessoUsuario(usuario.getId());
-
         Endereco endereco = new Endereco();
         endereco.setId(1L);
 
@@ -73,13 +73,12 @@ class EnderecoRestauranteControllerTest {
         ResponseEntity<Void> response = enderecoController.criar(dto);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        verify(autorizacaoService).validarAcessoUsuario(usuario.getId());
+        verify(autorizacaoService).getUsuarioLogado();
         verify(criarEnderecoCommand).execute(usuario.getId(), dto);
     }
 
     @Test
     void deveAtualizarEnderecoComSucesso() {
-
         Long enderecoId = 1L;
         AtualizarEnderecoRestauranteComandoDto dto = new AtualizarEnderecoRestauranteComandoDto();
         dto.setRua("Rua Atualizada");
@@ -95,13 +94,12 @@ class EnderecoRestauranteControllerTest {
 
         when(autorizacaoService.getUsuarioLogado()).thenReturn(usuario);
         when(enderecoRepository.findById(enderecoId)).thenReturn(Optional.of(endereco));
-        doNothing().when(autorizacaoService).validarAcessoUsuario(usuario.getId());
         when(atualizarEnderecoComando.execute(enderecoId, dto, usuario.getId())).thenReturn(endereco);
 
         ResponseEntity<Void> response = enderecoController.atualizar(enderecoId, dto);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        verify(autorizacaoService).validarAcessoUsuario(usuario.getId());
+        verify(autorizacaoService).getUsuarioLogado();
         verify(atualizarEnderecoComando).execute(enderecoId, dto, usuario.getId());
     }
 
@@ -120,14 +118,12 @@ class EnderecoRestauranteControllerTest {
         endereco.setUsuario(usuario);
 
         when(enderecoRepository.findById(dto.getEnderecoId())).thenReturn(Optional.of(endereco));
-
-        doNothing().when(autorizacaoService).validarAcessoUsuario(usuario.getId());
         doNothing().when(deletarEnderecoComando).execute(usuario.getId(), dto);
 
         ResponseEntity<Void> response = enderecoController.deletar(dto);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        verify(autorizacaoService).validarAcessoUsuario(usuario.getId());
+        verify(autorizacaoService).getUsuarioLogado();
         verify(deletarEnderecoComando).execute(usuario.getId(), dto);
         verify(enderecoRepository).findById(dto.getEnderecoId());
     }
@@ -137,7 +133,7 @@ class EnderecoRestauranteControllerTest {
         Usuario usuario = new Usuario();
         usuario.setId(1L);
 
-        doNothing().when(autorizacaoService).validarAcessoUsuario(usuario.getId());
+        doNothing().when(validadorPermissoes).validarVisualizacao();
         when(autorizacaoService.getUsuarioLogado()).thenReturn(usuario);
 
         ListarEnderecoPorRestauranteResultadoItem item = ListarEnderecoPorRestauranteResultadoItem.builder()
@@ -153,7 +149,8 @@ class EnderecoRestauranteControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(resultado, response.getBody());
-        verify(autorizacaoService).validarAcessoUsuario(usuario.getId());
+        verify(validadorPermissoes).validarVisualizacao();
+        verify(autorizacaoService).getUsuarioLogado();
         verify(listarEnderecosQuery).execute(any());
     }
 
@@ -161,8 +158,7 @@ class EnderecoRestauranteControllerTest {
     void deveRetornarNoContentQuandoListaVazia() {
         Usuario usuario = new Usuario();
         usuario.setId(1L);
-
-        doNothing().when(autorizacaoService).validarAcessoUsuario(usuario.getId());
+        doNothing().when(validadorPermissoes).validarVisualizacao();
         when(autorizacaoService.getUsuarioLogado()).thenReturn(usuario);
 
         ListarEnderecosParams params = new ListarEnderecosParams(usuario.getId(), null);
@@ -173,8 +169,9 @@ class EnderecoRestauranteControllerTest {
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         assertNull(response.getBody());
-        verify(autorizacaoService).validarAcessoUsuario(usuario.getId());
-        verify(listarEnderecosQuery).execute(params);
+        verify(validadorPermissoes).validarVisualizacao();
+        verify(autorizacaoService).getUsuarioLogado();
+        verify(listarEnderecosQuery).execute(any(ListarEnderecosParams.class));
     }
 
 }

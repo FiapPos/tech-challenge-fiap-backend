@@ -14,7 +14,11 @@ public class ValidarUsuarioDonoTest {
     void deveLancarExcecaoQuandoUsuarioNaoForDono() {
         Usuario usuario = new Usuario();
         usuario.setId(1L);
-        usuario.setTipo(TipoUsuario.CLIENTE);
+
+        UsuarioTipo usuarioTipo = new UsuarioTipo();
+        usuarioTipo.setUsuario(usuario);
+        usuarioTipo.setTipo(TipoUsuario.CLIENTE);
+        usuario.getUsuarioTipos().add(usuarioTipo);
 
         ValidarUsuarioDono validador = new ValidarUsuarioDono();
 
@@ -27,7 +31,11 @@ public class ValidarUsuarioDonoTest {
     void naoDeveLancarExcecaoQuandoUsuarioDono() {
         Usuario usuario = new Usuario();
         usuario.setId(2L);
-        usuario.setTipo(TipoUsuario.ADMIN);
+
+        UsuarioTipo usuarioTipoDono = new UsuarioTipo();
+        usuarioTipoDono.setUsuario(usuario);
+        usuarioTipoDono.setTipo(TipoUsuario.DONO_RESTAURANTE);
+        usuario.getUsuarioTipos().add(usuarioTipoDono);
 
         ValidarUsuarioDono validador = new ValidarUsuarioDono();
         assertDoesNotThrow(() -> validador.validarUsuarioDono(usuario));

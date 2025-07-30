@@ -40,6 +40,8 @@ public class RestauranteControllerTest {
     private AutorizacaoService autorizacaoService;
     @Mock
     private ListarRestaurantesQuery listarRestaurantesQuery;
+    @Mock
+    private ValidadorPermissoes validadorPermissoes;
 
     @InjectMocks
     private RestauranteController restauranteController;
@@ -71,7 +73,8 @@ public class RestauranteControllerTest {
         ResponseEntity<Void> response = restauranteController.criar(dto);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        verify(autorizacaoService).validarAcessoUsuario(usuario.getId());
+        verify(validadorPermissoes, times(1)).validarGerenciamentoRestaurante();
+        verify(autorizacaoService, times(1)).getUsuarioLogado();
         verify(criarRestauranteCommand, times(1)).execute(dto, usuario);
     }
 
@@ -87,7 +90,8 @@ public class RestauranteControllerTest {
         ResponseEntity<Void> response = restauranteController.desativarRestaurante(restauranteId);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        verify(autorizacaoService).validarAcessoUsuario(usuario.getId());
+        verify(validadorPermissoes, times(1)).validarGerenciamentoRestaurante(restauranteId);
+        verify(autorizacaoService, times(1)).getUsuarioLogado();
         verify(desativarRestauranteComando, times(1)).execute(restauranteId);
     }
 
@@ -109,7 +113,8 @@ public class RestauranteControllerTest {
         ResponseEntity<Void> response = restauranteController.atualizar(restauranteId, dto);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        verify(autorizacaoService).validarAcessoUsuario(usuario.getId());
+        verify(validadorPermissoes, times(1)).validarGerenciamentoRestaurante(restauranteId);
+        verify(autorizacaoService, times(1)).getUsuarioLogado();
         verify(atualizarRestauranteComando, times(1)).execute(restauranteId, dto, usuario);
     }
 
@@ -125,6 +130,7 @@ public class RestauranteControllerTest {
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(resultado, response.getBody());
+        verify(validadorPermissoes, times(1)).validarVisualizacao();
         verify(listarRestaurantesQuery, times(1)).execute(params);
 
     }
@@ -140,6 +146,7 @@ public class RestauranteControllerTest {
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         assertNull(response.getBody());
+        verify(validadorPermissoes, times(1)).validarVisualizacao();
         verify(listarRestaurantesQuery, times(1)).execute(params);
     }
 }

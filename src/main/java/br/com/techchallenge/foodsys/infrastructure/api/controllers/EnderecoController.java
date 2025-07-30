@@ -24,15 +24,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
-@Tag(name = "Endereços",
-        description = "Contém todas as operações relativas aos recursos para cadastro, edição e leitura de um endereço"
-)
-
-
 @RestController
 @RequestMapping("/enderecos")
 @RequiredArgsConstructor
-public class EnderecoController {
+public class EnderecoController implements EnderecoControllerDoc {
 
     private final CriarEnderecoCommand criarEnderecoCommand;
     private final AtualizarEnderecoComando atualizarEnderecoComando;
@@ -42,24 +37,6 @@ public class EnderecoController {
     private final EnderecoRepository enderecoRepository;
     private final ValidadorPermissoes validadorPermissoes;
 
-    @Operation(summary = "Criar um novo endereço.",
-            description = "Recurso para criar um novo endereço.",
-
-            responses = {
-                    @ApiResponse(responseCode = "201", description = "Recurso criado com sucesso.",
-                            content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = CriarEnderecoComandoDto.class))),
-
-
-                    @ApiResponse(responseCode = "409", description = "Endereço já existente.",
-                            content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = BadRequestException.class))),
-
-                    @ApiResponse(responseCode = "422", description = "Recurso não processado por dados de entrada inválidos.",
-                            content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = BadRequestException.class)))
-            })
-
     @PostMapping
     public ResponseEntity<Void> criar(@RequestBody @Valid CriarEnderecoComandoDto dto) {
         validadorPermissoes.validarGerenciamentoDadosProprios(dto.getUsuarioId());
@@ -67,20 +44,6 @@ public class EnderecoController {
         criarEnderecoCommand.execute(dto.getUsuarioId(), dto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-
-    @Operation(
-            summary = "Atualizar endereço do Usuário.",
-            description = "Recurso para atualizar o endereço de um usuário.",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200", description = "Recurso atualizado com sucesso.",
-                            content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = AtualizarEnderecoComandoDto.class))),
-
-                    @ApiResponse(responseCode = "422", description = "Recurso não atualizado por dados de entrada inválidos.",
-                            content = @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = BadRequestException.class)))
-            })
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody @Valid AtualizarEnderecoComandoDto dto) {
@@ -91,18 +54,6 @@ public class EnderecoController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "Deletar um endereço.",
-            description = "Recurso para deletar um endereço.",
-
-            responses = {
-            @ApiResponse(responseCode = "200", description = "Recurso deleteado com sucesso.",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema (implementation = DeletarEnderecoComandoDto.class))),
-
-            @ApiResponse(responseCode = "422", description = "Recurso não pode ser deletado por dadados de entradas inválidos.",
-                    content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = BadRequestException.class)))
-            })
     @DeleteMapping
     public ResponseEntity<Void> deletar(@RequestBody DeletarEnderecoComandoDto dto) {
         Endereco endereco = enderecoRepository.findById(dto.getEnderecoId())
@@ -113,18 +64,6 @@ public class EnderecoController {
         return ResponseEntity.ok().build();
     }
 
-    @Operation(summary = "Listar endereço por ID.",
-            description = "Recurso para listar endereço do usuário por ID.",
-
-            responses = {
-            @ApiResponse(responseCode = "200", description = "Recurso listado com sucesso.",
-            content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ListarEnderecoPorIdUsuario.class))),
-
-            @ApiResponse(responseCode = "422", description = "Recurso não processado por dados de entrada inválidos.",
-            content = @Content(mediaType = "application/json",
-            schema = @Schema(implementation = BadRequestException.class)))
-            })
 
     @GetMapping("/usuario/{id}")
     public ResponseEntity<List<ListarEnderecoPorIdUsuarioResultadoItem>> listarPorUsuario(@PathVariable Long id) {

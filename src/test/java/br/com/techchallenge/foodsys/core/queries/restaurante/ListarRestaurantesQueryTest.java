@@ -28,6 +28,21 @@ public class ListarRestaurantesQueryTest {
     @Mock
     private ListarRestaurantesQuery listarRestaurantesQuery;
 
+    @Mock
+    private CriarRestauranteCommand criarRestauranteCommand;
+
+    @Mock
+    private DesativarRestauranteComando desativarRestauranteComando;
+
+    @Mock
+    private AtualizarRestauranteComando atualizarRestauranteComando;
+
+    @Mock
+    private AutorizacaoService autorizacaoService;
+
+    @Mock
+    private ValidadorPermissoes validadorPermissoes;
+
     @InjectMocks
     private RestauranteController restauranteController;
 

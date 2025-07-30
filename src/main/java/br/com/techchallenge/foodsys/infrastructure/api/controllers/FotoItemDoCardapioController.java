@@ -9,7 +9,7 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/itens/{itemId}/foto")
-public class FotoItemDoCardapioController {
+public class FotoItemDoCardapioController implements FotoItemDoCardapioControllerDoc {
 
     private final FotoItemDoCardapioHandler fotoItemDoCardapioHandler;
     private final ValidadorPermissoes validadorPermissoes;

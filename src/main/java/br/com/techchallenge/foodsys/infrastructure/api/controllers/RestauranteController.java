@@ -36,12 +36,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-@Tag(name = "Restaurantes", description = "Contém todas as operações relativas ao cadastro, atualização, exclusão e consulta de um restaurante")
-
 @RestController
 @RequestMapping("/restaurante")
 @RequiredArgsConstructor
-public class RestauranteController {
+public class RestauranteController implements RestauranteControllerDoc {
 
         private final CriarRestauranteCommand criarRestauranteCommand;
         private final DesativarRestauranteComando desativarRestauranteComando;
@@ -51,12 +49,6 @@ public class RestauranteController {
         private final ValidadorPermissoes validadorPermissoes;
 
         @PostMapping
-        @Operation(summary = "Criar um novo restaurante.", description = "Endpoint de criação um novo restaurante.", responses = {
-                        @ApiResponse(responseCode = "201", description = "Restaurante criado com sucesso.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CriarRestauranteCommandDto.class))),
-                        @ApiResponse(responseCode = "400", description = "Nome é obrigatório.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestException.class))),
-                        @ApiResponse(responseCode = "403", description = "Acesso não autorizado.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestException.class)))
-        })
-
         public ResponseEntity<Void> criar(@RequestBody @Valid CriarRestauranteCommandDto dto) {
                 validadorPermissoes.validarGerenciamentoRestaurante(); // Criação não precisa de ID específico
                 Usuario usuario = autorizacaoService.getUsuarioLogado();
@@ -65,14 +57,6 @@ public class RestauranteController {
         }
 
         @GetMapping
-        @Operation(summary = "Listar todos os restaurantes.", description = "Endpoint de consulta dos restaurantes.", parameters = {
-                        @Parameter(name = "ativo", description = "Filtrar por restaurantes ativos (true/false).", in = ParameterIn.QUERY, schema = @Schema(type = "boolean")),
-                        @Parameter(name = "tipoCozinha", description = "Filtrar por tipo de cozinha.", in = ParameterIn.QUERY, schema = @Schema(type = "string"))
-        }, responses = {
-                        @ApiResponse(responseCode = "200", description = "Restaurantes listados com sucesso.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ListarRestaurantesResultadoItem.class))),
-                        @ApiResponse(responseCode = "400", description = "Nenhum restaurante encontrado.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestException.class)))
-        })
-
         public ResponseEntity<List<ListarRestaurantesResultadoItem>> listarRestaurantes(
                         @ModelAttribute ListarRestaurantesParams params) {
                 validadorPermissoes.validarVisualizacao(); // Listagem geral não precisa validação específica
@@ -84,11 +68,6 @@ public class RestauranteController {
         }
 
         @DeleteMapping("/{id}")
-        @Operation(summary = "Desativar o restaurante.", description = "Desdativa um restaurante existente.", responses = {
-                        @ApiResponse(responseCode = "200", description = "Restaurante desativado com sucesso.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = DesativarRestauranteComando.class))),
-                        @ApiResponse(responseCode = "400", description = "Restaurante nao encontrado.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestException.class)))
-        })
-
         public ResponseEntity<Void> desativarRestaurante(@PathVariable Long id) {
                 validadorPermissoes.validarGerenciamentoRestaurante(id); // Validar acesso ao restaurante específico
                 Usuario usuario = autorizacaoService.getUsuarioLogado();
@@ -97,12 +76,6 @@ public class RestauranteController {
         }
 
         @PutMapping("/{id}")
-        @Operation(summary = "Atualizar dados do Restaurante.", description = "Endpoint de atualização dos dados do restaurante.", responses = {
-                        @ApiResponse(responseCode = "200", description = "Dados atualizados com sucesso.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = AtualizarRestauranteComandoDto.class))),
-
-                        @ApiResponse(responseCode = "400", description = "Restaurante não encontrado.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BadRequestException.class)))
-        })
-
         public ResponseEntity<Void> atualizar(@PathVariable Long id,
                         @RequestBody @Valid AtualizarRestauranteComandoDto dto) {
                 validadorPermissoes.validarGerenciamentoRestaurante(id); // Validar acesso ao restaurante específico

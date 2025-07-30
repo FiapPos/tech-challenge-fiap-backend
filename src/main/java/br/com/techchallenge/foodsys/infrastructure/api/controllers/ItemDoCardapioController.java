@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/itens")
-public class ItemDoCardapioController {
+public class ItemDoCardapioController implements ItemDoCardapioControllerDoc {
 
     private final CriarItemDoCardapioHandler criarItemDoCardapioHandler;
     private final ListarItemDoCardapioHandler listarItemDoCardapioHandler;

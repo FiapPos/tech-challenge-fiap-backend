@@ -67,6 +67,12 @@ class EnderecoRestauranteIntegrationTest {
         usuario.setEmail("joao@email.com");
         usuario.setLogin("joao123");
         usuario.setSenha(passwordEncoder.encode("senha123"));
+
+        UsuarioTipo usuarioTipo = new UsuarioTipo();
+        usuarioTipo.setUsuario(usuario);
+        usuarioTipo.setTipo(TipoUsuario.ADMIN);
+        usuario.getUsuarioTipos().add(usuarioTipo);
+
         usuario = usuarioRepository.save(usuario);
 
         CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("joao123", "senha123", TipoUsuario.ADMIN);
@@ -189,7 +195,12 @@ class EnderecoRestauranteIntegrationTest {
         outroUsuario.setEmail("maria@email.com");
         outroUsuario.setLogin("maria123");
         outroUsuario.setSenha(passwordEncoder.encode("senha456"));
-        outroUsuario.setTipo(TipoUsuario.CLIENTE);
+
+        UsuarioTipo usuarioTipo = new UsuarioTipo();
+        usuarioTipo.setUsuario(outroUsuario);
+        usuarioTipo.setTipo(TipoUsuario.CLIENTE);
+        outroUsuario.getUsuarioTipos().add(usuarioTipo);
+
         outroUsuario = usuarioRepository.save(outroUsuario);
 
         Restaurante restaurante = new Restaurante();
@@ -228,8 +239,19 @@ class EnderecoRestauranteIntegrationTest {
 
     @Test
     void deveDeletarEnderecoRestauranteComSucesso() throws Exception {
+        Restaurante restaurante = new Restaurante();
+        restaurante.setNome("Restaurante Para Deletar");
+        restaurante.setUsuario(usuario);
+        restaurante.setTipoCozinha("BRASILEIRA");
+        restaurante.setHorarioAbertura("08:00");
+        restaurante.setHorarioFechamento("22:00");
+        restaurante.setAtivo(true);
+        restaurante.setDataCriacao(LocalDateTime.now());
+        restaurante = restauranteRepository.save(restaurante);
+
         Endereco endereco = new Endereco();
         endereco.setUsuario(usuario);
+        endereco.setRestaurante(restaurante);
         endereco.setRua("Rua das Flores");
         endereco.setNumero("123");
         endereco.setCep("01234-567");

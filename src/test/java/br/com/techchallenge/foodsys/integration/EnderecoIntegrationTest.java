@@ -19,8 +19,11 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -57,10 +60,15 @@ class EnderecoIntegrationTest {
         usuario.setEmail("joao@email.com");
         usuario.setLogin("joao123");
         usuario.setSenha(passwordEncoder.encode("senha123"));
-        usuario.setTipo(TipoUsuario.CLIENTE);
+
+        UsuarioTipo usuarioTipo = new UsuarioTipo();
+        usuarioTipo.setUsuario(usuario);
+        usuarioTipo.setTipo(TipoUsuario.CLIENTE);
+        usuario.getUsuarioTipos().add(usuarioTipo);
+
         usuario = usuarioRepository.save(usuario);
 
-        CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("joao123", "senha123");
+        CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("joao123", "senha123", TipoUsuario.CLIENTE);
         token = given()
             .contentType(ContentType.JSON)
             .body(objectMapper.writeValueAsString(credentials))
@@ -177,7 +185,12 @@ class EnderecoIntegrationTest {
         outroUsuario.setEmail("maria@email.com");
         outroUsuario.setLogin("maria123");
         outroUsuario.setSenha(passwordEncoder.encode("senha456"));
-        outroUsuario.setTipo(TipoUsuario.CLIENTE);
+
+        UsuarioTipo usuarioTipo = new UsuarioTipo();
+        usuarioTipo.setUsuario(outroUsuario);
+        usuarioTipo.setTipo(TipoUsuario.CLIENTE);
+        outroUsuario.getUsuarioTipos().add(usuarioTipo);
+
         outroUsuario = usuarioRepository.save(outroUsuario);
 
         Endereco endereco = new Endereco();
@@ -212,9 +225,19 @@ class EnderecoIntegrationTest {
         endereco.setCep("01234-567");
         endereco = enderecoRepository.save(endereco);
 
+        // Verificar se o endereço foi salvo corretamente
+        assertNotNull(endereco.getId(), "Endereço deve ter um ID após ser salvo");
+        assertTrue(enderecoRepository.findById(endereco.getId()).isPresent(), "Endereço deve existir no banco");
+
+        System.out.println("Endereço salvo com ID: " + endereco.getId());
+        System.out.println("Usuario ID: " + usuario.getId());
+
         DeletarEnderecoUsuarioComandoDto dto = new DeletarEnderecoUsuarioComandoDto();
         dto.setEnderecoId(endereco.getId());
         dto.setUsuarioId(usuario.getId());
+
+        System.out.println("DTO - EnderecoId: " + dto.getEnderecoId());
+        System.out.println("DTO - UsuarioId: " + dto.getUsuarioId());
 
         given()
             .header("Authorization", "Bearer " + token)
@@ -305,4 +328,4 @@ class EnderecoIntegrationTest {
         .then()
             .statusCode(401);
     }
-} 
+}
