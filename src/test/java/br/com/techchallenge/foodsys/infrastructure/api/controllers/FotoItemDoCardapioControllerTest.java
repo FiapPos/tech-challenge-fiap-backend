@@ -10,10 +10,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.io.IOException;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class FotoItemDoCardapioControllerTest {
 
@@ -22,7 +23,7 @@ class FotoItemDoCardapioControllerTest {
     private ValidadorPermissoes validadorPermissoes;
 
     @BeforeEach
-    void setUp() {
+    void setUp( ) {
         fotoItemDoCardapioHandler = Mockito.mock(FotoItemDoCardapioHandler.class);
         validadorPermissoes = Mockito.mock(ValidadorPermissoes.class);
         FotoItemDoCardapioController controller = new FotoItemDoCardapioController(fotoItemDoCardapioHandler, validadorPermissoes);
