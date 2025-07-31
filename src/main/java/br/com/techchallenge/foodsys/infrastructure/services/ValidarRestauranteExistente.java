@@ -1,0 +1,26 @@
+package br.com.techchallenge.foodsys.infrastructure.services;
+
+import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
+import org.springframework.stereotype.Service;
+
+import br.com.techchallenge.foodsys.core.gateways.RestauranteRepository;
+import lombok.RequiredArgsConstructor;
+import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
+
+@RequiredArgsConstructor
+@Service
+public class ValidarRestauranteExistente {
+
+    private final RestauranteRepository restauranteRepository;
+
+    public Restaurante execute(Long id) {
+        return restauranteRepository.findById(id)
+                .orElseThrow(() -> new BadRequestException("restaurante.nao.encontrado"));
+    }
+
+    public void validarNomeRestauranteDuplicado(String nome) {
+        if (restauranteRepository.findRestauranteByNome(nome) != null) {
+            throw new BadRequestException("restaurante.duplicado");
+        }
+    }
+} 
