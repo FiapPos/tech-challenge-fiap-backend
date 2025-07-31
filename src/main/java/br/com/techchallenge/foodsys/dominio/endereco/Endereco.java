@@ -44,7 +44,7 @@ public class Endereco {
     private LocalDateTime dataAtualizacao;
 
     @ManyToOne
-    @JoinColumn(name = "restaurante_id", nullable = false)
+    @JoinColumn(name = "restaurante_id")
     private Restaurante restaurante;
 
     @Column(name = "restaurante_id", insertable = false, updatable = false)

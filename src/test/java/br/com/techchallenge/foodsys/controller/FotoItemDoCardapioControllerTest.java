@@ -1,5 +1,6 @@
 package br.com.techchallenge.foodsys.controller;
 import br.com.techchallenge.foodsys.comandos.cardapio.FotoItemDoCardapioHandler;
+import br.com.techchallenge.foodsys.utils.usuario.ValidadorPermissoes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -18,11 +19,13 @@ class FotoItemDoCardapioControllerTest {
 
     private MockMvc mockMvc;
     private FotoItemDoCardapioHandler fotoItemDoCardapioHandler;
+    private ValidadorPermissoes validadorPermissoes;
 
     @BeforeEach
     void setUp() {
         fotoItemDoCardapioHandler = Mockito.mock(FotoItemDoCardapioHandler.class);
-        FotoItemDoCardapioController controller = new FotoItemDoCardapioController(fotoItemDoCardapioHandler);
+        validadorPermissoes = Mockito.mock(ValidadorPermissoes.class);
+        FotoItemDoCardapioController controller = new FotoItemDoCardapioController(fotoItemDoCardapioHandler, validadorPermissoes);
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
@@ -35,9 +38,10 @@ class FotoItemDoCardapioControllerTest {
                 "conteudo".getBytes()
         );
 
+        doNothing().when(validadorPermissoes).validarGerenciamentoCardapio(anyLong());
         doNothing().when(fotoItemDoCardapioHandler).salvarFoto(anyLong(), anyLong(), any());
 
-        mockMvc.perform(multipart("/restaurantes/1/pratos/1/foto")
+        mockMvc.perform(multipart("/restaurantes/1/itens/1/foto")
                         .file(arquivo))
                 .andExpect(status().isCreated())
                 .andExpect(content().string("Foto salva com sucesso!"));
@@ -52,9 +56,10 @@ class FotoItemDoCardapioControllerTest {
                 "conteudo".getBytes()
         );
 
+        doNothing().when(validadorPermissoes).validarGerenciamentoCardapio(anyLong());
         doThrow(IOException.class).when(fotoItemDoCardapioHandler).salvarFoto(anyLong(), anyLong(), any());
 
-        mockMvc.perform(multipart("/restaurantes/1/pratos/1/foto")
+        mockMvc.perform(multipart("/restaurantes/1/itens/1/foto")
                         .file(arquivo))
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().string("Erro ao salvar a foto."));
@@ -69,9 +74,10 @@ class FotoItemDoCardapioControllerTest {
                 "conteudo".getBytes()
         );
 
+        doNothing().when(validadorPermissoes).validarGerenciamentoCardapio(anyLong());
         doThrow(new RuntimeException("Prato não encontrado")).when(fotoItemDoCardapioHandler).salvarFoto(anyLong(), anyLong(), any());
 
-        mockMvc.perform(multipart("/restaurantes/1/pratos/1/foto")
+        mockMvc.perform(multipart("/restaurantes/1/itens/1/foto")
                         .file(arquivo))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("Prato não encontrado"));

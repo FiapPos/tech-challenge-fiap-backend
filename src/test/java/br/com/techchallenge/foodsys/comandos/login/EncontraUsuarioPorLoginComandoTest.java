@@ -2,6 +2,7 @@ package br.com.techchallenge.foodsys.comandos.login;
 
 import br.com.techchallenge.foodsys.comandos.login.dto.DetalhesUsuarioDto;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
+import br.com.techchallenge.foodsys.dominio.usuario.UsuarioTipo;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -31,7 +35,15 @@ class EncontraUsuarioPorLoginComandoTest {
         Usuario usuario = new Usuario();
         usuario.setLogin(username);
         usuario.setSenha("senha123");
-        usuario.setTipo(TipoUsuario.CLIENTE);
+
+        UsuarioTipo usuarioTipo = new UsuarioTipo();
+        usuarioTipo.setTipo(TipoUsuario.CLIENTE);
+        usuarioTipo.setUsuario(usuario);
+
+        Set<UsuarioTipo> usuarioTipos = new HashSet<>();
+        usuarioTipos.add(usuarioTipo);
+        usuario.setUsuarioTipos(usuarioTipos);
+
         usuario.setAtivo(true);
         when(userAuthenticationService.getByLogin(username)).thenReturn(usuario);
 
@@ -49,4 +61,4 @@ class EncontraUsuarioPorLoginComandoTest {
 
         assertThrows(UsernameNotFoundException.class, () -> encontraUsuarioPorLoginComando.loadUserByUsername(username));
     }
-} 
+}

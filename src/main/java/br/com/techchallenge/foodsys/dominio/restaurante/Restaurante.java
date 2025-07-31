@@ -42,11 +42,11 @@ public class Restaurante {
     @Column(name = "ativo")
     private boolean ativo = true;
 
-    @Column(name = "usuario_dono_id", insertable = false, updatable = false)
-    private Long usuarioDonoId;
+    @Column(name = "usuario_id", insertable = false, updatable = false)
+    private Long usuarioId;
 
     @OneToOne
-    @JoinColumn(name = "usuario_dono_id")
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
     @CreationTimestamp

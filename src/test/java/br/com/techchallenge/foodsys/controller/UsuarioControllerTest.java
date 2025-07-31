@@ -10,6 +10,7 @@ import br.com.techchallenge.foodsys.query.ListarUsuariosQuery;
 import br.com.techchallenge.foodsys.query.params.ListarUsuariosParams;
 import br.com.techchallenge.foodsys.query.resultadoItem.ListarUsuariosResultadoItem;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
+import br.com.techchallenge.foodsys.utils.usuario.ValidadorPermissoes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -32,6 +33,8 @@ class UsuarioControllerTest {
     private AtualizarUsuarioComando atualizarUsuarioComando;
     @Mock
     private DesativarUsuarioComando desativarUsuarioComando;
+    @Mock
+    private ValidadorPermissoes validadorPermissoes;
     @InjectMocks
     private UsuarioController usuarioController;
 
@@ -47,8 +50,8 @@ class UsuarioControllerTest {
         usuarioDto.setEmail("teste@exemplo.com");
         usuarioDto.setSenha("senha123");
         usuarioDto.setLogin("loginTeste");
-        usuarioDto.setTipo(TipoUsuario.CLIENTE);
-        
+        usuarioDto.setTipos(List.of(TipoUsuario.CLIENTE));
+
         Usuario usuario = new Usuario();
         usuario.setId(1L);
         when(criarUsuarioCommand.execute(usuarioDto)).thenReturn(usuario);
@@ -67,23 +70,27 @@ class UsuarioControllerTest {
         usuarioItem.setNome("Usuário Teste");
         List<ListarUsuariosResultadoItem> resultado = List.of(usuarioItem);
         
+        doNothing().when(validadorPermissoes).validarListagemUsuarios();
         when(listarUsuariosQuery.execute(params)).thenReturn(resultado);
 
         ResponseEntity<List<ListarUsuariosResultadoItem>> response = usuarioController.listarUsuarios(params);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(resultado, response.getBody());
+        verify(validadorPermissoes).validarListagemUsuarios();
     }
 
     @Test
     void deveRetornarNoContentQuandoListaVazia() {
         ListarUsuariosParams params = new ListarUsuariosParams(true);
+        doNothing().when(validadorPermissoes).validarListagemUsuarios();
         when(listarUsuariosQuery.execute(params)).thenReturn(List.of());
 
         ResponseEntity<List<ListarUsuariosResultadoItem>> response = usuarioController.listarUsuarios(params);
 
-        assertEquals(204, response.getStatusCodeValue());
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         assertNull(response.getBody());
+        verify(validadorPermissoes).validarListagemUsuarios();
     }
 
     @Test
@@ -93,11 +100,13 @@ class UsuarioControllerTest {
         AtualizarUsuarioComandoDto usuarioDto = new AtualizarUsuarioComandoDto();
         usuarioDto.setNome("Novo Nome");
         
+        doNothing().when(validadorPermissoes).validarGerenciamentoDadosProprios(id);
         when(atualizarUsuarioComando.execute(id, usuarioDto)).thenReturn(usuario);
 
         ResponseEntity<Void> response = usuarioController.atualizarUsuario(id, usuarioDto);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(validadorPermissoes).validarGerenciamentoDadosProprios(id);
         verify(atualizarUsuarioComando).execute(id, usuarioDto);
     }
 
@@ -106,11 +115,13 @@ class UsuarioControllerTest {
         Long id = 1L;
         Usuario usuario = new Usuario();
         
+        doNothing().when(validadorPermissoes).validarDesativacaoUsuario();
         when(desativarUsuarioComando.execute(id)).thenReturn(usuario);
 
         ResponseEntity<Void> response = usuarioController.desativarUsuario(id);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        verify(validadorPermissoes).validarDesativacaoUsuario();
         verify(desativarUsuarioComando).execute(id);
     }
-} 
+}

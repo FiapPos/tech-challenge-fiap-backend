@@ -1,11 +1,15 @@
 package br.com.techchallenge.foodsys.integration;
 
+import br.com.techchallenge.foodsys.comandos.login.dto.CredenciaisUsuarioDto;
 import br.com.techchallenge.foodsys.comandos.usuario.dtos.CriarUsuarioCommandDto;
 import br.com.techchallenge.foodsys.comandos.usuario.dtos.AtualizarUsuarioComandoDto;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.dominio.usuario.UsuarioRepository;
+import br.com.techchallenge.foodsys.dominio.usuario.UsuarioTipo;
 import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -14,7 +18,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
@@ -35,12 +42,42 @@ class UsuarioIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    private Usuario usuarioAdmin;
+    private String token;
+
     @BeforeEach
-    void setUp() {
+    void setUp() throws JsonProcessingException {
         RestAssured.port = port;
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
         enderecoRepository.deleteAll();
         usuarioRepository.deleteAll();
+
+        usuarioAdmin = new Usuario();
+        usuarioAdmin.setNome("Admin User");
+        usuarioAdmin.setEmail("admin@email.com");
+        usuarioAdmin.setLogin("admin123");
+        usuarioAdmin.setSenha(passwordEncoder.encode("senha123"));
+
+        UsuarioTipo usuarioTipoAdmin = new UsuarioTipo();
+        usuarioTipoAdmin.setUsuario(usuarioAdmin);
+        usuarioTipoAdmin.setTipo(TipoUsuario.ADMIN);
+        usuarioAdmin.getUsuarioTipos().add(usuarioTipoAdmin);
+
+        usuarioAdmin = usuarioRepository.save(usuarioAdmin);
+
+        CredenciaisUsuarioDto credentials = new CredenciaisUsuarioDto("admin123", "senha123", TipoUsuario.ADMIN);
+        token = given()
+                .contentType(ContentType.JSON)
+                .body(objectMapper.writeValueAsString(credentials))
+                .when()
+                .post("/login")
+                .then()
+                .statusCode(200)
+                .extract()
+                .path("token");
     }
 
     @Test
@@ -50,9 +87,10 @@ class UsuarioIntegrationTest {
         dto.setEmail("joao@email.com");
         dto.setLogin("joao123");
         dto.setSenha("senha123");
-        dto.setTipo(TipoUsuario.CLIENTE);
+        dto.setTipos(List.of(TipoUsuario.CLIENTE));
 
         given()
+            .header("Authorization", "Bearer " + token)
             .contentType(ContentType.JSON)
             .body(objectMapper.writeValueAsString(dto))
         .when()
@@ -68,7 +106,12 @@ class UsuarioIntegrationTest {
         usuario.setEmail("joao@email.com");
         usuario.setLogin("joao123");
         usuario.setSenha("senha123");
-        usuario.setTipo(TipoUsuario.CLIENTE);
+
+        UsuarioTipo usuarioTipo = new UsuarioTipo();
+        usuarioTipo.setUsuario(usuario);
+        usuarioTipo.setTipo(TipoUsuario.CLIENTE);
+        usuario.getUsuarioTipos().add(usuarioTipo);
+
         usuarioRepository.save(usuario);
 
         CriarUsuarioCommandDto dto = new CriarUsuarioCommandDto();
@@ -76,9 +119,10 @@ class UsuarioIntegrationTest {
         dto.setEmail("joao@email.com");
         dto.setLogin("maria123");
         dto.setSenha("senha456");
-        dto.setTipo(TipoUsuario.CLIENTE);
+        dto.setTipos(List.of(TipoUsuario.CLIENTE));
 
         given()
+            .header("Authorization", "Bearer " + token)
             .contentType(ContentType.JSON)
             .body(objectMapper.writeValueAsString(dto))
         .when()
@@ -94,7 +138,12 @@ class UsuarioIntegrationTest {
         usuario.setEmail("joao@email.com");
         usuario.setLogin("joao123");
         usuario.setSenha("senha123");
-        usuario.setTipo(TipoUsuario.CLIENTE);
+
+        UsuarioTipo usuarioTipo = new UsuarioTipo();
+        usuarioTipo.setUsuario(usuario);
+        usuarioTipo.setTipo(TipoUsuario.CLIENTE);
+        usuario.getUsuarioTipos().add(usuarioTipo);
+
         usuarioRepository.save(usuario);
 
         CriarUsuarioCommandDto dto = new CriarUsuarioCommandDto();
@@ -102,9 +151,10 @@ class UsuarioIntegrationTest {
         dto.setEmail("maria@email.com");
         dto.setLogin("joao123");
         dto.setSenha("senha456");
-        dto.setTipo(TipoUsuario.CLIENTE);
+        dto.setTipos(List.of(TipoUsuario.CLIENTE));
 
         given()
+            .header("Authorization", "Bearer " + token)
             .contentType(ContentType.JSON)
             .body(objectMapper.writeValueAsString(dto))
         .when()
@@ -120,7 +170,12 @@ class UsuarioIntegrationTest {
         usuario1.setEmail("joao@email.com");
         usuario1.setLogin("joao123");
         usuario1.setSenha("senha123");
-        usuario1.setTipo(TipoUsuario.CLIENTE);
+
+        UsuarioTipo usuarioTipo1 = new UsuarioTipo();
+        usuarioTipo1.setUsuario(usuario1);
+        usuarioTipo1.setTipo(TipoUsuario.CLIENTE);
+        usuario1.getUsuarioTipos().add(usuarioTipo1);
+
         usuarioRepository.save(usuario1);
 
         Usuario usuario2 = new Usuario();
@@ -128,47 +183,47 @@ class UsuarioIntegrationTest {
         usuario2.setEmail("maria@email.com");
         usuario2.setLogin("maria123");
         usuario2.setSenha("senha456");
-        usuario2.setTipo(TipoUsuario.ADMIN);
+
+        UsuarioTipo usuarioTipo2 = new UsuarioTipo();
+        usuarioTipo2.setUsuario(usuario2);
+        usuarioTipo2.setTipo(TipoUsuario.CLIENTE);
+        usuario2.getUsuarioTipos().add(usuarioTipo2);
+
         usuarioRepository.save(usuario2);
 
         given()
+            .header("Authorization", "Bearer " + token)
         .when()
             .get("/usuarios")
         .then()
             .statusCode(200)
-            .body("$", hasSize(2))
-            .body("[0].nome", equalTo("João Silva"))
-            .body("[1].nome", equalTo("Maria Silva"));
+            .body("$", hasSize(greaterThanOrEqualTo(2)))
+            .body("nome", hasItems("João Silva", "Maria Silva"));
     }
 
     @Test
-    void deveRetornarNoContentQuandoNaoHouverUsuarios()   {
+    void deveRetornarNoContentQuandoNaoHouverUsuarios() throws Exception {
+
         given()
+            .header("Authorization", "Bearer " + token)
         .when()
-            .get("/usuarios")
+            .get("/usuarios?ativo=false")
         .then()
             .statusCode(204);
     }
 
     @Test
     void deveAtualizarUsuarioComSucesso() throws Exception {
-        Usuario usuario = new Usuario();
-        usuario.setNome("João Silva");
-        usuario.setEmail("joao@email.com");
-        usuario.setLogin("joao123");
-        usuario.setSenha("senha123");
-        usuario.setTipo(TipoUsuario.CLIENTE);
-        usuario = usuarioRepository.save(usuario);
-
         AtualizarUsuarioComandoDto dto = new AtualizarUsuarioComandoDto();
-        dto.setNome("João Silva Atualizado");
-        dto.setEmail("joao.atualizado@email.com");
+        dto.setNome("Admin User Atualizado");
+        dto.setEmail("admin.atualizado@email.com");
 
         given()
+            .header("Authorization", "Bearer " + token)
             .contentType(ContentType.JSON)
             .body(objectMapper.writeValueAsString(dto))
         .when()
-            .put("/usuarios/" + usuario.getId())
+            .put("/usuarios/" + usuarioAdmin.getId()) // Usar o ID do usuário admin logado
         .then()
             .statusCode(200);
     }
@@ -180,12 +235,13 @@ class UsuarioIntegrationTest {
         dto.setEmail("joao.atualizado@email.com");
 
         given()
+            .header("Authorization", "Bearer " + token)
             .contentType(ContentType.JSON)
             .body(objectMapper.writeValueAsString(dto))
         .when()
             .put("/usuarios/999")
         .then()
-            .statusCode(400);
+            .statusCode(403);
     }
 
     @Test
@@ -195,10 +251,16 @@ class UsuarioIntegrationTest {
         usuario.setEmail("joao@email.com");
         usuario.setLogin("joao123");
         usuario.setSenha("senha123");
-        usuario.setTipo(TipoUsuario.CLIENTE);
+
+        UsuarioTipo usuarioTipo = new UsuarioTipo();
+        usuarioTipo.setUsuario(usuario);
+        usuarioTipo.setTipo(TipoUsuario.CLIENTE);
+        usuario.getUsuarioTipos().add(usuarioTipo);
+
         usuario = usuarioRepository.save(usuario);
 
         given()
+            .header("Authorization", "Bearer " + token)
         .when()
             .delete("/usuarios/" + usuario.getId())
         .then()
@@ -208,6 +270,7 @@ class UsuarioIntegrationTest {
     @Test
     void deveRetornarErroAoDesativarUsuarioInexistente()   {
         given()
+            .header("Authorization", "Bearer " + token)
         .when()
             .delete("/usuarios/999")
         .then()
@@ -220,6 +283,7 @@ class UsuarioIntegrationTest {
         dto.setNome("João");
 
         given()
+            .header("Authorization", "Bearer " + token)
             .contentType(ContentType.JSON)
             .body(objectMapper.writeValueAsString(dto))
         .when()
@@ -227,4 +291,4 @@ class UsuarioIntegrationTest {
         .then()
             .statusCode(400);
     }
-} 
+}
