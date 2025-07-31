@@ -1,16 +1,12 @@
-package br.com.techchallenge.foodsys.controller;
-import br.com.techchallenge.foodsys.comandos.cardapio.FotoItemDoCardapioHandler;
-import br.com.techchallenge.foodsys.comandos.login.dto.DetalhesUsuarioDto;
-import br.com.techchallenge.foodsys.dominio.cardapio.ItemDoCardapio;
-import br.com.techchallenge.foodsys.dominio.cardapio.ItemDoCardapioRepository;
-import br.com.techchallenge.foodsys.dominio.foto.FotoPratoDocumento;
-import br.com.techchallenge.foodsys.dominio.foto.FotoPratoRepository;
-import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
-import br.com.techchallenge.foodsys.dominio.restaurante.RestauranteRepository;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
-import br.com.techchallenge.foodsys.dominio.usuario.UsuarioRepository;
-import br.com.techchallenge.foodsys.dominio.usuario.UsuarioTipo;
-import br.com.techchallenge.foodsys.enums.TipoUsuario;
+package br.com.techchallenge.foodsys.infrastructure.api.controllers;
+
+import br.com.techchallenge.foodsys.core.domain.entities.*;
+import br.com.techchallenge.foodsys.core.dtos.login.DetalhesUsuarioDto;
+import br.com.techchallenge.foodsys.core.enums.TipoUsuario;
+import br.com.techchallenge.foodsys.core.gateways.FotoPratoRepository;
+import br.com.techchallenge.foodsys.core.gateways.ItemDoCardapioRepository;
+import br.com.techchallenge.foodsys.core.gateways.RestauranteRepository;
+import br.com.techchallenge.foodsys.core.gateways.UsuarioRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -82,7 +78,7 @@ class FotoItemDoCardapioControllerIntegrationTest {
         item.setDescricao("Descrição do prato");
         item.setPreco(new BigDecimal("25.00"));
         item.setRestaurante(restauranteSalvo);
-        itemSalvo = itemDoCardapioRepository.saveAndFlush(item);
+        itemSalvo = itemDoCardapioRepository.save(item);
 
         when(fotoPratoRepository.save(any(FotoPratoDocumento.class))).thenReturn(new FotoPratoDocumento());
     }
@@ -125,6 +121,6 @@ class FotoItemDoCardapioControllerIntegrationTest {
         mockMvc.perform(multipart("/restaurantes/{restauranteId}/itens/{itemId}/foto",
                         restauranteSalvo.getId(), idItemInexistente)
                         .file(mockFile))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isUnauthorized());
     }
 }

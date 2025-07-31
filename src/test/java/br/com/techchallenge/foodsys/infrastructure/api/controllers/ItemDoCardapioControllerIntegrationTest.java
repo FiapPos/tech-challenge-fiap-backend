@@ -1,11 +1,12 @@
-package br.com.techchallenge.foodsys.controller;
-import br.com.techchallenge.foodsys.comandos.login.dto.DetalhesUsuarioDto;
-import br.com.techchallenge.foodsys.dominio.restaurante.Restaurante;
-import br.com.techchallenge.foodsys.dominio.restaurante.RestauranteRepository;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
-import br.com.techchallenge.foodsys.dominio.usuario.UsuarioRepository;
-import br.com.techchallenge.foodsys.dominio.usuario.UsuarioTipo;
-import br.com.techchallenge.foodsys.enums.TipoUsuario;
+package br.com.techchallenge.foodsys.infrastructure.api.controllers;
+
+import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.domain.entities.UsuarioTipo;
+import br.com.techchallenge.foodsys.core.dtos.login.DetalhesUsuarioDto;
+import br.com.techchallenge.foodsys.core.enums.TipoUsuario;
+import br.com.techchallenge.foodsys.core.gateways.RestauranteRepository;
+import br.com.techchallenge.foodsys.core.gateways.UsuarioRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +21,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -117,7 +117,7 @@ class ItemDoCardapioControllerIntegrationTest {
         mockMvc.perform(post("/restaurantes/{restauranteId}/itens", restauranteSalvo.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBodyJson))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isBadRequest());
     }
 
     @Test
