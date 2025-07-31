@@ -4,7 +4,7 @@ import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
 import br.com.techchallenge.foodsys.core.queries.resultadoItem.endereco.ListarEnderecoPorIdUsuarioResultadoItem;
-import br.com.techchallenge.foodsys.core.utils.ValidarUsuarioExistente;
+import br.com.techchallenge.foodsys.infrastructure.services.ValidarUsuarioExistente;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

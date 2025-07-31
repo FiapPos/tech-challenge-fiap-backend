@@ -6,7 +6,7 @@ import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
 import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
 import br.com.techchallenge.foodsys.core.queries.params.ListarEnderecosParams;
 import br.com.techchallenge.foodsys.core.queries.resultadoItem.enderecoRestaurante.ListarEnderecoPorRestauranteResultadoItem;
-import br.com.techchallenge.foodsys.core.utils.restaurante.ValidarRestauranteExistente;
+import br.com.techchallenge.foodsys.infrastructure.services.ValidarRestauranteExistente;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 

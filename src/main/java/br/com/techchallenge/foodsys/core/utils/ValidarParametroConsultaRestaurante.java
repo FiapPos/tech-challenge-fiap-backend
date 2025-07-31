@@ -3,7 +3,7 @@ package br.com.techchallenge.foodsys.core.utils;
 import java.util.List;
 
 import br.com.techchallenge.foodsys.core.queries.params.ListarRestaurantesParams;
-import org.springframework.data.domain.Sort;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,11 +31,10 @@ public class ValidarParametroConsultaRestaurante {
             return restauranteRepository.findByTipoCozinha(params.getTipoCozinha());
         } else if (temParmAtivo) {
 
-            return restauranteRepository.findByAtivo(params.getAtivo(), Sort.by(Sort.Direction.ASC, "id"));
+            return restauranteRepository.findByAtivo(params.getAtivo());
         } else {
 
-            Sort sort = Sort.by(Sort.Direction.ASC, "id");
-            return restauranteRepository.findAll(sort);
+            return restauranteRepository.findAll();
         }
     }
 

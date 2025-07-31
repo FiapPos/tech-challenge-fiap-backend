@@ -3,7 +3,7 @@ package br.com.techchallenge.foodsys.core.domain.usecases.usuario;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.core.gateways.UsuarioRepository;
 import br.com.techchallenge.foodsys.core.shared.CompartilhadoService;
-import br.com.techchallenge.foodsys.core.utils.ValidarUsuarioExistente;
+import br.com.techchallenge.foodsys.infrastructure.services.ValidarUsuarioExistente;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

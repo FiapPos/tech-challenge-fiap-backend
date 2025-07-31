@@ -45,6 +45,9 @@ Desenvolver um sistema **backend robusto** com **Spring Boot** que possibilite:
 
 ### 🧱 Camadas da Aplicação
 
+<details>
+<summary>V1</summary>
+
 * `config/` – Configurações de segurança, JWT e mensagens
 * `controller/` – Camada de controle (REST endpoints)
 * `dto/` – Objetos de transferência de dados
@@ -54,6 +57,111 @@ Desenvolver um sistema **backend robusto** com **Spring Boot** que possibilite:
 * `query/` – Consultas especializadas
 * `utils/` – Utilitários e validações
 * `compartilhado/` – Serviços e componentes reutilizáveis
+</details>
+
+<details open>
+<summary>V2</summary>
+
+Este projeto segue os princípios da **Clean Architecture** (Arquitetura Limpa), organizando o 
+código em camadas bem definidas para manter a independência entre as regras de negócio e as tecnologias externas.
+
+#### **1. Core (Núcleo da Aplicação)**
+A base da arquitetura limpa, contendo a lógica de negócio e interfaces principais.
+
+**`domain/entities/`** - Entidades (Camada 1)
+- Representam os objetos de negócio principais
+- Contêm as regras de negócio mais fundamentais
+- Exemplo: `Usuario`, `Restaurante`, `Endereco`
+
+**`domain/usecases/`** - Casos de Uso (Camada 2)
+- Implementam as regras de negócio específicas da aplicação
+- Orquestram as entidades para realizar operações
+- Exemplo: `CriarUsuarioCommand`, `AtualizarRestauranteComando`
+
+**`dtos/`** - Objetos de Transferência de Dados
+- Padrão para comunicação externa
+- Estruturas de dados para troca de informações entre camadas
+- Exemplo: `CriarUsuarioCommandDto`, `AtualizarRestauranteComandoDto`
+
+**`exceptions/`** - Exceções Customizadas
+- Exceções específicas do domínio de negócio
+- Exemplo: `BadRequestException`, `ForbiddenException`
+
+**`gateways/`** - Interfaces de Acesso (Camada 2)
+- Definem contratos para serviços externos
+- Interfaces que serão implementadas na camada de infraestrutura
+- Exemplo: `UsuarioRepository`, `RestauranteRepository`
+
+**`queries/`** - Consultas
+- Classes responsáveis por consultas e listagens
+- Exemplo: `ListarRestaurantesQuery`, `ListarUsuariosQuery`
+
+**`utils/`** - Utilitários e Validações
+- Classes auxiliares para validações e regras de negócio
+- Exemplo: `ValidadorPermissoes`, `ValidarAcessoAdmin`
+
+
+#### **2. Infrastructure (Infraestrutura)**
+Camada externa que implementa as interfaces definidas no core e gerencia dependências externas.
+
+**`infrastructure/api/controllers/`** - Controllers REST
+- Controllers do Spring Boot para endpoints HTTP
+- **Não são os controllers da Clean Architecture**
+- Responsáveis por receber requisições HTTP e delegar para os casos de uso
+- Exemplo: `UsuarioController`, `RestauranteController`
+
+**`infrastructure/config/`** - Configurações
+- Configurações do Spring Boot
+- Exemplo: `SecurityConfig`, `OpenApiConfig`
+
+**`infrastructure/data/repositories/`** - Implementações dos Repositórios
+- **Não são os gateways da Clean Architecture**
+- Implementações concretas das interfaces definidas em `core/gateways`
+- Responsáveis pelo acesso a dados (banco de dados)
+- Exemplo: `UsuarioRepositoryImpl`, `RestauranteRepositoryImpl`
+
+### 🔄 Fluxo de Dados
+
+HTTP Request → Controller → Use Case → Entity → Gateway → Repository → Database
+
+↑ ↓
+
+Response ← Controller ← Use Case ← Entity ← Gateway ← Repository ← Database
+
+### Benefícios da Arquitetura
+
+1. **Independência de Frameworks**: O core não depende de Spring Boot ou outras tecnologias
+2. **Testabilidade**: Fácil de testar cada camada isoladamente
+3. **Manutenibilidade**: Mudanças em uma camada não afetam outras
+4. **Flexibilidade**: Pode trocar tecnologias sem afetar a lógica de negócio
+5. **Escalabilidade**: Estrutura clara para crescimento do projeto
+
+### 📂 Organização dos Pacotes
+```
+src/main/java/br/com/techchallenge/foodsys/
+├── core/                           
+│   ├── domain/
+│   │   ├── entities/              # Entidades puras (sem JPA)
+│   │   └── usecases/              # Casos de uso
+│   ├── dtos/                      # Objetos de transferência
+│   ├── enums/
+│   ├── exceptions/                # Exceções customizadas
+│   ├── gateways/                  # Interfaces de acesso
+│   ├── queries/                   # Consultas
+│   ├── shared/                    # Compartilhados (apenas utilidades puras)
+│   └── utils/                     # Utilitários de domínio (sem infraestrutura)
+└── infrastructure/                # Implementações externas
+     ├── api/
+     │   └── controllers/           # Controllers REST
+     ├── config/                    # Configurações
+     ├── data/                      # Camada de dados
+     │   ├── entities/              # Entidades JPA/MongoDB
+     │   └── repositories/          # Implementações dos repositórios
+     └── services/                  # Serviços de infraestrutura
+
+```
+
+</details>
 
 ---
 
@@ -229,6 +337,10 @@ docker-compose up -d foodsys-api
 Você pode testar a API importando a coleção disponível em:
 
 🔗 [techchallenge.foodsys.postman\_collection.json](https://github.com/FiapPos/tech-challenge-fiap-backend/blob/main/techchallenge.foodsys.postman_collection.json)
+
+### Cobertura
+
+**![test-coverage](test-coverage.png)**
 
 ---
 ## ✅ Status do Projeto

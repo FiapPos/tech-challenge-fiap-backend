@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.utils;
+package br.com.techchallenge.foodsys.core.utils;
 
 import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
 import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;

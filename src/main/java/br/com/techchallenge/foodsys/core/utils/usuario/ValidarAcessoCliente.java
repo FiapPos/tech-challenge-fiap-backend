@@ -3,7 +3,7 @@ package br.com.techchallenge.foodsys.core.utils.usuario;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.core.enums.TipoUsuario;
 import br.com.techchallenge.foodsys.core.exceptions.ForbiddenException;
-import br.com.techchallenge.foodsys.core.utils.AutorizacaoService;
+import br.com.techchallenge.foodsys.infrastructure.services.AutorizacaoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

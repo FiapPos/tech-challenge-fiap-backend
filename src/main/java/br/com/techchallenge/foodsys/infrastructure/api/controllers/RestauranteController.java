@@ -9,7 +9,7 @@ import br.com.techchallenge.foodsys.core.dtos.restaurante.CriarRestauranteComman
 import br.com.techchallenge.foodsys.core.queries.params.ListarRestaurantesParams;
 import br.com.techchallenge.foodsys.core.queries.restaurante.ListarRestaurantesQuery;
 import br.com.techchallenge.foodsys.core.queries.resultadoItem.restaurante.ListarRestaurantesResultadoItem;
-import br.com.techchallenge.foodsys.core.utils.AutorizacaoService;
+import br.com.techchallenge.foodsys.infrastructure.services.AutorizacaoService;
 import br.com.techchallenge.foodsys.core.utils.doc.RestauranteControllerDoc;
 import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
 import jakarta.validation.Valid;

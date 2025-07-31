@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.utils;
+package br.com.techchallenge.foodsys.core.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -12,12 +12,8 @@ import static org.mockito.Mockito.when;
 import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
-import br.com.techchallenge.foodsys.core.utils.ValidarCepRestauranteDuplicado;
-import br.com.techchallenge.foodsys.core.utils.ValidarEnderecoExistente;
-import br.com.techchallenge.foodsys.core.utils.ValidarProprietarioRestaurante;
-import br.com.techchallenge.foodsys.core.utils.ValidarUsuarioExistente;
 import br.com.techchallenge.foodsys.core.utils.endereco.ValidarDadosCriacaoEnderecoRestaurante;
-import br.com.techchallenge.foodsys.core.utils.restaurante.ValidarRestauranteExistente;
+import br.com.techchallenge.foodsys.infrastructure.services.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.data.domain.Sort;
 
 import java.util.Arrays;
 import java.util.List;
@@ -95,8 +94,7 @@ class ValidarParametroConsultaRestauranteTest {
         ListarRestaurantesParams params = new ListarRestaurantesParams();
         params.setAtivo(false);
         
-        Sort sort = Sort.by(Sort.Direction.ASC, "id");
-        when(restauranteRepository.findByAtivo(false, sort))
+        when(restauranteRepository.findByAtivo(false))
             .thenReturn(Arrays.asList(restaurante2));
 
         // Act
@@ -107,7 +105,7 @@ class ValidarParametroConsultaRestauranteTest {
         assertEquals(1, resultado.size());
         assertFalse(resultado.get(0).isAtivo());
         
-        verify(restauranteRepository).findByAtivo(false, sort);
+        verify(restauranteRepository).findByAtivo(false);
     }
 
     @Test
@@ -115,8 +113,7 @@ class ValidarParametroConsultaRestauranteTest {
         // Arrange
         ListarRestaurantesParams params = new ListarRestaurantesParams();
         
-        Sort sort = Sort.by(Sort.Direction.ASC, "id");
-        when(restauranteRepository.findAll(sort))
+        when(restauranteRepository.findAll())
             .thenReturn(restaurantes);
 
         // Act
@@ -126,7 +123,7 @@ class ValidarParametroConsultaRestauranteTest {
         assertNotNull(resultado);
         assertEquals(2, resultado.size());
         
-        verify(restauranteRepository).findAll(sort);
+        verify(restauranteRepository).findAll();
     }
 
     @Test
@@ -136,8 +133,7 @@ class ValidarParametroConsultaRestauranteTest {
         params.setAtivo(true);
         params.setTipoCozinha("");
         
-        Sort sort = Sort.by(Sort.Direction.ASC, "id");
-        when(restauranteRepository.findByAtivo(true, sort))
+        when(restauranteRepository.findByAtivo(true))
             .thenReturn(Arrays.asList(restaurante1));
 
         // Act
@@ -147,7 +143,7 @@ class ValidarParametroConsultaRestauranteTest {
         assertNotNull(resultado);
         assertEquals(1, resultado.size());
         
-        verify(restauranteRepository).findByAtivo(true, sort);
+        verify(restauranteRepository).findByAtivo(true);
     }
 
     @Test
@@ -157,8 +153,7 @@ class ValidarParametroConsultaRestauranteTest {
         params.setAtivo(true);
         params.setTipoCozinha(null);
         
-        Sort sort = Sort.by(Sort.Direction.ASC, "id");
-        when(restauranteRepository.findByAtivo(true, sort))
+        when(restauranteRepository.findByAtivo(true))
             .thenReturn(Arrays.asList(restaurante1));
 
         // Act
@@ -168,6 +163,6 @@ class ValidarParametroConsultaRestauranteTest {
         assertNotNull(resultado);
         assertEquals(1, resultado.size());
         
-        verify(restauranteRepository).findByAtivo(true, sort);
+        verify(restauranteRepository).findByAtivo(true);
     }
 }

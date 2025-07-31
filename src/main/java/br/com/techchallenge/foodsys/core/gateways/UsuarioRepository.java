@@ -1,20 +1,26 @@
 package br.com.techchallenge.foodsys.core.gateways;
 
 import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-@Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+public interface UsuarioRepository {
+    Usuario save(Usuario usuario);
+
+    Optional<Usuario> findById(Long id);
+
+    List<Usuario> findAll();
+
+    void deleteById(Long id);
+
     boolean existsByEmail(String email);
 
     boolean existsByLogin(String login);
 
-    List<Usuario> findByAtivo(boolean ativo, Sort sort);
+    List<Usuario> findByAtivo(boolean ativo);
 
     Optional<Usuario> findByLogin(String login);
+
+    void deleteAll();
 }

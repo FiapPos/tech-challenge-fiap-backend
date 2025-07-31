@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.data.domain.Sort;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -47,7 +47,7 @@ class ListarUsuariosQueryTest {
                 .build()
         );
         when(listarPorTipoUsuario.execute(any(Set.class))).thenReturn(tiposEsperados);
-        when(usuarioRepository.findAll(any(Sort.class))).thenReturn(List.of(usuario));
+        when(usuarioRepository.findAll()).thenReturn(List.of(usuario));
 
         ListarUsuariosParams params = new ListarUsuariosParams(null);
         List<ListarUsuariosResultadoItem> resultado = listarUsuariosQuery.execute(params);
@@ -74,7 +74,7 @@ class ListarUsuariosQueryTest {
                 .build()
         );
         when(listarPorTipoUsuario.execute(any(Set.class))).thenReturn(tiposEsperados);
-        when(usuarioRepository.findByAtivo(eq(false), any(Sort.class))).thenReturn(List.of(usuario));
+        when(usuarioRepository.findByAtivo(eq(false))).thenReturn(List.of(usuario));
 
         ListarUsuariosParams params = new ListarUsuariosParams(false);
         List<ListarUsuariosResultadoItem> resultado = listarUsuariosQuery.execute(params);

@@ -1,20 +1,13 @@
 package br.com.techchallenge.foodsys.core.domain.entities;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "fotos_prato")
 public class FotoPratoDocumento {
 
-    @Id
     private String id;
-
     private Long restauranteId;
     private Long pratoId;
-
     private String nomeArquivo;
     private String tipoArquivo;
     private byte[] dados;
-
 
     public String getId() {
         return id;

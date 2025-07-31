@@ -5,9 +5,8 @@ import br.com.techchallenge.foodsys.core.gateways.UsuarioRepository;
 import br.com.techchallenge.foodsys.core.queries.params.ListarUsuariosParams;
 import br.com.techchallenge.foodsys.core.queries.resultadoItem.ListarUsuariosResultadoItem;
 import br.com.techchallenge.foodsys.core.queries.tipo.ListarPorTipoUsuario;
-import br.com.techchallenge.foodsys.core.queries.tipo.TipoUsuarioResultItem;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,10 +42,9 @@ public class ListarUsuariosQuery {
     }
 
     private List<Usuario> buscarUsuarios(ListarUsuariosParams params) {
-        Sort sort = Sort.by(Sort.Direction.ASC, "id");
         if (params.getAtivo() == null) {
-            return usuarioRepository.findAll(sort);
+            return usuarioRepository.findAll();
         }
-        return usuarioRepository.findByAtivo(params.getAtivo(), sort);
+        return usuarioRepository.findByAtivo(params.getAtivo());
     }
 }

@@ -7,8 +7,8 @@ import br.com.techchallenge.foodsys.core.dtos.enderecoRestaurante.CriarEnderecoR
 import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
 import br.com.techchallenge.foodsys.core.shared.CompartilhadoService;
 import br.com.techchallenge.foodsys.core.utils.ValidarCepDoUsuario;
-import br.com.techchallenge.foodsys.core.utils.ValidarUsuarioExistente;
-import br.com.techchallenge.foodsys.core.utils.restaurante.ValidarRestauranteExistente;
+import br.com.techchallenge.foodsys.infrastructure.services.ValidarRestauranteExistente;
+import br.com.techchallenge.foodsys.infrastructure.services.ValidarUsuarioExistente;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

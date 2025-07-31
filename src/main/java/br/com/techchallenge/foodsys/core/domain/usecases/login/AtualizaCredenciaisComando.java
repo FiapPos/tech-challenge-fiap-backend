@@ -1,7 +1,7 @@
 package br.com.techchallenge.foodsys.core.domain.usecases.login;
 
 import br.com.techchallenge.foodsys.core.dtos.login.AtualizaCredenciaisComandoDto;
-import br.com.techchallenge.foodsys.core.shared.UsuarioLogado;
+import br.com.techchallenge.foodsys.infrastructure.services.UsuarioLogado;
 import br.com.techchallenge.foodsys.core.gateways.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,9 @@ public class AtualizaCredenciaisComando {
 
         usuarioRepository
                 .findById(usuarioLogado.getUsuarioId())
-                .ifPresent(
-                        usuario -> usuario.trocaSenha(passwordEncoder.encode(atualizaCredenciaisComandoDto.senha())));
+                .ifPresent(usuario -> {
+                    usuario.trocaSenha(passwordEncoder.encode(atualizaCredenciaisComandoDto.senha()));
+                    usuarioRepository.save(usuario);
+                });
     }
 }

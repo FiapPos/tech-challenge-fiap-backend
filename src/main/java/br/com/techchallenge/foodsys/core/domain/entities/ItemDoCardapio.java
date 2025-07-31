@@ -1,32 +1,15 @@
 package br.com.techchallenge.foodsys.core.domain.entities;
-import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 
 import java.math.BigDecimal;
 
-@Entity
-@Table(name = "item_do_cardapio")
 public class ItemDoCardapio {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotBlank(message = "O nome não pode estar em branco")
     private String nome;
-
     private String descricao;
-
     private BigDecimal preco;
-
-
     private Boolean disponivelSomenteNoLocal;
-
     private String caminhoFoto;
-
-    @ManyToOne
-    @JoinColumn(name = "restaurante_id", nullable = false)
     private Restaurante restaurante;
 
     public Restaurante getRestaurante() {

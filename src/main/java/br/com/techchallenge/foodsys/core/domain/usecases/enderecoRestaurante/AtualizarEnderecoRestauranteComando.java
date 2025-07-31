@@ -6,11 +6,11 @@ import br.com.techchallenge.foodsys.core.dtos.enderecoRestaurante.AtualizarEnder
 import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
 import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
 import br.com.techchallenge.foodsys.core.shared.CompartilhadoService;
-import br.com.techchallenge.foodsys.core.utils.AutorizacaoService;
 import br.com.techchallenge.foodsys.core.utils.ValidarCepDoUsuario;
-import br.com.techchallenge.foodsys.core.utils.ValidarEnderecoExistente;
-import br.com.techchallenge.foodsys.core.utils.ValidarProprietarioEndereco;
 import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
+import br.com.techchallenge.foodsys.infrastructure.services.AutorizacaoService;
+import br.com.techchallenge.foodsys.infrastructure.services.ValidarEnderecoExistente;
+import br.com.techchallenge.foodsys.infrastructure.services.ValidarProprietarioEndereco;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -15,7 +15,7 @@ import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
 import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
 import br.com.techchallenge.foodsys.core.gateways.RestauranteRepository;
 import br.com.techchallenge.foodsys.core.shared.CompartilhadoService;
-import br.com.techchallenge.foodsys.core.utils.restaurante.ValidarRestauranteExistente;
+import br.com.techchallenge.foodsys.infrastructure.services.ValidarRestauranteExistente;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

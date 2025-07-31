@@ -1,20 +1,25 @@
 package br.com.techchallenge.foodsys.core.gateways;
 
-import java.util.List;
-
 import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface RestauranteRepository extends JpaRepository<Restaurante, Long> {
+import java.util.List;
+import java.util.Optional;
+
+public interface RestauranteRepository {
+
+    Restaurante save(Restaurante restaurante);
+
+    Optional<Restaurante> findById(Long id);
+
+    List<Restaurante> findAll();
+
+    void deleteById(Long id);
 
     Restaurante findRestauranteByNome(String nome);
 
-    Restaurante findByUsuarioId(Long usuarioDonoId, Sort sort);
+    Restaurante findByUsuarioId(Long usuarioDonoId);
 
-    List<Restaurante> findByAtivo(boolean ativo, Sort sort);
+    List<Restaurante> findByAtivo(boolean ativo);
 
     List<Restaurante> findByTipoCozinha(String tipoCozinha);
 
@@ -22,5 +27,7 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Long> 
 
     boolean existsByUsuarioId(Long usuarioId);
 
+    boolean existsById(Long id);
 
+    void deleteAll();
 }

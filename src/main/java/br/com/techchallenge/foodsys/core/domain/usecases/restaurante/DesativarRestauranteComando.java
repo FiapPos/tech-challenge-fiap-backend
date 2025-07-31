@@ -2,7 +2,7 @@ package br.com.techchallenge.foodsys.core.domain.usecases.restaurante;
 
 import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
 import br.com.techchallenge.foodsys.core.shared.CompartilhadoService;
-import br.com.techchallenge.foodsys.core.utils.restaurante.ValidarRestauranteExistente;
+import br.com.techchallenge.foodsys.infrastructure.services.ValidarRestauranteExistente;
 import org.springframework.stereotype.Service;
 
 import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;

@@ -6,7 +6,7 @@ import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
 import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
 import br.com.techchallenge.foodsys.core.shared.CompartilhadoService;
 import br.com.techchallenge.foodsys.core.utils.ValidarCepDoUsuario;
-import br.com.techchallenge.foodsys.core.utils.ValidarUsuarioExistente;
+import br.com.techchallenge.foodsys.infrastructure.services.ValidarUsuarioExistente;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

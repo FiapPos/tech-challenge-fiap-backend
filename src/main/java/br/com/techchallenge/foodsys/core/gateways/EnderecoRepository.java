@@ -2,25 +2,31 @@ package br.com.techchallenge.foodsys.core.gateways;
 
 import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
-@Repository
-public interface EnderecoRepository extends JpaRepository<Endereco, Long> {
+public interface EnderecoRepository {
 
-    @Query("SELECT e FROM Endereco e JOIN FETCH e.usuario WHERE e.usuario.id = :usuarioId")
-    List<Endereco> findByUsuarioId(@Param("usuarioId") Long usuarioId, Sort sort);
+    Endereco save(Endereco endereco);
 
-    @Query("SELECT e FROM Endereco e JOIN FETCH e.restaurante WHERE e.restaurante.id = :restauranteId")
-    List<Endereco> findByRestauranteId(@Param("restauranteId") Long restauranteId, Sort sort);
+    Optional<Endereco> findById(Long id);
+
+    List<Endereco> findAll();
+
+    void deleteById(Long id);
+
+    List<Endereco> findByUsuarioId(Long usuarioId, Sort sort);
+
+    List<Endereco> findByRestauranteId(Long restauranteId, Sort sort);
 
     boolean existsByUsuarioIdAndCep(Long usuarioId, String cep);
 
     boolean existsByRestauranteIdAndCep(Long restauranteId, String cep);
 
     boolean existsByUsuarioIdAndRestauranteId(Long usuarioId, Long restauranteId);
+
+    boolean existsById(Long id);
+
+    void deleteAll();
 }

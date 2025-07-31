@@ -11,7 +11,7 @@ import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
 import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
 import br.com.techchallenge.foodsys.core.queries.endereco.ListarEnderecoPorIdUsuario;
 import br.com.techchallenge.foodsys.core.queries.resultadoItem.endereco.ListarEnderecoPorIdUsuarioResultadoItem;
-import br.com.techchallenge.foodsys.core.utils.AutorizacaoService;
+import br.com.techchallenge.foodsys.infrastructure.services.AutorizacaoService;
 import br.com.techchallenge.foodsys.core.utils.doc.EnderecoControllerDoc;
 import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
 import jakarta.validation.Valid;

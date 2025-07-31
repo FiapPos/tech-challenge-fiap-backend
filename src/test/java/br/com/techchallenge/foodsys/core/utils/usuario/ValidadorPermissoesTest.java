@@ -7,7 +7,7 @@ import br.com.techchallenge.foodsys.core.enums.TipoUsuario;
 import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
 import br.com.techchallenge.foodsys.core.exceptions.ForbiddenException;
 import br.com.techchallenge.foodsys.core.gateways.RestauranteRepository;
-import br.com.techchallenge.foodsys.core.utils.AutorizacaoService;
+import br.com.techchallenge.foodsys.infrastructure.services.AutorizacaoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -25,15 +25,6 @@ class ValidadorPermissoesTest {
 
     @Mock
     private ValidarAcessoAdmin validarAcessoAdmin;
-
-    @Mock
-    private ValidarAcessoDonoRestaurante validarAcessoDonoRestaurante;
-
-    @Mock
-    private ValidarAcessoFuncionario validarAcessoFuncionario;
-
-    @Mock
-    private ValidarAcessoCliente validarAcessoCliente;
 
     @Mock
     private AutorizacaoService autorizacaoService;

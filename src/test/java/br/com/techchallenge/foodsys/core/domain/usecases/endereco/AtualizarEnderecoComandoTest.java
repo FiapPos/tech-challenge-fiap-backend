@@ -6,10 +6,10 @@ import br.com.techchallenge.foodsys.core.dtos.endereco.AtualizarEnderecoComandoD
 import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
 import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
 import br.com.techchallenge.foodsys.core.shared.CompartilhadoService;
-import br.com.techchallenge.foodsys.core.utils.AutorizacaoService;
 import br.com.techchallenge.foodsys.core.utils.ValidarCepDoUsuario;
-import br.com.techchallenge.foodsys.core.utils.ValidarEnderecoExistente;
-import br.com.techchallenge.foodsys.core.utils.ValidarProprietarioEndereco;
+import br.com.techchallenge.foodsys.infrastructure.services.AutorizacaoService;
+import br.com.techchallenge.foodsys.infrastructure.services.ValidarEnderecoExistente;
+import br.com.techchallenge.foodsys.infrastructure.services.ValidarProprietarioEndereco;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
