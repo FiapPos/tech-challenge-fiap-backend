@@ -1,15 +1,15 @@
 package br.com.techchallenge.foodsys.integration;
 
-import br.com.techchallenge.foodsys.core.domain.entities.UsuarioTipo;
-import br.com.techchallenge.foodsys.core.dtos.endereco.AtualizarEnderecoComandoDto;
-import br.com.techchallenge.foodsys.core.dtos.endereco.CriarEnderecoComandoDto;
-import br.com.techchallenge.foodsys.core.domain.entities.Endereco;
-import br.com.techchallenge.foodsys.core.dtos.endereco.DeletarEnderecoComandoDto;
-import br.com.techchallenge.foodsys.core.dtos.login.CredenciaisUsuarioDto;
-import br.com.techchallenge.foodsys.core.enums.TipoUsuario;
-import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
-import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
-import br.com.techchallenge.foodsys.core.gateways.UsuarioRepository;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.CriarEnderecoUsuarioCommandDto;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.AtualizarEnderecoUsuarioComandoDto;
+import br.com.techchallenge.foodsys.comandos.endereco.dtos.DeletarEnderecoUsuarioComandoDto;
+import br.com.techchallenge.foodsys.comandos.login.dto.CredenciaisUsuarioDto;
+import br.com.techchallenge.foodsys.dominio.endereco.Endereco;
+import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
+import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
+import br.com.techchallenge.foodsys.dominio.usuario.UsuarioRepository;
+import br.com.techchallenge.foodsys.dominio.usuario.UsuarioTipo;
+import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
@@ -85,7 +85,7 @@ class EnderecoIntegrationTest {
 
     @Test
     void deveCriarEnderecoComSucesso() throws Exception {
-        CriarEnderecoComandoDto dto = new CriarEnderecoComandoDto();
+        CriarEnderecoUsuarioCommandDto dto = new CriarEnderecoUsuarioCommandDto();
         dto.setUsuarioId(usuario.getId());
         dto.setRua("Rua das Flores");
         dto.setNumero("123");
@@ -103,7 +103,7 @@ class EnderecoIntegrationTest {
 
     @Test
     void deveRetornarErroAoCriarEnderecoComUsuarioInexistente() throws Exception {
-        CriarEnderecoComandoDto dto = new CriarEnderecoComandoDto();
+        CriarEnderecoUsuarioCommandDto dto = new CriarEnderecoUsuarioCommandDto();
         dto.setUsuarioId(999L);
         dto.setRua("Rua das Flores");
         dto.setNumero("123");
@@ -121,7 +121,7 @@ class EnderecoIntegrationTest {
 
     @Test
     void deveRetornarErroAoCriarEnderecoComDadosInvalidos() throws Exception {
-        CriarEnderecoComandoDto dto = new CriarEnderecoComandoDto();
+        CriarEnderecoUsuarioCommandDto dto = new CriarEnderecoUsuarioCommandDto();
         dto.setUsuarioId(usuario.getId());
         dto.setRua("Rua das Flores");
 
@@ -144,10 +144,10 @@ class EnderecoIntegrationTest {
         endereco.setCep("01234-567");
         endereco = enderecoRepository.save(endereco);
         
-        assertNotNull(endereco.getId(), "Endereço deve ter um ID após ser salvo");
-        assertTrue(enderecoRepository.findById(endereco.getId()).isPresent(), "Endereço deve existir no banco");
+        assert endereco.getId() != null : "Endereço deve ter um ID após ser salvo";
+        assert enderecoRepository.findById(endereco.getId()).isPresent() : "Endereço deve existir no banco";
 
-        AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
+        AtualizarEnderecoUsuarioComandoDto dto = new AtualizarEnderecoUsuarioComandoDto();
         dto.setUsuarioId(usuario.getId());
         dto.setRua("Rua das Flores Atualizada");
         dto.setNumero("456");
@@ -165,7 +165,7 @@ class EnderecoIntegrationTest {
 
     @Test
     void deveRetornarErroAoAtualizarEnderecoInexistente() throws Exception {
-        AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
+        AtualizarEnderecoUsuarioComandoDto dto = new AtualizarEnderecoUsuarioComandoDto();
         dto.setUsuarioId(usuario.getId());
         dto.setRua("Rua das Flores Atualizada");
         dto.setNumero("456");
@@ -203,7 +203,7 @@ class EnderecoIntegrationTest {
         endereco.setCep("01234-567");
         endereco = enderecoRepository.save(endereco);
 
-        AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
+        AtualizarEnderecoUsuarioComandoDto dto = new AtualizarEnderecoUsuarioComandoDto();
         dto.setUsuarioId(outroUsuario.getId());
         dto.setRua("Rua das Flores Atualizada");
         dto.setNumero("456");
@@ -235,7 +235,7 @@ class EnderecoIntegrationTest {
         System.out.println("Endereço salvo com ID: " + endereco.getId());
         System.out.println("Usuario ID: " + usuario.getId());
 
-        DeletarEnderecoComandoDto dto = new DeletarEnderecoComandoDto();
+        DeletarEnderecoUsuarioComandoDto dto = new DeletarEnderecoUsuarioComandoDto();
         dto.setEnderecoId(endereco.getId());
         dto.setUsuarioId(usuario.getId());
 
@@ -254,7 +254,7 @@ class EnderecoIntegrationTest {
 
     @Test
     void deveRetornarErroAoDeletarEnderecoInexistente() throws Exception {
-        DeletarEnderecoComandoDto dto = new DeletarEnderecoComandoDto();
+        DeletarEnderecoUsuarioComandoDto dto = new DeletarEnderecoUsuarioComandoDto();
         dto.setEnderecoId(999L);
         dto.setUsuarioId(usuario.getId());
 
@@ -317,7 +317,7 @@ class EnderecoIntegrationTest {
 
     @Test
     void deveRetornarErroSemAutenticacao() throws Exception {
-        CriarEnderecoComandoDto dto = new CriarEnderecoComandoDto();
+        CriarEnderecoUsuarioCommandDto dto = new CriarEnderecoUsuarioCommandDto();
         dto.setUsuarioId(usuario.getId());
         dto.setRua("Rua das Flores");
         dto.setNumero("123");
