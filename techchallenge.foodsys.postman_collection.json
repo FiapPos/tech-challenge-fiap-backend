@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5d9bc321-6235-4631-9e47-2c8715c6ec0c",
+		"_postman_id": "25fb47e1-d933-433b-a8bb-3d0cfd2b61fa",
 		"name": "techchallenge.foodsys",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -36,6 +36,9 @@
 				},
 				{
 					"name": "Listar usuários",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -44,6 +47,15 @@
 								"value": "Bearer {{token}}"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{base_url}}/usuarios?ativo=true",
 							"host": [
@@ -133,7 +145,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"login\": \"joao.silva\",\n  \"senha\": \"senha123\",\n  \"tipoUsuario\": \"DONO_RESTAURANTE\"\n}"
+							"raw": "{\n  \"login\": \"joao.silva\",\n  \"senha\": \"senha123\",\n  \"tipoUsuario\": \"ADMIN\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/login",
@@ -357,10 +369,19 @@
 					"response": []
 				},
 				{
-					"name": "Desativar restaurante",
+					"name": "Atualizar Restaurante",
 					"request": {
-						"method": "DELETE",
+						"method": "PUT",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"usuarioDonoId\": 1,\r\n  \"nome\": \"Pizzaria da Ana\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{base_url}}/restaurante/{{restauranteId}}",
 							"host": [
@@ -375,19 +396,10 @@
 					"response": []
 				},
 				{
-					"name": "Atualizar Restaurante",
+					"name": "Desativar restaurante",
 					"request": {
-						"method": "PUT",
+						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"usuarioDonoId\": 1,\r\n  \"nome\": \"Pizzaria da Ana\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
 							"raw": "{{base_url}}/restaurante/{{restauranteId}}",
 							"host": [
@@ -577,6 +589,25 @@
 					"response": []
 				},
 				{
+					"name": "Lista endereços de restaurante",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/enderecoRestaurante/restaurante/{{restauranteId}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"enderecoRestaurante",
+								"restaurante",
+								"{{restauranteId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Atualizar endereço de restaurante",
 					"request": {
 						"method": "PUT",
@@ -604,32 +635,13 @@
 					"response": []
 				},
 				{
-					"name": "Lista endereços de restaurante",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/enderecoRestaurante/restaurante/{{restauranteId}}",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"enderecoRestaurante",
-								"restaurante",
-								"{{restauranteId}}"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "Excluir endereco de restaurante",
 					"request": {
 						"method": "DELETE",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n \"enderecoId\": 1,\n \"restauranteId\": 1\n}",
+							"raw": "{\n \"enderecoId\": 2,\n \"restauranteId\": 1\n}",
 							"options": {
 								"raw": {
 									"language": "json"
