@@ -1,0 +1,61 @@
+package br.com.techchallenge.foodsys.core.domain.usecases.login;
+
+import br.com.techchallenge.foodsys.core.dtos.login.CredenciaisUsuarioDto;
+import br.com.techchallenge.foodsys.core.dtos.login.DetalhesUsuarioDto;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.enums.TipoUsuario;
+import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
+import br.com.techchallenge.foodsys.core.exceptions.CredenciaisInvalidasException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
+
+@Service
+public class AutenticaLoginComando {
+
+    private final AuthenticationManager authenticationManager;
+
+    public AutenticaLoginComando(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
+
+    public Usuario login(CredenciaisUsuarioDto credentials) throws Exception {
+        try {
+            Authentication authentication = autenticarCredenciais(credentials);
+            Usuario usuario = extrairUsuario(authentication);
+            validarTipoUsuario(usuario, credentials.tipoUsuario());
+            return usuario;
+        } catch (Exception e) {
+            tratarExcecao(e);
+            return null;
+        }
+    }
+
+    private Authentication autenticarCredenciais(CredenciaisUsuarioDto credentials) {
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+                credentials.login(), credentials.senha());
+        return authenticationManager.authenticate(token);
+    }
+
+    private Usuario extrairUsuario(Authentication authentication) {
+        DetalhesUsuarioDto detalhes = (DetalhesUsuarioDto) authentication.getPrincipal();
+        return detalhes.usuario();
+    }
+
+    private void validarTipoUsuario(Usuario usuario, TipoUsuario tipoSolicitado) {
+        boolean temTipo = usuario.getUsuarioTipos().stream()
+                .anyMatch(ut -> ut.getTipo() == tipoSolicitado);
+
+        if (!temTipo) {
+            throw new CredenciaisInvalidasException();
+        }
+    }
+
+    private void tratarExcecao(Exception e) throws Exception {
+        if (e instanceof BadRequestException) {
+            throw e;
+        }
+        throw new CredenciaisInvalidasException();
+    }
+}
