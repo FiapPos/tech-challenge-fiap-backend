@@ -1,4 +1,4 @@
-package br.com.techchallenge.foodsys.excpetion;
+package br.com.techchallenge.foodsys.core.exceptions;
 
 import br.com.techchallenge.foodsys.core.exceptions.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -66,6 +66,45 @@ class GlobalExceptionHandlerTest {
         ResponseEntity<ErrorResponse> response = handler.handleForbiddenException(ex);
         assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
         assertEquals(mensagemTraduzida, Objects.requireNonNull(response.getBody()).getMensagem());
+    }
+
+    @Test
+    void deveTratarIllegalArgumentException() {
+        String mensagem = "Argumento ilegal fornecido";
+        IllegalArgumentException ex = new IllegalArgumentException(mensagem);
+
+        ResponseEntity<ErrorResponse> response = handler.handleIllegalArgumentException(ex);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(mensagem, Objects.requireNonNull(response.getBody()).getMensagem());
+    }
+
+    @Test
+    void deveTratarIllegalArgumentExceptionComMensagemNula() {
+        IllegalArgumentException ex = new IllegalArgumentException();
+
+        ResponseEntity<ErrorResponse> response = handler.handleIllegalArgumentException(ex);
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertNull(Objects.requireNonNull(response.getBody()).getMensagem());
+    }
+
+    @Test
+    void deveTratarItemDoCardapioNaoEncontradoException() {
+        String mensagem = "Item do cardápio não encontrado com id: 1";
+        ItemDoCardapioNaoEncontradoException ex = new ItemDoCardapioNaoEncontradoException(1L);
+
+        ResponseEntity<ErrorResponse> response = handler.handlePratoNaoEncontradoException(ex);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals(mensagem, Objects.requireNonNull(response.getBody()).getMensagem());
+    }
+
+    @Test
+    void deveTratarItemDoCardapioNaoEncontradoExceptionComIdDiferente() {
+        String mensagem = "Item do cardápio não encontrado com id: 999";
+        ItemDoCardapioNaoEncontradoException ex = new ItemDoCardapioNaoEncontradoException(999L);
+
+        ResponseEntity<ErrorResponse> response = handler.handlePratoNaoEncontradoException(ex);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals(mensagem, Objects.requireNonNull(response.getBody()).getMensagem());
     }
 
     @Test
@@ -176,5 +215,101 @@ class GlobalExceptionHandlerTest {
         assertInstanceOf(Map.class, response.getBody());
         Map<String, String> errors = (Map<String, String>) response.getBody();
         assertEquals(defaultMessage, errors.get(fieldName));
+    }
+
+    @Test
+    void deveTratarMethodArgumentNotValidExceptionComMensagemQueNaoComecaComChave() {
+        String fieldName = "cpf";
+        String defaultMessage = "CPF inválido";
+        
+        FieldError fieldError = new FieldError("object", fieldName, defaultMessage);
+        BindingResult bindingResult = mock(BindingResult.class);
+        when(bindingResult.getAllErrors()).thenReturn(List.of(fieldError));
+        
+        MethodArgumentNotValidException ex = mock(MethodArgumentNotValidException.class);
+        when(ex.getBindingResult()).thenReturn(bindingResult);
+
+        ResponseEntity<Object> response = handler.handleValidationExceptions(ex);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertInstanceOf(Map.class, response.getBody());
+        Map<String, String> errors = (Map<String, String>) response.getBody();
+        assertEquals(defaultMessage, errors.get(fieldName));
+    }
+
+    @Test
+    void deveTratarMethodArgumentNotValidExceptionComMensagemVazia() {
+        String fieldName = "endereco";
+        String defaultMessage = "";
+        
+        FieldError fieldError = new FieldError("object", fieldName, defaultMessage);
+        BindingResult bindingResult = mock(BindingResult.class);
+        when(bindingResult.getAllErrors()).thenReturn(List.of(fieldError));
+        
+        MethodArgumentNotValidException ex = mock(MethodArgumentNotValidException.class);
+        when(ex.getBindingResult()).thenReturn(bindingResult);
+
+        ResponseEntity<Object> response = handler.handleValidationExceptions(ex);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertInstanceOf(Map.class, response.getBody());
+        Map<String, String> errors = (Map<String, String>) response.getBody();
+        assertEquals(defaultMessage, errors.get(fieldName));
+    }
+
+    @Test
+    void deveTratarMethodArgumentNotValidExceptionComMensagemQueTerminaComChaveMasNaoComeca() {
+        String fieldName = "cep";
+        String defaultMessage = "CEP inválido}";
+        
+        FieldError fieldError = new FieldError("object", fieldName, defaultMessage);
+        BindingResult bindingResult = mock(BindingResult.class);
+        when(bindingResult.getAllErrors()).thenReturn(List.of(fieldError));
+        
+        MethodArgumentNotValidException ex = mock(MethodArgumentNotValidException.class);
+        when(ex.getBindingResult()).thenReturn(bindingResult);
+
+        ResponseEntity<Object> response = handler.handleValidationExceptions(ex);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertInstanceOf(Map.class, response.getBody());
+        Map<String, String> errors = (Map<String, String>) response.getBody();
+        assertEquals(defaultMessage, errors.get(fieldName));
+    }
+
+    @Test
+    void deveTratarMethodArgumentNotValidExceptionComMensagemQueContemChavesNoMeio() {
+        String fieldName = "telefone";
+        String defaultMessage = "Telefone {validation.phone.invalid} inválido";
+        
+        FieldError fieldError = new FieldError("object", fieldName, defaultMessage);
+        BindingResult bindingResult = mock(BindingResult.class);
+        when(bindingResult.getAllErrors()).thenReturn(List.of(fieldError));
+        
+        MethodArgumentNotValidException ex = mock(MethodArgumentNotValidException.class);
+        when(ex.getBindingResult()).thenReturn(bindingResult);
+
+        ResponseEntity<Object> response = handler.handleValidationExceptions(ex);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertInstanceOf(Map.class, response.getBody());
+        Map<String, String> errors = (Map<String, String>) response.getBody();
+        assertEquals(defaultMessage, errors.get(fieldName));
+    }
+
+    @Test
+    void deveTratarMethodArgumentNotValidExceptionComListaVaziaDeErros() {
+        BindingResult bindingResult = mock(BindingResult.class);
+        when(bindingResult.getAllErrors()).thenReturn(new ArrayList<>());
+        
+        MethodArgumentNotValidException ex = mock(MethodArgumentNotValidException.class);
+        when(ex.getBindingResult()).thenReturn(bindingResult);
+
+        ResponseEntity<Object> response = handler.handleValidationExceptions(ex);
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertInstanceOf(Map.class, response.getBody());
+        Map<String, String> errors = (Map<String, String>) response.getBody();
+        assertTrue(errors.isEmpty());
     }
 } 

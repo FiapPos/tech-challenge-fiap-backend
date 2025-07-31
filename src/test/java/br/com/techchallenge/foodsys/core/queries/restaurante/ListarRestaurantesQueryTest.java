@@ -1,240 +1,277 @@
 package br.com.techchallenge.foodsys.core.queries.restaurante;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
-import br.com.techchallenge.foodsys.core.domain.usecases.restaurante.AtualizarRestauranteComando;
-import br.com.techchallenge.foodsys.core.domain.usecases.restaurante.CriarRestauranteCommand;
-import br.com.techchallenge.foodsys.core.domain.usecases.restaurante.DesativarRestauranteComando;
+import br.com.techchallenge.foodsys.core.domain.entities.Restaurante;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.exceptions.BadRequestException;
 import br.com.techchallenge.foodsys.core.queries.params.ListarRestaurantesParams;
 import br.com.techchallenge.foodsys.core.queries.resultadoItem.restaurante.ListarRestaurantesResultadoItem;
-import br.com.techchallenge.foodsys.core.utils.AutorizacaoService;
-import br.com.techchallenge.foodsys.core.utils.usuario.ValidadorPermissoes;
-import br.com.techchallenge.foodsys.infrastructure.api.controllers.RestauranteController;
+import br.com.techchallenge.foodsys.core.utils.ValidarParametroConsultaRestaurante;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
-public class ListarRestaurantesQueryTest {
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
 
-    @Mock
-    private ListarRestaurantesQuery listarRestaurantesQuery;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-    @Mock
-    private CriarRestauranteCommand criarRestauranteCommand;
-
-    @Mock
-    private DesativarRestauranteComando desativarRestauranteComando;
+class ListarRestaurantesQueryTest {
 
     @Mock
-    private AtualizarRestauranteComando atualizarRestauranteComando;
-
-    @Mock
-    private AutorizacaoService autorizacaoService;
-
-    @Mock
-    private ValidadorPermissoes validadorPermissoes;
+    private ValidarParametroConsultaRestaurante validarParametroConsultaRestaurante;
 
     @InjectMocks
-    private RestauranteController restauranteController;
+    private ListarRestaurantesQuery listarRestaurantesQuery;
+
+    private Restaurante restaurante1;
+    private Restaurante restaurante2;
+    private Usuario usuario1;
+    private Usuario usuario2;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        
+        // Setup usuários
+        usuario1 = new Usuario();
+        usuario1.setId(1L);
+        usuario1.setNome("João Silva");
+        
+        usuario2 = new Usuario();
+        usuario2.setId(2L);
+        usuario2.setNome("Maria Santos");
+        
+        // Setup restaurantes
+        restaurante1 = new Restaurante();
+        restaurante1.setId(1L);
+        restaurante1.setNome("Restaurante Italiano");
+        restaurante1.setTipoCozinha("Italiana");
+        restaurante1.setHorarioAbertura("08:00");
+        restaurante1.setHorarioFechamento("22:00");
+        restaurante1.setAtivo(true);
+        restaurante1.setUsuario(usuario1);
+        restaurante1.setDataCriacao(LocalDateTime.of(2024, 1, 1, 10, 0));
+        restaurante1.setDataAtualizacao(LocalDateTime.of(2024, 1, 15, 14, 30));
+        restaurante1.setDataDesativacao(null);
+        
+        restaurante2 = new Restaurante();
+        restaurante2.setId(2L);
+        restaurante2.setNome("Restaurante Japonês");
+        restaurante2.setTipoCozinha("Japonesa");
+        restaurante2.setHorarioAbertura("10:00");
+        restaurante2.setHorarioFechamento("20:00");
+        restaurante2.setAtivo(false);
+        restaurante2.setUsuario(usuario2);
+        restaurante2.setDataCriacao(LocalDateTime.of(2024, 2, 1, 9, 0));
+        restaurante2.setDataAtualizacao(LocalDateTime.of(2024, 2, 10, 16, 45));
+        restaurante2.setDataDesativacao(LocalDateTime.of(2024, 3, 1, 12, 0));
     }
 
     @Test
-    void deveListarRestaurantePorTipoCozinha() {
-
+    void deveListarRestaurantesComSucesso() {
+        // Arrange
         ListarRestaurantesParams params = new ListarRestaurantesParams();
         params.setTipoCozinha("Italiana");
+        
+        List<Restaurante> restaurantes = Arrays.asList(restaurante1);
+        when(validarParametroConsultaRestaurante.validarParametrosConsultaRestaurante(params))
+            .thenReturn(restaurantes);
 
-        ListarRestaurantesResultadoItem item = new ListarRestaurantesResultadoItem();
-        item.setId(1L);
-        item.setNome("Restaurante Italiano");
-        item.setTipoCozinha("Italiana");
-        item.setAtivo(true);
-        item.setHorarioAbertura("08:00");
-        item.setHorarioFechamento("22:00");
-        item.setUsuarioDonoId(10L);
-        item.setDataCriacao(null);
-        item.setDataAtualizacao(null);
-        item.setDataDesativacao(null);
+        // Act
+        List<ListarRestaurantesResultadoItem> resultado = listarRestaurantesQuery.execute(params);
 
-        List<ListarRestaurantesResultadoItem> resultado = List.of(item);
-
-        when(listarRestaurantesQuery.execute(params)).thenReturn(resultado);
-
-        ResponseEntity<List<ListarRestaurantesResultadoItem>> response = restauranteController
-                .listarRestaurantes(params);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertFalse(response.getBody().isEmpty());
-        ListarRestaurantesResultadoItem resultItem = response.getBody().get(0);
-        assertEquals(1L, resultItem.getId());
-        assertEquals("Restaurante Italiano", resultItem.getNome());
-        assertEquals("Italiana", resultItem.getTipoCozinha());
-        assertTrue(resultItem.getAtivo());
-        assertEquals("08:00", resultItem.getHorarioAbertura());
-        assertEquals("22:00", resultItem.getHorarioFechamento());
-        assertEquals(10L, resultItem.getUsuarioDonoId());
-        assertNull(resultItem.getDataCriacao());
-        assertNull(resultItem.getDataAtualizacao());
-        assertNull(resultItem.getDataDesativacao());
-        verify(listarRestaurantesQuery, times(1)).execute(params);
+        // Assert
+        assertNotNull(resultado);
+        assertEquals(1, resultado.size());
+        
+        ListarRestaurantesResultadoItem item = resultado.get(0);
+        assertEquals(1L, item.getId());
+        assertEquals("Restaurante Italiano", item.getNome());
+        assertEquals(1L, item.getUsuarioDonoId());
+        assertEquals("Italiana", item.getTipoCozinha());
+        assertEquals("08:00", item.getHorarioAbertura());
+        assertEquals("22:00", item.getHorarioFechamento());
+        assertTrue(item.getAtivo());
+        assertEquals(restaurante1.getDataCriacao(), item.getDataCriacao());
+        assertEquals(restaurante1.getDataAtualizacao(), item.getDataAtualizacao());
+        assertNull(item.getDataDesativacao());
+        
+        // Verify
+        verify(validarParametroConsultaRestaurante).validarParametrosConsultaRestaurante(params);
     }
 
     @Test
-    void deveListarRestauranteQuandoForAtivo() {
-
+    void deveListarMultiplosRestaurantesComSucesso() {
+        // Arrange
         ListarRestaurantesParams params = new ListarRestaurantesParams();
+        
+        List<Restaurante> restaurantes = Arrays.asList(restaurante1, restaurante2);
+        when(validarParametroConsultaRestaurante.validarParametrosConsultaRestaurante(params))
+            .thenReturn(restaurantes);
+
+        // Act
+        List<ListarRestaurantesResultadoItem> resultado = listarRestaurantesQuery.execute(params);
+
+        // Assert
+        assertNotNull(resultado);
+        assertEquals(2, resultado.size());
+        
+        ListarRestaurantesResultadoItem item1 = resultado.get(0);
+        assertEquals(1L, item1.getId());
+        assertEquals("Restaurante Italiano", item1.getNome());
+        assertTrue(item1.getAtivo());
+        
+        ListarRestaurantesResultadoItem item2 = resultado.get(1);
+        assertEquals(2L, item2.getId());
+        assertEquals("Restaurante Japonês", item2.getNome());
+        assertFalse(item2.getAtivo());
+        assertEquals(restaurante2.getDataDesativacao(), item2.getDataDesativacao());
+        
+        // Verify
+        verify(validarParametroConsultaRestaurante).validarParametrosConsultaRestaurante(params);
+    }
+
+    @Test
+    void deveLancarExcecaoQuandoListaVazia() {
+        // Arrange
+        ListarRestaurantesParams params = new ListarRestaurantesParams();
+        
+        List<Restaurante> restaurantes = Arrays.asList();
+        when(validarParametroConsultaRestaurante.validarParametrosConsultaRestaurante(params))
+            .thenReturn(restaurantes);
+
+        // Act & Assert
+        BadRequestException exception = assertThrows(BadRequestException.class, 
+            () -> listarRestaurantesQuery.execute(params));
+        
+        assertEquals("nenhum.restaurante.encontrado", exception.getMessage());
+        
+        // Verify
+        verify(validarParametroConsultaRestaurante).validarParametrosConsultaRestaurante(params);
+    }
+
+    @Test
+    void deveLancarExcecaoQuandoListaNula() {
+        // Arrange
+        ListarRestaurantesParams params = new ListarRestaurantesParams();
+        
+        when(validarParametroConsultaRestaurante.validarParametrosConsultaRestaurante(params))
+            .thenReturn(null);
+
+        // Act & Assert
+        assertThrows(NullPointerException.class, 
+            () -> listarRestaurantesQuery.execute(params));
+        
+        // Verify
+        verify(validarParametroConsultaRestaurante).validarParametrosConsultaRestaurante(params);
+    }
+
+    @Test
+    void deveMapearRestauranteComTodosOsCamposPreenchidos() {
+        // Arrange
+        ListarRestaurantesParams params = new ListarRestaurantesParams();
+        
+        List<Restaurante> restaurantes = Arrays.asList(restaurante2);
+        when(validarParametroConsultaRestaurante.validarParametrosConsultaRestaurante(params))
+            .thenReturn(restaurantes);
+
+        // Act
+        List<ListarRestaurantesResultadoItem> resultado = listarRestaurantesQuery.execute(params);
+
+        // Assert
+        assertNotNull(resultado);
+        assertEquals(1, resultado.size());
+        
+        ListarRestaurantesResultadoItem item = resultado.get(0);
+        assertEquals(2L, item.getId());
+        assertEquals("Restaurante Japonês", item.getNome());
+        assertEquals(2L, item.getUsuarioDonoId());
+        assertEquals("Japonesa", item.getTipoCozinha());
+        assertEquals("10:00", item.getHorarioAbertura());
+        assertEquals("20:00", item.getHorarioFechamento());
+        assertFalse(item.getAtivo());
+        assertEquals(restaurante2.getDataCriacao(), item.getDataCriacao());
+        assertEquals(restaurante2.getDataAtualizacao(), item.getDataAtualizacao());
+        assertEquals(restaurante2.getDataDesativacao(), item.getDataDesativacao());
+    }
+
+    @Test
+    void deveMapearRestauranteComCamposNulos() {
+        // Arrange
+        Restaurante restauranteComNulos = new Restaurante();
+        restauranteComNulos.setId(3L);
+        restauranteComNulos.setNome("Restaurante Teste");
+        restauranteComNulos.setTipoCozinha(null);
+        restauranteComNulos.setHorarioAbertura(null);
+        restauranteComNulos.setHorarioFechamento(null);
+        restauranteComNulos.setAtivo(true);
+        restauranteComNulos.setUsuario(usuario1);
+        restauranteComNulos.setDataCriacao(null);
+        restauranteComNulos.setDataAtualizacao(null);
+        restauranteComNulos.setDataDesativacao(null);
+        
+        ListarRestaurantesParams params = new ListarRestaurantesParams();
+        List<Restaurante> restaurantes = Arrays.asList(restauranteComNulos);
+        when(validarParametroConsultaRestaurante.validarParametrosConsultaRestaurante(params))
+            .thenReturn(restaurantes);
+
+        // Act
+        List<ListarRestaurantesResultadoItem> resultado = listarRestaurantesQuery.execute(params);
+
+        // Assert
+        assertNotNull(resultado);
+        assertEquals(1, resultado.size());
+        
+        ListarRestaurantesResultadoItem item = resultado.get(0);
+        assertEquals(3L, item.getId());
+        assertEquals("Restaurante Teste", item.getNome());
+        assertEquals(1L, item.getUsuarioDonoId());
+        assertNull(item.getTipoCozinha());
+        assertNull(item.getHorarioAbertura());
+        assertNull(item.getHorarioFechamento());
+        assertTrue(item.getAtivo());
+        assertNull(item.getDataCriacao());
+        assertNull(item.getDataAtualizacao());
+        assertNull(item.getDataDesativacao());
+    }
+
+    @Test
+    void deveMapearRestauranteComUsuarioNulo() {
+        // Arrange
+        Restaurante restauranteSemUsuario = new Restaurante();
+        restauranteSemUsuario.setId(4L);
+        restauranteSemUsuario.setNome("Restaurante Sem Usuário");
+        restauranteSemUsuario.setUsuario(null);
+        
+        ListarRestaurantesParams params = new ListarRestaurantesParams();
+        List<Restaurante> restaurantes = Arrays.asList(restauranteSemUsuario);
+        when(validarParametroConsultaRestaurante.validarParametrosConsultaRestaurante(params))
+            .thenReturn(restaurantes);
+
+        // Act & Assert
+        assertThrows(NullPointerException.class, 
+            () -> listarRestaurantesQuery.execute(params));
+    }
+
+    @Test
+    void deveChamarValidarParametroConsultaRestauranteComParamsCorretos() {
+        // Arrange
+        ListarRestaurantesParams params = new ListarRestaurantesParams();
+        params.setTipoCozinha("Italiana");
         params.setAtivo(true);
+        
+        List<Restaurante> restaurantes = Arrays.asList(restaurante1);
+        when(validarParametroConsultaRestaurante.validarParametrosConsultaRestaurante(params))
+            .thenReturn(restaurantes);
 
-        ListarRestaurantesResultadoItem item = new ListarRestaurantesResultadoItem();
-        item.setId(2L);
-        item.setNome("Restaurante Ativo");
-        item.setTipoCozinha("Brasileira");
-        item.setAtivo(true);
-        item.setHorarioAbertura("09:00");
-        item.setHorarioFechamento("21:00");
-        item.setUsuarioDonoId(20L);
-        item.setDataCriacao(null);
-        item.setDataAtualizacao(null);
-        item.setDataDesativacao(null);
+        // Act
+        listarRestaurantesQuery.execute(params);
 
-        List<ListarRestaurantesResultadoItem> resultado = List.of(item);
-
-        when(listarRestaurantesQuery.execute(params)).thenReturn(resultado);
-
-        ResponseEntity<List<ListarRestaurantesResultadoItem>> response = restauranteController
-                .listarRestaurantes(params);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertFalse(response.getBody().isEmpty());
-        ListarRestaurantesResultadoItem resultItem = response.getBody().get(0);
-        assertEquals(2L, resultItem.getId());
-        assertEquals("Restaurante Ativo", resultItem.getNome());
-        assertEquals("Brasileira", resultItem.getTipoCozinha());
-        assertTrue(resultItem.getAtivo());
-        assertEquals("09:00", resultItem.getHorarioAbertura());
-        assertEquals("21:00", resultItem.getHorarioFechamento());
-        assertEquals(20L, resultItem.getUsuarioDonoId());
-        assertNull(resultItem.getDataCriacao());
-        assertNull(resultItem.getDataAtualizacao());
-        assertNull(resultItem.getDataDesativacao());
-        verify(listarRestaurantesQuery, times(1)).execute(params);
-    }
-
-    @Test
-    void deveListarRestauranteQuandoForInativo() {
-
-        ListarRestaurantesParams params = new ListarRestaurantesParams();
-        params.setAtivo(false);
-
-        ListarRestaurantesResultadoItem item = new ListarRestaurantesResultadoItem();
-        item.setId(3L);
-        item.setNome("Restaurante Inativo");
-        item.setTipoCozinha("Japonesa");
-        item.setAtivo(false);
-        item.setHorarioAbertura("10:00");
-        item.setHorarioFechamento("20:00");
-        item.setUsuarioDonoId(30L);
-        item.setDataCriacao(null);
-        item.setDataAtualizacao(null);
-        LocalDateTime dataDesativacao = LocalDateTime.of(2024, 7, 10, 12, 0);
-        item.setDataDesativacao(dataDesativacao);
-
-        List<ListarRestaurantesResultadoItem> resultado = List.of(item);
-
-        when(listarRestaurantesQuery.execute(params)).thenReturn(resultado);
-
-        ResponseEntity<List<ListarRestaurantesResultadoItem>> response = restauranteController
-                .listarRestaurantes(params);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertFalse(response.getBody().isEmpty());
-        ListarRestaurantesResultadoItem resultItem = response.getBody().get(0);
-        assertEquals(3L, resultItem.getId());
-        assertEquals("Restaurante Inativo", resultItem.getNome());
-        assertEquals("Japonesa", resultItem.getTipoCozinha());
-        assertFalse(resultItem.getAtivo());
-        assertEquals("10:00", resultItem.getHorarioAbertura());
-        assertEquals("20:00", resultItem.getHorarioFechamento());
-        assertEquals(30L, resultItem.getUsuarioDonoId());
-        assertNull(resultItem.getDataCriacao());
-        assertNull(resultItem.getDataAtualizacao());
-        assertEquals(dataDesativacao, resultItem.getDataDesativacao());
-        verify(listarRestaurantesQuery, times(1)).execute(params);
-    }
-
-    @Test
-    void deveListarTodosRestaurantesQuandoParametroForNull() {
-
-        ListarRestaurantesParams params = new ListarRestaurantesParams(); // todos os filtros null
-
-        ListarRestaurantesResultadoItem item1 = new ListarRestaurantesResultadoItem();
-        item1.setId(1L);
-        item1.setNome("Restaurante 1");
-        item1.setTipoCozinha("Italiana");
-        item1.setAtivo(true);
-        item1.setHorarioAbertura("08:00");
-        item1.setHorarioFechamento("22:00");
-        item1.setUsuarioDonoId(10L);
-
-        ListarRestaurantesResultadoItem item2 = new ListarRestaurantesResultadoItem();
-        item2.setId(2L);
-        item2.setNome("Restaurante 2");
-        item2.setTipoCozinha("Japonesa");
-        item2.setAtivo(false);
-        item2.setHorarioAbertura("10:00");
-        item2.setHorarioFechamento("20:00");
-        item2.setUsuarioDonoId(20L);
-
-        List<ListarRestaurantesResultadoItem> resultado = List.of(item1, item2);
-
-        when(listarRestaurantesQuery.execute(params)).thenReturn(resultado);
-
-        ResponseEntity<List<ListarRestaurantesResultadoItem>> response = restauranteController
-                .listarRestaurantes(params);
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(2, response.getBody().size());
-
-        ListarRestaurantesResultadoItem resultItem1 = response.getBody().get(0);
-        assertEquals(1L, resultItem1.getId());
-        assertEquals("Restaurante 1", resultItem1.getNome());
-        assertEquals("Italiana", resultItem1.getTipoCozinha());
-        assertTrue(resultItem1.getAtivo());
-        assertEquals("08:00", resultItem1.getHorarioAbertura());
-        assertEquals("22:00", resultItem1.getHorarioFechamento());
-        assertEquals(10L, resultItem1.getUsuarioDonoId());
-
-        ListarRestaurantesResultadoItem resultItem2 = response.getBody().get(1);
-        assertEquals(2L, resultItem2.getId());
-        assertEquals("Restaurante 2", resultItem2.getNome());
-        assertEquals("Japonesa", resultItem2.getTipoCozinha());
-        assertFalse(resultItem2.getAtivo());
-        assertEquals("10:00", resultItem2.getHorarioAbertura());
-        assertEquals("20:00", resultItem2.getHorarioFechamento());
-        assertEquals(20L, resultItem2.getUsuarioDonoId());
-
-        verify(listarRestaurantesQuery, times(1)).execute(params);
+        // Verify
+        verify(validarParametroConsultaRestaurante).validarParametrosConsultaRestaurante(params);
     }
 }
