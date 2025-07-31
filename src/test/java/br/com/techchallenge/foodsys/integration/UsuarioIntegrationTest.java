@@ -1,15 +1,13 @@
 package br.com.techchallenge.foodsys.integration;
 
-import br.com.techchallenge.foodsys.comandos.login.dto.CredenciaisUsuarioDto;
-import br.com.techchallenge.foodsys.comandos.usuario.dtos.CriarUsuarioCommandDto;
-import br.com.techchallenge.foodsys.comandos.usuario.dtos.AtualizarUsuarioComandoDto;
-import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
-import br.com.techchallenge.foodsys.dominio.usuario.UsuarioRepository;
-import br.com.techchallenge.foodsys.dominio.usuario.UsuarioTipo;
-import br.com.techchallenge.foodsys.dominio.endereco.EnderecoRepository;
-import br.com.techchallenge.foodsys.enums.TipoUsuario;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
+import br.com.techchallenge.foodsys.core.domain.entities.UsuarioTipo;
+import br.com.techchallenge.foodsys.core.dtos.login.CredenciaisUsuarioDto;
+import br.com.techchallenge.foodsys.core.dtos.usuario.CriarUsuarioCommandDto;
+import br.com.techchallenge.foodsys.core.dtos.usuario.AtualizarUsuarioComandoDto;
+import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
+import br.com.techchallenge.foodsys.core.enums.TipoUsuario;
+import br.com.techchallenge.foodsys.core.gateways.UsuarioRepository;
+import br.com.techchallenge.foodsys.core.gateways.EnderecoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -20,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.List;
 
