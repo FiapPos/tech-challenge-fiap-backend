@@ -12,7 +12,9 @@ public record DetalhesUsuarioDto(Usuario usuario) implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(usuario.getTipo().name()));
+        return usuario.getUsuarioTipos().stream()
+                .map(usuarioTipo -> new SimpleGrantedAuthority(usuarioTipo.getTipo().name()))
+                .toList();
     }
 
     @Override

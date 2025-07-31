@@ -3,9 +3,12 @@ package br.com.techchallenge.foodsys.comandos.usuario.dtos;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,6 +27,6 @@ public class CriarUsuarioCommandDto {
     @NotBlank(message = "{login.obrigatorio}")
     private String login;
 
-    @NotNull(message = "{tipo.obrigatorio}")
-    private TipoUsuario tipo;
+    @NotEmpty(message = "{tipos.obrigatorio}")
+    private List<TipoUsuario> tipos;
 }

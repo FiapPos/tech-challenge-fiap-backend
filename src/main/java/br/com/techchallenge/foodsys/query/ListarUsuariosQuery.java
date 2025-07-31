@@ -4,6 +4,8 @@ import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.dominio.usuario.UsuarioRepository;
 import br.com.techchallenge.foodsys.query.params.ListarUsuariosParams;
 import br.com.techchallenge.foodsys.query.resultadoItem.ListarUsuariosResultadoItem;
+import br.com.techchallenge.foodsys.query.tipo.ListarPorTipoUsuario;
+import br.com.techchallenge.foodsys.query.tipo.TipoUsuarioResultItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import java.util.List;
 public class ListarUsuariosQuery {
 
     private final UsuarioRepository usuarioRepository;
+    private final ListarPorTipoUsuario listarPorTipoUsuario;
 
     public List<ListarUsuariosResultadoItem> execute(ListarUsuariosParams params) {
         List<Usuario> usuarios = buscarUsuarios(params);
@@ -33,7 +36,7 @@ public class ListarUsuariosQuery {
                 .nome(usuario.getNome())
                 .email(usuario.getEmail())
                 .login(usuario.getLogin())
-                .tipo(usuario.getTipo())
+                .tipo(listarPorTipoUsuario.execute(usuario.getUsuarioTipos()))
                 .dataCriacao(usuario.getDataCriacao())
                 .dataAtualizacao(usuario.getDataAtualizacao())
                 .build();

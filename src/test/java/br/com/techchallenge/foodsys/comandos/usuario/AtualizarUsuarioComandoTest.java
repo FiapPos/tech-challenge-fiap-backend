@@ -4,6 +4,7 @@ import br.com.techchallenge.foodsys.comandos.usuario.dtos.AtualizarUsuarioComand
 import br.com.techchallenge.foodsys.compartilhado.CompartilhadoService;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
 import br.com.techchallenge.foodsys.dominio.usuario.UsuarioRepository;
+import br.com.techchallenge.foodsys.dominio.usuario.UsuarioTipo;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import br.com.techchallenge.foodsys.utils.ValidarEmailExistente;
@@ -17,6 +18,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -46,22 +49,34 @@ class AtualizarUsuarioComandoTest {
     @InjectMocks
     private AtualizarUsuarioComando atualizarUsuarioComando;
 
-    private Usuario usuarioExistente;
     private AtualizarUsuarioComandoDto dto;
     private final Long ID_USUARIO = 1L;
     private final LocalDateTime DATA_ATUAL = LocalDateTime.now();
 
+    private Usuario criarUsuarioComTipo(TipoUsuario tipoUsuario) {
+        Usuario usuario = new Usuario();
+        usuario.setId(ID_USUARIO);
+        usuario.setNome("Nome Original");
+        usuario.setEmail("original@email.com");
+        usuario.setLogin("login_original");
+        usuario.setSenha("senha_codificada");
+        usuario.setAtivo(true);
+
+        UsuarioTipo usuarioTipo = new UsuarioTipo();
+        usuarioTipo.setTipo(tipoUsuario);
+        usuarioTipo.setUsuario(usuario);
+
+        Set<UsuarioTipo> usuarioTipos = new HashSet<>();
+        usuarioTipos.add(usuarioTipo);
+        usuario.setUsuarioTipos(usuarioTipos);
+
+        return usuario;
+    }
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        usuarioExistente = new Usuario();
-        usuarioExistente.setId(ID_USUARIO);
-        usuarioExistente.setNome("Nome Original");
-        usuarioExistente.setEmail("original@email.com");
-        usuarioExistente.setLogin("login_original");
-        usuarioExistente.setSenha("senha_codificada");
-        usuarioExistente.setTipo(TipoUsuario.CLIENTE);
-        usuarioExistente.setAtivo(true);
+        Usuario usuarioExistente = criarUsuarioComTipo(TipoUsuario.CLIENTE);
 
         when(validarUsuarioExistente.execute(ID_USUARIO)).thenReturn(usuarioExistente);
         when(compartilhadoService.getCurrentDateTime()).thenReturn(DATA_ATUAL);
@@ -103,7 +118,9 @@ class AtualizarUsuarioComandoTest {
         assertEquals("Novo Nome", resultado.getNome());
         assertEquals("original@email.com", resultado.getEmail());
         assertEquals("login_original", resultado.getLogin());
-        assertEquals(TipoUsuario.CLIENTE, resultado.getTipo());
+        // Verificar se o usuário mantém o tipo CLIENTE
+        assertTrue(resultado.getUsuarioTipos().stream()
+                .anyMatch(ut -> ut.getTipo() == TipoUsuario.CLIENTE));
 
         verify(validarEmailExistente, never()).execute(anyString());
         verify(validarLoginExistente, never()).execute(anyString());

@@ -2,6 +2,7 @@ package br.com.techchallenge.foodsys.compartilhado;
 
 import br.com.techchallenge.foodsys.comandos.login.dto.DetalhesUsuarioDto;
 import br.com.techchallenge.foodsys.dominio.usuario.Usuario;
+import br.com.techchallenge.foodsys.dominio.usuario.UsuarioTipo;
 import br.com.techchallenge.foodsys.enums.TipoUsuario;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
@@ -9,7 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -18,6 +21,21 @@ import static org.mockito.Mockito.when;
 class UsuarioLogadoTest {
 
     private final UsuarioLogado usuarioLogado = new UsuarioLogado();
+
+    private Usuario criarUsuarioComTipo(Long id, TipoUsuario tipoUsuario) {
+        Usuario usuario = mock(Usuario.class);
+        when(usuario.getId()).thenReturn(id);
+
+        UsuarioTipo usuarioTipo = new UsuarioTipo();
+        usuarioTipo.setTipo(tipoUsuario);
+        usuarioTipo.setUsuario(usuario);
+
+        Set<UsuarioTipo> usuarioTipos = new HashSet<>();
+        usuarioTipos.add(usuarioTipo);
+        when(usuario.getUsuarioTipos()).thenReturn(usuarioTipos);
+
+        return usuario;
+    }
 
     @AfterEach
     void limparSecurityContext() {
@@ -28,9 +46,7 @@ class UsuarioLogadoTest {
     class GetUsuario {
         @Test
         void deveRetornarUsuarioQuandoAutenticadoCorretamente() {
-            Usuario usuario = mock(Usuario.class);
-            when(usuario.getId()).thenReturn(42L);
-            when(usuario.getTipo()).thenReturn(TipoUsuario.CLIENTE);
+            Usuario usuario = criarUsuarioComTipo(42L, TipoUsuario.CLIENTE);
             DetalhesUsuarioDto userDetails = new DetalhesUsuarioDto(usuario);
 
             var authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -65,9 +81,7 @@ class UsuarioLogadoTest {
     class GetUsuarioId {
         @Test
         void deveRetornarIdQuandoIdentificadoCorretamente() {
-            Usuario usuario = mock(Usuario.class);
-            when(usuario.getId()).thenReturn(99L);
-            when(usuario.getTipo()).thenReturn(TipoUsuario.CLIENTE);
+            Usuario usuario = criarUsuarioComTipo(99L, TipoUsuario.CLIENTE);
             DetalhesUsuarioDto userDetails = new DetalhesUsuarioDto(usuario);
 
             var authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

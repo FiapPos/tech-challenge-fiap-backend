@@ -2,6 +2,8 @@ package br.com.techchallenge.foodsys.controller;
 import br.com.techchallenge.foodsys.comandos.cardapio.*;
 import br.com.techchallenge.foodsys.comandos.cardapio.dtos.ItemDoCardapioRequestDTO;
 import br.com.techchallenge.foodsys.comandos.cardapio.dtos.ItemDoCardapioResponseDTO;
+import br.com.techchallenge.foodsys.utils.doc.ItemDoCardapioControllerDoc;
+import br.com.techchallenge.foodsys.utils.usuario.ValidadorPermissoes;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,32 +13,37 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/itens")
-public class ItemDoCardapioController {
+public class ItemDoCardapioController implements ItemDoCardapioControllerDoc {
 
     private final CriarItemDoCardapioHandler criarItemDoCardapioHandler;
     private final ListarItemDoCardapioHandler listarItemDoCardapioHandler;
     private final BuscarItemDoCardapioPorIdHandler buscarItemDoCardapioPorIdHandler;
     private final AtualizarItemDoCardapioHandler atualizarItemDoCardapioHandler;
     private final ExcluirItemDoCardapioHandler excluirItemDoCardapioHandler;
+    private final ValidadorPermissoes validadorPermissoes;
 
     public ItemDoCardapioController(
             CriarItemDoCardapioHandler criarItemDoCardapioHandler,
             ListarItemDoCardapioHandler listarItemDoCardapioHandler,
             BuscarItemDoCardapioPorIdHandler buscarItemDoCardapioPorIdHandler,
             AtualizarItemDoCardapioHandler atualizarItemDoCardapioHandler,
-            ExcluirItemDoCardapioHandler excluirItemDoCardapioHandler
+            ExcluirItemDoCardapioHandler excluirItemDoCardapioHandler,
+            ValidadorPermissoes validadorPermissoes
     ) {
         this.criarItemDoCardapioHandler = criarItemDoCardapioHandler;
         this.listarItemDoCardapioHandler = listarItemDoCardapioHandler;
         this.buscarItemDoCardapioPorIdHandler = buscarItemDoCardapioPorIdHandler;
         this.atualizarItemDoCardapioHandler = atualizarItemDoCardapioHandler;
         this.excluirItemDoCardapioHandler = excluirItemDoCardapioHandler;
+        this.validadorPermissoes = validadorPermissoes;
     }
 
     @PostMapping
     public ResponseEntity<ItemDoCardapioResponseDTO> criar(
             @PathVariable Long restauranteId,
             @RequestBody @Valid ItemDoCardapioRequestDTO request) {
+
+        validadorPermissoes.validarGerenciamentoCardapio(restauranteId);
 
         CriarItemDoCardapioComando comando = new CriarItemDoCardapioComando(
                 request.getNome(),
@@ -52,6 +59,7 @@ public class ItemDoCardapioController {
 
     @GetMapping
     public ResponseEntity<List<ItemDoCardapioResponseDTO>> listarTodos(@PathVariable Long restauranteId) {
+        validadorPermissoes.validarVisualizacao(); // Listagem não precisa validação específica
         List<ItemDoCardapioResponseDTO> itens = listarItemDoCardapioHandler.executarPorRestaurante(restauranteId);
         return ResponseEntity.ok(itens);
     }
@@ -61,6 +69,7 @@ public class ItemDoCardapioController {
             @PathVariable Long restauranteId,
             @PathVariable Long itemId) {
 
+        validadorPermissoes.validarVisualizacao(); // Visualização não precisa validação específica
         ItemDoCardapioResponseDTO item = buscarItemDoCardapioPorIdHandler.executar(restauranteId, itemId);
         return ResponseEntity.ok(item);
     }
@@ -70,6 +79,8 @@ public class ItemDoCardapioController {
             @PathVariable Long restauranteId,
             @PathVariable Long itemId,
             @RequestBody @Valid ItemDoCardapioRequestDTO request) {
+
+        validadorPermissoes.validarGerenciamentoCardapio(restauranteId);
 
         AtualizarItemDoCardapioComando comando = new AtualizarItemDoCardapioComando(
                 request.getNome(),
@@ -87,6 +98,7 @@ public class ItemDoCardapioController {
             @PathVariable Long restauranteId,
             @PathVariable Long itemId) {
 
+        validadorPermissoes.validarGerenciamentoCardapio(restauranteId);
         excluirItemDoCardapioHandler.executar(restauranteId, itemId);
         return ResponseEntity.noContent().build();
     }

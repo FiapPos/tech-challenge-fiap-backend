@@ -1,5 +1,7 @@
 package br.com.techchallenge.foodsys.controller;
 import br.com.techchallenge.foodsys.comandos.cardapio.FotoItemDoCardapioHandler;
+import br.com.techchallenge.foodsys.utils.doc.FotoItemDoCardapioControllerDoc;
+import br.com.techchallenge.foodsys.utils.usuario.ValidadorPermissoes;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,12 +10,15 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/restaurantes/{restauranteId}/itens/{itemId}/foto")
-public class FotoItemDoCardapioController {
+public class FotoItemDoCardapioController implements FotoItemDoCardapioControllerDoc {
 
     private final FotoItemDoCardapioHandler fotoItemDoCardapioHandler;
+    private final ValidadorPermissoes validadorPermissoes;
 
-    public FotoItemDoCardapioController(FotoItemDoCardapioHandler fotoItemDoCardapioHandler) {
+    public FotoItemDoCardapioController(FotoItemDoCardapioHandler fotoItemDoCardapioHandler,
+                                      ValidadorPermissoes validadorPermissoes) {
         this.fotoItemDoCardapioHandler = fotoItemDoCardapioHandler;
+        this.validadorPermissoes = validadorPermissoes;
     }
 
     @PostMapping
@@ -21,6 +26,8 @@ public class FotoItemDoCardapioController {
             @PathVariable Long restauranteId,
             @PathVariable Long itemId,
             @RequestParam("arquivo") MultipartFile arquivo) {
+
+        validadorPermissoes.validarGerenciamentoCardapio(restauranteId);
 
         try {
             fotoItemDoCardapioHandler.salvarFoto(restauranteId, itemId, arquivo);

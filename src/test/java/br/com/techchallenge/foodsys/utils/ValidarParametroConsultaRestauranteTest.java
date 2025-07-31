@@ -50,7 +50,7 @@ public class ValidarParametroConsultaRestauranteTest {
         restaurante1.setTipoCozinha("Italiana");
         restaurante1.setHorarioAbertura("08:00");
         restaurante1.setHorarioFechamento("22:00");
-        restaurante1.setUsuarioDonoId(10L);
+        restaurante1.setUsuarioId(10L);
 
         Restaurante restaurante2 = new Restaurante();
         restaurante2.setId(2L);
@@ -59,7 +59,7 @@ public class ValidarParametroConsultaRestauranteTest {
         restaurante2.setTipoCozinha("Italiana");
         restaurante2.setHorarioAbertura("09:00");
         restaurante2.setHorarioFechamento("23:00");
-        restaurante2.setUsuarioDonoId(20L);
+        restaurante2.setUsuarioId(20L);
 
         List<Restaurante> listaTipoCozinha = List.of(restaurante1, restaurante2);
 
@@ -82,8 +82,8 @@ public class ValidarParametroConsultaRestauranteTest {
         assertEquals("22:00", resultadoTipoCozinha.get(0).getHorarioFechamento());
         assertEquals("09:00", resultadoTipoCozinha.get(1).getHorarioAbertura());
         assertEquals("23:00", resultadoTipoCozinha.get(1).getHorarioFechamento());
-        assertEquals(10L, resultadoTipoCozinha.get(0).getUsuarioDonoId());
-        assertEquals(20L, resultadoTipoCozinha.get(1).getUsuarioDonoId());
+        assertEquals(10L, resultadoTipoCozinha.get(0).getUsuarioId());
+        assertEquals(20L, resultadoTipoCozinha.get(1).getUsuarioId());
         verify(restauranteRepository, times(1)).findByTipoCozinha("Italiana");
     }
 
@@ -99,7 +99,7 @@ public class ValidarParametroConsultaRestauranteTest {
         restaurante1.setTipoCozinha("Italiana");
         restaurante1.setHorarioAbertura("08:00");
         restaurante1.setHorarioFechamento("22:00");
-        restaurante1.setUsuarioDonoId(10L);
+        restaurante1.setUsuarioId(10L);
 
         Restaurante restaurante2 = new Restaurante();
         restaurante2.setId(2L);
@@ -108,7 +108,7 @@ public class ValidarParametroConsultaRestauranteTest {
         restaurante2.setTipoCozinha("Italiana");
         restaurante2.setHorarioAbertura("09:00");
         restaurante2.setHorarioFechamento("23:00");
-        restaurante2.setUsuarioDonoId(20L);
+        restaurante2.setUsuarioId(20L);
 
         List<Restaurante> listaAtiva = List.of(restaurante1, restaurante2);
 
@@ -130,8 +130,8 @@ public class ValidarParametroConsultaRestauranteTest {
         assertEquals("22:00", resultadoAtivo.get(0).getHorarioFechamento());
         assertEquals("09:00", resultadoAtivo.get(1).getHorarioAbertura());
         assertEquals("23:00", resultadoAtivo.get(1).getHorarioFechamento());
-        assertEquals(10L, resultadoAtivo.get(0).getUsuarioDonoId());
-        assertEquals(20L, resultadoAtivo.get(1).getUsuarioDonoId());
+        assertEquals(10L, resultadoAtivo.get(0).getUsuarioId());
+        assertEquals(20L, resultadoAtivo.get(1).getUsuarioId());
         verify(restauranteRepository, times(1)).findByAtivo(true, Sort.by(Sort.Direction.ASC, "id"));
     }
 
@@ -208,7 +208,7 @@ public class ValidarParametroConsultaRestauranteTest {
         restaurante1.setTipoCozinha("Italiana");
         restaurante1.setHorarioAbertura("08:00");
         restaurante1.setHorarioFechamento("22:00");
-        restaurante1.setUsuarioDonoId(10L);
+        restaurante1.setUsuarioId(10L);
 
         Restaurante restaurante2 = new Restaurante();
         restaurante2.setId(2L);
@@ -217,7 +217,7 @@ public class ValidarParametroConsultaRestauranteTest {
         restaurante2.setTipoCozinha("Italiana");
         restaurante2.setHorarioAbertura("09:00");
         restaurante2.setHorarioFechamento("23:00");
-        restaurante2.setUsuarioDonoId(20L);
+        restaurante2.setUsuarioId(20L);
 
         List<Restaurante> listaInativa = List.of(restaurante1, restaurante2);
 
@@ -239,8 +239,8 @@ public class ValidarParametroConsultaRestauranteTest {
         assertEquals("22:00", resultadoInativo.get(0).getHorarioFechamento());
         assertEquals("09:00", resultadoInativo.get(1).getHorarioAbertura());
         assertEquals("23:00", resultadoInativo.get(1).getHorarioFechamento());
-        assertEquals(10L, resultadoInativo.get(0).getUsuarioDonoId());
-        assertEquals(20L, resultadoInativo.get(1).getUsuarioDonoId());
+        assertEquals(10L, resultadoInativo.get(0).getUsuarioId());
+        assertEquals(20L, resultadoInativo.get(1).getUsuarioId());
         verify(restauranteRepository, times(1)).findByAtivo(false, Sort.by(Sort.Direction.ASC, "id"));
     }
 

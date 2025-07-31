@@ -1,5 +1,6 @@
 package br.com.techchallenge.foodsys.controller;
 import br.com.techchallenge.foodsys.comandos.cardapio.FotoItemDoCardapioHandler;
+import br.com.techchallenge.foodsys.utils.usuario.ValidadorPermissoes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -19,11 +20,13 @@ class FotoItemDoCardapioControllerTest {
 
     private MockMvc mockMvc;
     private FotoItemDoCardapioHandler fotoItemDoCardapioHandler;
+    private ValidadorPermissoes validadorPermissoes;
 
     @BeforeEach
     void setUp( ) {
         fotoItemDoCardapioHandler = Mockito.mock(FotoItemDoCardapioHandler.class);
-        FotoItemDoCardapioController controller = new FotoItemDoCardapioController(fotoItemDoCardapioHandler);
+        validadorPermissoes = Mockito.mock(ValidadorPermissoes.class);
+        FotoItemDoCardapioController controller = new FotoItemDoCardapioController(fotoItemDoCardapioHandler, validadorPermissoes);
         mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
     }
 
@@ -36,6 +39,7 @@ class FotoItemDoCardapioControllerTest {
                 "conteudo".getBytes()
         );
 
+        doNothing().when(validadorPermissoes).validarGerenciamentoCardapio(anyLong());
         doNothing().when(fotoItemDoCardapioHandler).salvarFoto(anyLong(), anyLong(), any());
 
         mockMvc.perform(multipart("/restaurantes/1/itens/1/foto")
@@ -53,6 +57,7 @@ class FotoItemDoCardapioControllerTest {
                 "conteudo".getBytes()
         );
 
+        doNothing().when(validadorPermissoes).validarGerenciamentoCardapio(anyLong());
         doThrow(IOException.class).when(fotoItemDoCardapioHandler).salvarFoto(anyLong(), anyLong(), any());
 
         mockMvc.perform(multipart("/restaurantes/1/itens/1/foto")
@@ -70,6 +75,7 @@ class FotoItemDoCardapioControllerTest {
                 "conteudo".getBytes()
         );
 
+        doNothing().when(validadorPermissoes).validarGerenciamentoCardapio(anyLong());
         doThrow(new RuntimeException("Prato não encontrado")).when(fotoItemDoCardapioHandler).salvarFoto(anyLong(), anyLong(), any());
 
         mockMvc.perform(multipart("/restaurantes/1/itens/1/foto")

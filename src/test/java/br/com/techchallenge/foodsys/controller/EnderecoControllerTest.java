@@ -13,6 +13,7 @@ import br.com.techchallenge.foodsys.excpetion.BadRequestException;
 import br.com.techchallenge.foodsys.query.endereco.ListarEnderecoPorIdUsuario;
 import br.com.techchallenge.foodsys.query.resultadoItem.endereco.ListarEnderecoPorIdUsuarioResultadoItem;
 import br.com.techchallenge.foodsys.utils.AutorizacaoService;
+import br.com.techchallenge.foodsys.utils.usuario.ValidadorPermissoes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -40,6 +41,8 @@ class EnderecoControllerTest {
     private AutorizacaoService autorizacaoService;
     @Mock
     private EnderecoRepository enderecoRepository;
+    @Mock
+    private ValidadorPermissoes validadorPermissoes;
     @InjectMocks
     private EnderecoController enderecoController;
 
@@ -56,7 +59,7 @@ class EnderecoControllerTest {
         dto.setNumero("100");
         dto.setUsuarioId(1L);
         
-        doNothing().when(autorizacaoService).validarAcessoUsuario(dto.getUsuarioId());
+        doNothing().when(validadorPermissoes).validarGerenciamentoDadosProprios(dto.getUsuarioId());
         Endereco endereco = new Endereco();
         endereco.setId(1L);
         when(criarEnderecoCommand.execute(dto.getUsuarioId(), dto)).thenReturn(endereco);
@@ -64,7 +67,7 @@ class EnderecoControllerTest {
         ResponseEntity<Void> response = enderecoController.criar(dto);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
-        verify(autorizacaoService).validarAcessoUsuario(dto.getUsuarioId());
+        verify(validadorPermissoes).validarGerenciamentoDadosProprios(dto.getUsuarioId());
         verify(criarEnderecoCommand).execute(dto.getUsuarioId(), dto);
     }
 
@@ -81,14 +84,14 @@ class EnderecoControllerTest {
         endereco.setUsuario(usuario);
         when(enderecoRepository.findById(dto.getEnderecoId())).thenReturn(Optional.of(endereco));
         
-        doNothing().when(autorizacaoService).validarAcessoUsuario(usuario.getId());
-        doNothing().when(deletarEnderecoComando).execute(usuario.getId(), dto);
+        doNothing().when(validadorPermissoes).validarGerenciamentoDadosProprios(usuario.getId());
+        doNothing().when(deletarEnderecoComando).execute(dto.getUsuarioId(), dto);
 
         ResponseEntity<Void> response = enderecoController.deletar(dto);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        verify(autorizacaoService).validarAcessoUsuario(usuario.getId());
-        verify(deletarEnderecoComando).execute(usuario.getId(), dto);
+        verify(validadorPermissoes).validarGerenciamentoDadosProprios(usuario.getId());
+        verify(deletarEnderecoComando).execute(dto.getUsuarioId(), dto);
         verify(enderecoRepository).findById(dto.getEnderecoId());
     }
 
@@ -101,26 +104,28 @@ class EnderecoControllerTest {
                 .build();
         List<ListarEnderecoPorIdUsuarioResultadoItem> resultado = List.of(item);
         
-        doNothing().when(autorizacaoService).validarAcessoUsuario(usuarioId);
+        doNothing().when(validadorPermissoes).validarGerenciamentoDadosProprios(usuarioId);
         when(listarEnderecoPorIdUsuario.execute(usuarioId)).thenReturn(resultado);
 
         ResponseEntity<List<ListarEnderecoPorIdUsuarioResultadoItem>> response = enderecoController.listarPorUsuario(usuarioId);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(resultado, response.getBody());
+        verify(validadorPermissoes).validarGerenciamentoDadosProprios(usuarioId);
     }
 
     @Test
     void deveRetornarNoContentQuandoListaVazia() {
         Long usuarioId = 1L;
         
-        doNothing().when(autorizacaoService).validarAcessoUsuario(usuarioId);
+        doNothing().when(validadorPermissoes).validarGerenciamentoDadosProprios(usuarioId);
         when(listarEnderecoPorIdUsuario.execute(usuarioId)).thenReturn(List.of());
 
         ResponseEntity<List<ListarEnderecoPorIdUsuarioResultadoItem>> response = enderecoController.listarPorUsuario(usuarioId);
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
         assertNull(response.getBody());
+        verify(validadorPermissoes).validarGerenciamentoDadosProprios(usuarioId);
     }
 
-} 
+}
