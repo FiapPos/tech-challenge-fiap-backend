@@ -19,7 +19,7 @@ class ValidarProprietarioRestauranteTest {
         Restaurante restaurante = new Restaurante();
         restaurante.setUsuario(usuarioProprietario);
 
-        Long usuarioDonoId = 2L; // ID diferente do proprietário
+        Long usuarioDonoId = 2L;
 
         ValidarProprietarioRestaurante validador = new ValidarProprietarioRestaurante();
 
@@ -36,7 +36,7 @@ class ValidarProprietarioRestauranteTest {
         Restaurante restaurante = new Restaurante();
         restaurante.setUsuario(usuarioProprietario);
 
-        Long usuarioDonoId = 1L; // Mesmo ID do proprietário
+        Long usuarioDonoId = 1L;
 
         ValidarProprietarioRestaurante validador = new ValidarProprietarioRestaurante();
 

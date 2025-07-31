@@ -63,13 +63,12 @@ public class UsuarioEntity {
         usuario.setDataAtualizacao(this.dataAtualizacao);
         usuario.setDataDesativacao(this.dataDesativacao);
         
-        // Converter UsuarioTipoEntity para UsuarioTipo sem criar loop
         Set<UsuarioTipo> tipos = this.usuarioTipos.stream()
             .map(entity -> {
                 UsuarioTipo tipo = new UsuarioTipo();
                 tipo.setId(entity.getId());
                 tipo.setTipo(entity.getTipo());
-                tipo.setUsuario(usuario); // Referência direta para evitar loop
+                tipo.setUsuario(usuario);
                 return tipo;
             })
             .collect(Collectors.toSet());
@@ -90,13 +89,12 @@ public class UsuarioEntity {
         entity.setDataAtualizacao(usuario.getDataAtualizacao());
         entity.setDataDesativacao(usuario.getDataDesativacao());
         
-        // Converter UsuarioTipo para UsuarioTipoEntity sem criar loop
         Set<UsuarioTipoEntity> tipos = usuario.getUsuarioTipos().stream()
             .map(tipo -> {
                 UsuarioTipoEntity tipoEntity = new UsuarioTipoEntity();
                 tipoEntity.setId(tipo.getId());
                 tipoEntity.setTipo(tipo.getTipo());
-                tipoEntity.setUsuario(entity); // Referência direta para evitar loop
+                tipoEntity.setUsuario(entity);
                 return tipoEntity;
             })
             .collect(Collectors.toSet());

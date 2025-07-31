@@ -144,8 +144,8 @@ class EnderecoIntegrationTest {
         endereco.setCep("01234-567");
         endereco = enderecoRepository.save(endereco);
         
-        assert endereco.getId() != null : "Endereço deve ter um ID após ser salvo";
-        assert enderecoRepository.findById(endereco.getId()).isPresent() : "Endereço deve existir no banco";
+        assertNotNull(endereco.getId(), "Endereço deve ter um ID após ser salvo");
+        assertTrue(enderecoRepository.findById(endereco.getId()).isPresent(), "Endereço deve existir no banco");
 
         AtualizarEnderecoComandoDto dto = new AtualizarEnderecoComandoDto();
         dto.setUsuarioId(usuario.getId());

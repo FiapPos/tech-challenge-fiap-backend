@@ -1,6 +1,5 @@
 package br.com.techchallenge.foodsys.infrastructure.data.entities;
 
-import br.com.techchallenge.foodsys.core.domain.entities.Usuario;
 import br.com.techchallenge.foodsys.core.domain.entities.UsuarioTipo;
 import br.com.techchallenge.foodsys.core.enums.TipoUsuario;
 import jakarta.persistence.*;
@@ -31,7 +30,6 @@ public class UsuarioTipoEntity {
         UsuarioTipo usuarioTipo = new UsuarioTipo();
         usuarioTipo.setId(this.id);
         usuarioTipo.setTipo(this.tipo);
-        // Não definir usuario aqui para evitar loop
         return usuarioTipo;
     }
 
@@ -39,7 +37,6 @@ public class UsuarioTipoEntity {
         UsuarioTipoEntity entity = new UsuarioTipoEntity();
         entity.setId(usuarioTipo.getId());
         entity.setTipo(usuarioTipo.getTipo());
-        // Não definir usuario aqui para evitar loop
         return entity;
     }
 } 

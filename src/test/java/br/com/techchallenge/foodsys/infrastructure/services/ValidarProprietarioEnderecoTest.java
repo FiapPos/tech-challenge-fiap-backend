@@ -45,22 +45,17 @@ class ValidarProprietarioEnderecoTest {
 
     @Test
     void deveValidarProprietarioComSucesso() {
-        // Arrange
         when(enderecoRepository.findById(1L)).thenReturn(Optional.of(endereco));
 
-        // Act
         assertDoesNotThrow(() -> validarProprietarioEndereco.execute(1L, 1L));
 
-        // Assert
         verify(enderecoRepository).findById(1L);
     }
 
     @Test
     void deveLancarExcecaoQuandoEnderecoNaoEncontrado() {
-        // Arrange
         when(enderecoRepository.findById(1L)).thenReturn(Optional.empty());
 
-        // Act & Assert
         assertThrows(BadRequestException.class, () -> 
             validarProprietarioEndereco.execute(1L, 1L));
         
@@ -69,10 +64,8 @@ class ValidarProprietarioEnderecoTest {
 
     @Test
     void deveLancarExcecaoQuandoEnderecoNaoPertenceAoUsuario() {
-        // Arrange
         when(enderecoRepository.findById(1L)).thenReturn(Optional.of(endereco));
 
-        // Act & Assert
         assertThrows(BadRequestException.class, () -> 
             validarProprietarioEndereco.execute(1L, 2L));
         
@@ -81,17 +74,14 @@ class ValidarProprietarioEnderecoTest {
 
     @Test
     void deveValidarProprietarioComUsuarioDiferente() {
-        // Arrange
         Usuario outroUsuario = new Usuario();
         outroUsuario.setId(2L);
         endereco.setUsuario(outroUsuario);
         
         when(enderecoRepository.findById(1L)).thenReturn(Optional.of(endereco));
 
-        // Act
         assertDoesNotThrow(() -> validarProprietarioEndereco.execute(1L, 2L));
 
-        // Assert
         verify(enderecoRepository).findById(1L);
     }
 } 

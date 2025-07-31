@@ -38,14 +38,11 @@ class AdicionarTipoUsuarioComandoTest {
 
     @Test
     void deveAdicionarTipoUsuarioComSucesso() {
-        // Arrange
         TipoUsuario tipo = TipoUsuario.CLIENTE;
         doNothing().when(verificarTipoExistente).execute(usuario, tipo);
 
-        // Act
         adicionarTipoUsuarioComando.execute(usuario, tipo);
 
-        // Assert
         verify(verificarTipoExistente).execute(usuario, tipo);
         assertEquals(1, usuario.getUsuarioTipos().size());
         
@@ -56,18 +53,15 @@ class AdicionarTipoUsuarioComandoTest {
 
     @Test
     void deveAdicionarMultiplosTipos() {
-        // Arrange
         TipoUsuario tipoCliente = TipoUsuario.CLIENTE;
         TipoUsuario tipoDono = TipoUsuario.DONO_RESTAURANTE;
         
         doNothing().when(verificarTipoExistente).execute(usuario, tipoCliente);
         doNothing().when(verificarTipoExistente).execute(usuario, tipoDono);
 
-        // Act
         adicionarTipoUsuarioComando.execute(usuario, tipoCliente);
         adicionarTipoUsuarioComando.execute(usuario, tipoDono);
 
-        // Assert
         assertEquals(2, usuario.getUsuarioTipos().size());
         
         Set<TipoUsuario> tipos = new HashSet<>();
@@ -81,27 +75,21 @@ class AdicionarTipoUsuarioComandoTest {
 
     @Test
     void deveVerificarTipoExistenteAntesDeAdicionar() {
-        // Arrange
         TipoUsuario tipo = TipoUsuario.FUNCIONARIO;
         doNothing().when(verificarTipoExistente).execute(usuario, tipo);
 
-        // Act
         adicionarTipoUsuarioComando.execute(usuario, tipo);
 
-        // Assert
         verify(verificarTipoExistente).execute(usuario, tipo);
     }
 
     @Test
     void deveAdicionarTipoAdmin() {
-        // Arrange
         TipoUsuario tipo = TipoUsuario.ADMIN;
         doNothing().when(verificarTipoExistente).execute(usuario, tipo);
 
-        // Act
         adicionarTipoUsuarioComando.execute(usuario, tipo);
 
-        // Assert
         verify(verificarTipoExistente).execute(usuario, tipo);
         assertEquals(1, usuario.getUsuarioTipos().size());
         
