@@ -533,6 +533,45 @@
 					"response": []
 				},
 				{
+					"name": "Upload Foto do Prato",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "arquivo",
+									"type": "file",
+									"src": "",
+									"description": "Imagem do prato em formato JPEG ou PNG"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/restaurantes/{{restauranteId}}/itens/{{itemId}}/foto",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"restaurantes",
+								"{{restauranteId}}",
+								"itens",
+								"{{itemId}}",
+								"foto"
+							]
+						}
+					},
+					"response": []
+				},
+
+				{
 					"name": "Excluir Item do Cardápio",
 					"request": {
 						"method": "DELETE",
