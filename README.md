@@ -2,7 +2,6 @@
 
 ## Equipe
 
-- [Gabriel Alves de Souza](https://github.com/devgabrielsouza4278)
 - [Gustavo Lima Aliba](https://github.com/GustavoLimaAl)
 - [Julio Cesar Salerno da Silva](https://github.com/jcsalerno)
 - [Sonia Alves Ribeiro](https://github.com/hopesoh)
