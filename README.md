@@ -178,6 +178,14 @@ src/main/java/br/com/techchallenge/foodsys/
 | /enderecos/{enderecoId}            | PUT    | Atualização de endereço       |
 | /enderecos/usuario/{usuarioId}     | GET    | Listagem de endereços         |
 | /enderecos                        | DELETE | Exclusão de endereço          |
+| /enderecoRestaurante                                 | POST   | Criação de endereço do Restaurante     |
+| /enderecoRestaurante/{{enderecoId}}                  | PUT    | Atualização de endereço do Restaurante |
+| /enderecoRestaurante/restaurante/{{restauranteId}}   | GET    | Consulta do endereço do Restaurante    |
+| /enderecoRestaurante                                 | DELETE | Exclusão de endereço do Restaurante    |
+| /restaurante                                         | POST   | Criação de restaurante                 |
+| /restaurante/{restauranteId}                         | PUT    | Atualização de restaurante             |
+| /restaurante?ativo=true&tipoCozinha=                 | GET    | Listagem de restaurantes               |
+| /restaurante/{restauranteId}                         | DELETE | Exclusão de restaurante                |
 | /restaurantes/{restauranteId}/itens | POST   | Criação de itemDoCardapio              |
 | /restaurantes/{restauranteId}/itens | GET    | Listagem de pratos por restaurante |
 | /restaurantes/{restauranteId}/itens/{itemId} | GET    | Buscar itemDoCardapio por ID           |
