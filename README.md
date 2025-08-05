@@ -27,6 +27,14 @@ Desenvolver um sistema **backend robusto** com **Spring Boot** que possibilite:
 
 ---
 
+## 🎥 Demonstração em Vídeo
+
+Assista à explicação do projeto no YouTube:
+
+👉 Assista no YouTube (https://youtu.be/X0Q_ur34YYk)
+
+---
+
 ## 2. Arquitetura do Sistema
 
 ### 🛠️ Tecnologias Utilizadas
